@@ -3,7 +3,7 @@
 }
 
 .profile_configs_layout {
-	max-width: 1200px;
+	max-width: 1400px;
 	margin: 0 auto;
 	display: flex;
 	flex-direction: column;
@@ -111,8 +111,14 @@
 
 .profile_cards_grid {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(calc(100% / 3 - 14px), 1fr));
 	gap: 20px;
+}
+
+@media (max-width: 1435px) {
+	.profile_cards_grid {
+		grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+	}
 }
 
 .profile_card_wrap {

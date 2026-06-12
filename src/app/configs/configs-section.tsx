@@ -17,12 +17,14 @@ export function ConfigsSection({ initialSearchTerm }: Props) {
 					subtitle='Browse community custom Discord Rich Presence configs'
 				/>
 
-				<div className={styles.themes_panel}>
-					<ConfigsClient
-						initialConfigs={[]}
-						initialSearchTerm={initialSearchTerm}
-					/>
-				</div>
+				<section className={styles.section_themes_panel}>
+					<div className={styles.themes_panel}>
+						<ConfigsClient
+							initialConfigs={[]}
+							initialSearchTerm={initialSearchTerm}
+						/>
+					</div>
+				</section>
 			</main>
 			<Footer />
 		</Page>

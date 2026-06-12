@@ -1,14 +1,16 @@
 .themes_panel {
 	max-width: 1400px;
 	min-height: calc(100vh - 120px);
-	padding: 40px var(--section-padding-desktop);
 	gap: 40px;
 	margin: 0 auto;
 }
 
+.section_themes_panel {
+	padding: 32px var(--section-padding-desktop);
+}
+
 .themes_left_side {
 	flex-direction: column;
-
 	display: flex;
 	justify-content: center;
 	gap: 20px;
@@ -93,8 +95,15 @@
 .cards_grid,
 .theme_listings {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(calc(100% / 3 - 14px), 1fr));
 	gap: 20px;
+}
+
+@media (max-width: 1435px) {
+	.cards_grid,
+	.theme_listings {
+		grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+	}
 }
 
 .card_wrap {
