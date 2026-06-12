@@ -1,6 +1,7 @@
 .panel {
 	min-height: calc(100vh - 120px);
 	max-width: 1400px;
+	padding: 32px var(--section-padding-desktop) 0 var(--section-padding-desktop);
 	margin: 0 auto;
 }
 

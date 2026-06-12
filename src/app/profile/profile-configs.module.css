@@ -1,5 +1,6 @@
 .profile_section {
-	padding: 32px var(--section-padding-desktop);
+	padding: 32px var(--section-padding-desktop) 0 var(--section-padding-desktop);
+	margin-bottom: 32px;
 }
 
 .profile_configs_layout {
@@ -311,7 +312,7 @@
 
 @media (max-width: 768px) {
 	.profile_section {
-		padding: 24px var(--section-padding-mobile);
+		padding: 24px var(--section-padding-mobile) 0 var(--section-padding-mobile);
 	}
 
 	.profile_header_row {

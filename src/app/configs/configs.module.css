@@ -6,7 +6,7 @@
 }
 
 .section_themes_panel {
-	padding: 32px var(--section-padding-desktop);
+	padding: 32px var(--section-padding-desktop) 0 var(--section-padding-desktop);
 }
 
 .themes_left_side {
