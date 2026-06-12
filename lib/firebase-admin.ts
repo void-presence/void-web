@@ -1,6 +1,6 @@
-import admin from 'firebase-admin'
+const admin: any = require('firebase-admin')
 
-if (!admin.apps.length) {
+if (admin.apps && admin.apps.length === 0) {
 	admin.initializeApp({
 		credential: admin.credential.cert({
 			projectId: process.env.FIREBASE_PROJECT_ID,
@@ -11,3 +11,4 @@ if (!admin.apps.length) {
 }
 
 export { admin }
+export default admin
