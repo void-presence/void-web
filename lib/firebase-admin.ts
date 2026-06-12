@@ -1,4 +1,9 @@
-const admin: any = require('firebase-admin')
+// @ts-ignore
+import * as firebaseAdminModule from 'firebase-admin'
+
+// @ts-ignore
+const firebaseAdmin = firebaseAdminModule.default || firebaseAdminModule
+const admin = firebaseAdmin
 
 if (admin.apps && admin.apps.length === 0) {
 	admin.initializeApp({
@@ -11,4 +16,3 @@ if (admin.apps && admin.apps.length === 0) {
 }
 
 export { admin }
-export default admin

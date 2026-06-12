@@ -1,7 +1,7 @@
 import NextAuth, { type NextAuthOptions } from 'next-auth'
 import GithubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
-import admin from '../../../../../lib/firebase-admin'
+import { admin } from '../../../../../lib/firebase-admin'
 
 declare module 'next-auth' {
 	interface Session {
@@ -27,18 +27,32 @@ export const authOptions: NextAuthOptions = {
 		GithubProvider({
 			clientId: process.env.GITHUB_ID as string,
 			clientSecret: process.env.GITHUB_SECRET as string,
+			authorization: {
+				params: {
+					scope: 'openid email profile',
+					prompt: 'select_account',
+				},
+			},
 		}),
 		GoogleProvider({
 			clientId: process.env.GOOGLE_ID as string,
 			clientSecret: process.env.GOOGLE_SECRET as string,
+			authorization: {
+				params: {
+					scope: 'openid email profile',
+					prompt: 'select_account',
+				},
+			},
 		}),
 	],
+
 	callbacks: {
 		async jwt({ token, account, user }) {
 			if (account && user) {
 				token.accessToken = account.access_token
 				token.id = user.id ?? token.sub
 
+				// @ts-ignore
 				const firebaseToken = await admin.auth().createCustomToken(user.id)
 				token.firebaseToken = firebaseToken
 			}
