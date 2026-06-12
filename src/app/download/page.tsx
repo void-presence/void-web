@@ -1,7 +1,6 @@
 import { PanelLayout } from '@components/panel-layout'
 import layoutStyles from '@components/panel-layout/layout-panels.module.css'
-import { githubHeaders } from '@lib/github-headers'
-import { extractPackageMeta, type PackageJson } from '@lib/package-meta'
+import { getLatestRelease } from '@lib/releases-schedule'
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import Footer from '../../../components/footer'
@@ -9,7 +8,6 @@ import Page from '../../../components/page'
 import PageHeader from '../../../components/page-header'
 import { InfoBox } from '../../../components/status-info/info-box'
 import config from '../../../data/config.json'
-import { normalizeReleaseNotes } from '../../../lib/release-notes'
 import ChangelogClient from './changelog-client'
 import DownloadButtons from './download-buttons'
 import DownloadSkeleton from './download-skeleton'
@@ -22,14 +20,6 @@ interface ReleaseAsset {
 	downloadUrl: string
 }
 
-interface ReleaseInfo {
-	version: string
-	date: string
-	notes: string
-	assets: ReleaseAsset[]
-	electronCurrent?: string
-}
-
 export const metadata: Metadata = {
 	title: 'Download',
 	description:
@@ -40,94 +30,6 @@ export const metadata: Metadata = {
 			'Get the latest Void Presence build and customize your Discord Rich Presence with profiles, buttons, and cycles.',
 		url: '/download',
 	},
-}
-
-async function getPackageJsonByTag(tag: string): Promise<PackageJson | null> {
-	const url = `https://raw.githubusercontent.com/Devollox/void-presence/${encodeURIComponent(
-		tag,
-	)}/package.json`
-
-	const res = await fetch(url, {
-		cache: 'force-cache',
-		next: { revalidate: 300 },
-		headers: githubHeaders(),
-	})
-
-	if (!res.ok) {
-		return null
-	}
-
-	try {
-		const json = (await res.json()) as PackageJson
-		return json
-	} catch {
-		return null
-	}
-}
-
-async function getLatestRelease(): Promise<{
-	release: ReleaseInfo | null
-	error: string | null
-}> {
-	try {
-		const res = await fetch(
-			'https://api.github.com/repos/Devollox/void-presence/releases/latest',
-			{
-				cache: 'force-cache',
-				next: { revalidate: 300 },
-				headers: githubHeaders(),
-			},
-		)
-
-		if (!res.ok) {
-			throw new Error('GitHub response not ok')
-		}
-
-		const data = await res.json()
-		const rawAssets = Array.isArray(data.assets) ? data.assets : []
-
-		const assets: ReleaseAsset[] = rawAssets
-			.map((asset: any) => ({
-				name: asset.name,
-				size: asset.size / (1024 * 1024),
-				downloadUrl: asset.browser_download_url,
-			}))
-			.sort((a: ReleaseAsset, b: ReleaseAsset) => {
-				const aIsExe = a.name.toLowerCase().endsWith('.exe')
-				const bIsExe = b.name.toLowerCase().endsWith('.exe')
-
-				if (aIsExe && !bIsExe) return -1
-				if (bIsExe && !aIsExe) return 1
-
-				return 0
-			})
-
-		const notes = normalizeReleaseNotes(data.body || '')
-
-		const pkg = await getPackageJsonByTag(data.tag_name)
-		const pkgMeta = extractPackageMeta(pkg)
-		const electronFromPkg =
-			pkgMeta?.dependencies.find(dep => dep.key === 'electron')?.value ??
-			pkg?.dependencies?.electron ??
-			pkg?.devDependencies?.electron
-
-		const release: ReleaseInfo = {
-			version: data.tag_name,
-			date: data.published_at
-				? new Date(data.published_at).toISOString().slice(0, 10)
-				: '',
-			notes,
-			assets,
-			electronCurrent: electronFromPkg || undefined,
-		}
-
-		return { release, error: null }
-	} catch {
-		return {
-			release: null,
-			error: 'Failed to load download information. Please try again later.',
-		}
-	}
 }
 
 async function DownloadContent() {
@@ -155,6 +57,30 @@ async function DownloadContent() {
 								<span className={styles.release_label}>Electron</span>
 								<span className={styles.release_value}>
 									v{release.electronCurrent}
+								</span>
+							</div>
+						)}
+						{release.chromiumCurrent && (
+							<div className={styles.release_row}>
+								<span className={styles.release_label}>Chromium</span>
+								<span className={styles.release_value}>
+									v{release.chromiumCurrent}
+								</span>
+							</div>
+						)}
+						{release.nodeJsCurrent && (
+							<div className={styles.release_row}>
+								<span className={styles.release_label}>Node.js</span>
+								<span className={styles.release_value}>
+									v{release.nodeJsCurrent}
+								</span>
+							</div>
+						)}
+						{release.v8Current && (
+							<div className={styles.release_row}>
+								<span className={styles.release_label}>V8</span>
+								<span className={styles.release_value}>
+									v{release.v8Current}
 								</span>
 							</div>
 						)}

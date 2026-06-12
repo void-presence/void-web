@@ -1,4 +1,4 @@
-import { parseBuildTagFromNotes } from './electron-version'
+import { parseBuildTagFromNotes } from './parse-version'
 
 export type ReleaseType =
 	| 'stable'

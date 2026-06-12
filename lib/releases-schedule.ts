@@ -1,7 +1,13 @@
-import { parseElectronVersionFromNotes } from '@lib/electron-version'
 import { githubHeaders } from '@lib/github-headers'
+import {
+	parseChromiumVersionFromNotes,
+	parseElectronVersionFromNotes,
+	parseNodeJsVersionFromNotes,
+	parseV8VersionFromNotes,
+} from '@lib/parse-version'
 import { normalizeReleaseNotes } from '@lib/release-notes'
 import { classifyRelease } from '@lib/release-tags'
+import { PackageJson, extractPackageMeta } from './package-meta'
 
 export interface ReleaseAsset {
 	name: string
@@ -34,6 +40,9 @@ export interface ReleaseInfo {
 	url: string
 	type: ReleaseType
 	electronCurrent?: string
+	chromiumCurrent?: string
+	nodeJsCurrent?: string
+	v8Current?: string
 	buildTag?: string
 }
 
@@ -137,6 +146,9 @@ export async function getReleases(): Promise<{
 				const rawBody = item.body || ''
 				const notes = normalizeReleaseNotes(rawBody)
 				const electronVersion = parseElectronVersionFromNotes(notes)
+				const chromiumVersion = parseChromiumVersionFromNotes(notes)
+				const nodeJsVersion = parseNodeJsVersionFromNotes(notes)
+				const v8Version = parseV8VersionFromNotes(notes)
 				const classification = classifyRelease(item, rawBody)
 
 				return {
@@ -151,6 +163,9 @@ export async function getReleases(): Promise<{
 					url: item.html_url || '',
 					type: classification.type,
 					electronCurrent: electronVersion,
+					chromiumCurrent: chromiumVersion,
+					nodeJsCurrent: nodeJsVersion,
+					v8Current: v8Version,
 					buildTag: classification.buildTag,
 				} as ReleaseInfo
 			})
@@ -193,6 +208,9 @@ export async function getReleases(): Promise<{
 		})
 
 		let lastElectronVersion: string | undefined
+		let lastChromiumVersion: string | undefined
+		let lastNodeJsVersion: string | undefined
+		let lastV8Version: string | undefined
 
 		releases = releases
 			.sort((a, b) => {
@@ -201,12 +219,23 @@ export async function getReleases(): Promise<{
 			.map(release => {
 				if (release.electronCurrent) {
 					lastElectronVersion = release.electronCurrent
-					return release
+				}
+				if (release.chromiumCurrent) {
+					lastChromiumVersion = release.chromiumCurrent
+				}
+				if (release.nodeJsCurrent) {
+					lastNodeJsVersion = release.nodeJsCurrent
+				}
+				if (release.v8Current) {
+					lastV8Version = release.v8Current
 				}
 
 				return {
 					...release,
-					electronCurrent: lastElectronVersion,
+					electronCurrent: release.electronCurrent || lastElectronVersion,
+					chromiumCurrent: release.chromiumCurrent || lastChromiumVersion,
+					nodeJsCurrent: release.nodeJsCurrent || lastNodeJsVersion,
+					v8Current: release.v8Current || lastV8Version,
 				}
 			})
 			.sort((a, b) => {
@@ -242,6 +271,9 @@ export async function getReleases(): Promise<{
 			const rawBody = latestData.body || ''
 			const notes = normalizeReleaseNotes(rawBody)
 			const electronVersion = parseElectronVersionFromNotes(notes)
+			const chromiumVersion = parseChromiumVersionFromNotes(notes)
+			const nodeJsVersion = parseNodeJsVersionFromNotes(notes)
+			const v8Version = parseV8VersionFromNotes(notes)
 			const classification = classifyRelease(latestData, rawBody)
 
 			githubLatestRelease = {
@@ -258,6 +290,9 @@ export async function getReleases(): Promise<{
 				url: latestData.html_url || '',
 				type: classification.type,
 				electronCurrent: electronVersion,
+				chromiumCurrent: chromiumVersion,
+				nodeJsCurrent: nodeJsVersion,
+				v8Current: v8Version,
 				buildTag: classification.buildTag,
 			}
 		}
@@ -330,4 +365,112 @@ export async function getReleaseDownloads(): Promise<ReleaseDownloadsResult> {
 		})
 
 	return { items, error: null }
+}
+
+export async function getPackageJsonByTag(
+	tag: string,
+): Promise<PackageJson | null> {
+	const url = `https://raw.githubusercontent.com/Devollox/void-presence/${encodeURIComponent(
+		tag,
+	)}/package.json`
+
+	const res = await fetch(url, {
+		cache: 'force-cache',
+		next: { revalidate: 300 },
+		headers: githubHeaders(),
+	})
+
+	if (!res.ok) {
+		return null
+	}
+
+	try {
+		const json = (await res.json()) as PackageJson
+		return json
+	} catch {
+		return null
+	}
+}
+
+interface ReleaseInfoLatest {
+	version: string
+	date: string
+	notes: string
+	assets: ReleaseAsset[]
+	electronCurrent?: string
+	chromiumCurrent?: string
+	nodeJsCurrent?: string
+	v8Current?: string
+}
+
+export async function getLatestRelease(): Promise<{
+	release: ReleaseInfoLatest | null
+	error: string | null
+}> {
+	try {
+		const res = await fetch(
+			'https://api.github.com/repos/Devollox/void-presence/releases/latest',
+			{
+				cache: 'force-cache',
+				next: { revalidate: 300 },
+				headers: githubHeaders(),
+			},
+		)
+
+		if (!res.ok) {
+			throw new Error('GitHub response not ok')
+		}
+
+		const data = await res.json()
+		const rawAssets = Array.isArray(data.assets) ? data.assets : []
+
+		const assets: ReleaseAsset[] = rawAssets
+			.map((asset: any) => ({
+				name: asset.name,
+				size: asset.size / (1024 * 1024),
+				downloadUrl: asset.browser_download_url,
+			}))
+			.sort((a: ReleaseAsset, b: ReleaseAsset) => {
+				const aIsExe = a.name.toLowerCase().endsWith('.exe')
+				const bIsExe = b.name.toLowerCase().endsWith('.exe')
+
+				if (aIsExe && !bIsExe) return -1
+				if (bIsExe && !aIsExe) return 1
+
+				return 0
+			})
+
+		const notes = normalizeReleaseNotes(data.body || '')
+		const electronVersion = parseElectronVersionFromNotes(notes)
+		const chromiumVersion = parseChromiumVersionFromNotes(notes)
+		const nodeJsVersion = parseNodeJsVersionFromNotes(notes)
+		const v8Version = parseV8VersionFromNotes(notes)
+
+		const pkg = await getPackageJsonByTag(data.tag_name)
+		const pkgMeta = extractPackageMeta(pkg)
+		const electronFromPkg =
+			pkgMeta?.dependencies.find(dep => dep.key === 'electron')?.value ??
+			pkg?.dependencies?.electron ??
+			pkg?.devDependencies?.electron
+
+		const release: ReleaseInfoLatest = {
+			version: data.tag_name,
+			date: data.published_at
+				? new Date(data.published_at).toISOString().slice(0, 10)
+				: '',
+			notes,
+			assets,
+			electronCurrent: electronVersion || electronFromPkg || undefined,
+			chromiumCurrent: chromiumVersion || undefined,
+			nodeJsCurrent: nodeJsVersion || undefined,
+			v8Current: v8Version || undefined,
+		}
+
+		return { release, error: null }
+	} catch {
+		return {
+			release: null,
+			error: 'Failed to load download information. Please try again later.',
+		}
+	}
 }

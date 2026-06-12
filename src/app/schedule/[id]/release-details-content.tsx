@@ -3,6 +3,13 @@ import { PanelLayout } from '@components/panel-layout'
 import layoutStyles from '@components/panel-layout/layout-panels.module.css'
 import { githubHeaders } from '@lib/github-headers'
 import { extractPackageMeta, type PackageJson } from '@lib/package-meta'
+import {
+	parseChromiumVersionFromNotes,
+	parseElectronVersionFromNotes,
+	parseNodeJsVersionFromNotes,
+	parseV8VersionFromNotes,
+} from '@lib/parse-version'
+import { normalizeReleaseNotes } from '@lib/release-notes'
 import { getReleases, type ReleaseInfo } from '@lib/releases-schedule'
 import type { Metadata } from 'next'
 import { InfoBox } from '../../../../components/status-info/info-box'
@@ -61,9 +68,20 @@ export async function ReleaseDetailsContent({ id }: { id: string }) {
 	const electronFromPkg =
 		pkg?.dependencies?.electron ?? pkg?.devDependencies?.electron
 
+	const notes = release?.notes ? normalizeReleaseNotes(release.notes) : ''
+	const electronVersion = parseElectronVersionFromNotes(notes)
+	const chromiumVersion = parseChromiumVersionFromNotes(notes)
+	const nodeJsVersion = parseNodeJsVersionFromNotes(notes)
+	const v8Version = parseV8VersionFromNotes(notes)
+
 	const electronMain =
 		release?.electronCurrent ??
+		electronVersion ??
 		(electronFromPkg ? String(electronFromPkg) : undefined)
+
+	const chromiumMain = release?.chromiumCurrent ?? chromiumVersion
+	const nodeJsMain = release?.nodeJsCurrent ?? nodeJsVersion
+	const v8Main = release?.v8Current ?? v8Version
 
 	const left = (
 		<>
@@ -92,6 +110,27 @@ export async function ReleaseDetailsContent({ id }: { id: string }) {
 							<div className={styles.release_row}>
 								<span className={styles.release_label}>Electron</span>
 								<span className={styles.release_value}>v{electronMain}</span>
+							</div>
+						)}
+
+						{chromiumMain && (
+							<div className={styles.release_row}>
+								<span className={styles.release_label}>Chromium</span>
+								<span className={styles.release_value}>v{chromiumMain}</span>
+							</div>
+						)}
+
+						{nodeJsMain && (
+							<div className={styles.release_row}>
+								<span className={styles.release_label}>Node.js</span>
+								<span className={styles.release_value}>v{nodeJsMain}</span>
+							</div>
+						)}
+
+						{v8Main && (
+							<div className={styles.release_row}>
+								<span className={styles.release_label}>V8</span>
+								<span className={styles.release_value}>v{v8Main}</span>
 							</div>
 						)}
 					</div>

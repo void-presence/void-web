@@ -55,6 +55,30 @@ export async function ReleasesSection() {
 								</span>
 							</div>
 						)}
+						{scheduleElectronSource?.chromiumCurrent && (
+							<div className={styles.release_row}>
+								<span className={styles.release_label}>Chromium</span>
+								<span className={styles.release_value}>
+									v{scheduleElectronSource.chromiumCurrent}
+								</span>
+							</div>
+						)}
+						{scheduleElectronSource?.nodeJsCurrent && (
+							<div className={styles.release_row}>
+								<span className={styles.release_label}>Node.js</span>
+								<span className={styles.release_value}>
+									v{scheduleElectronSource.nodeJsCurrent}
+								</span>
+							</div>
+						)}
+						{scheduleElectronSource?.v8Current && (
+							<div className={styles.release_row}>
+								<span className={styles.release_label}>V8</span>
+								<span className={styles.release_value}>
+									v{scheduleElectronSource.v8Current}
+								</span>
+							</div>
+						)}
 					</div>
 				</>
 			) : (

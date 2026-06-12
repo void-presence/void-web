@@ -31,7 +31,7 @@ export default function SchedulePage() {
 						<ReleaseListSkeleton
 							countSkeleton={5}
 							backBtn={false}
-							analytics={true}
+							analytics={false}
 							list={true}
 						/>
 					}
