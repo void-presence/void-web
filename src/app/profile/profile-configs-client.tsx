@@ -53,7 +53,7 @@ function CustomRpcPreview({
 		<div className={styles.rpc_card_preview}>
 			<div className={styles.rpc_card_preview_inner}>
 				<RpcPreview
-					discriminator={`#${id.slice(0, 4)}` || '#0001'}
+					discriminator={`#${config.authorId.slice(0, 4)}` || '#0001'}
 					username={config.author || 'User'}
 					avatarSrc={avatarSrc}
 					activityType={config.title}

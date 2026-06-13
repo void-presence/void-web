@@ -52,7 +52,7 @@ export interface Config {
 	id: string
 	title: string
 	author: string
-	authorId: string | null
+	authorId: string
 	authorAvatar?: string
 	downloads: number
 	description: string
