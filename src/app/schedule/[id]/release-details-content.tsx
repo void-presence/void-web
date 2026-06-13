@@ -89,41 +89,35 @@ export async function ReleaseDetailsContent({ id }: { id: string }) {
 					{release.assets.length > 0 && (
 						<DownloadButtons assets={release.assets} />
 					)}
-
 					<div className={styles.release_meta}>
 						<div className={styles.release_row}>
 							<span className={styles.release_label}>Version</span>
 							<span className={styles.release_value}>{release.version}</span>
 						</div>
-
 						{release.date && (
 							<div className={styles.release_row}>
 								<span className={styles.release_label}>Release date</span>
 								<span className={styles.release_value}>{release.date}</span>
 							</div>
 						)}
-
 						{electronMain && (
 							<div className={styles.release_row}>
 								<span className={styles.release_label}>Electron</span>
 								<span className={styles.release_value}>v{electronMain}</span>
 							</div>
 						)}
-
 						{chromiumMain && (
 							<div className={styles.release_row}>
 								<span className={styles.release_label}>Chromium</span>
 								<span className={styles.release_value}>v{chromiumMain}</span>
 							</div>
 						)}
-
 						{nodeJsMain && (
 							<div className={styles.release_row}>
 								<span className={styles.release_label}>Node.js</span>
 								<span className={styles.release_value}>v{nodeJsMain}</span>
 							</div>
 						)}
-
 						{v8Main && (
 							<div className={styles.release_row}>
 								<span className={styles.release_label}>V8</span>
