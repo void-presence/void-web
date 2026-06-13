@@ -7,6 +7,7 @@
 
 .section_themes_panel {
 	padding: 32px var(--section-padding-desktop) 0 var(--section-padding-desktop);
+	margin-bottom: 32px;
 }
 
 .themes_left_side {

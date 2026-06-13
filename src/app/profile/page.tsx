@@ -25,55 +25,53 @@ export default async function ProfilePage() {
 	if (!session || !session.user) {
 		return (
 			<Page>
-				<main id='main-page-content'>
-					<PageHeader
-						title='Not signed in'
-						subtitle='You need to sign in to view your profile.'
-					/>
+				<PageHeader
+					title='Not signed in'
+					subtitle='You need to sign in to view your profile.'
+				/>
 
-					<section id='addon-details' className={styles.page_section}>
-						<div className={styles.theme_view_panel}>
-							<div className={styles.skel_backdrop} />
-							<div>
-								<div className={styles.addon_splitview_container}>
-									<div className={styles.addon_details_right_column}>
-										<div className={styles.addon_details_segment}>
-											<div className={styles.skel_title} />
-											<div className={styles.skel_line} />
-											<section className={styles.addon_actions}>
-												<div className={styles.btn_container}>
-													<div className={styles.skel_button} />
-												</div>
-											</section>
-											<section className={styles.about_addon}>
-												<div className={styles.skel_line} />
-												<div className={styles.skel_line_short} />
-											</section>
-										</div>
-									</div>
-
-									<div className={styles.addon_details_middle_column}>
-										<div className={styles.rpc_card_preview}>
-											<div className={styles.skel_rpc} />
-										</div>
-									</div>
-
-									<div className={styles.addon_details_middle_column}>
-										<div className={styles.actions_panel}>
-											<div className={styles.skel_actions_title} />
-											<div className={styles.skel_actions_subtitle} />
-											<div className={styles.actions_buttons}>
-												<div className={styles.skel_action_btn} />
-												<div className={styles.skel_action_btn} />
-												<div className={styles.skel_action_btn} />
+				<section id='addon-details' className={styles.page_section}>
+					<div className={styles.theme_view_panel}>
+						<div className={styles.skel_backdrop} />
+						<div>
+							<div className={styles.addon_splitview_container}>
+								<div className={styles.addon_details_right_column}>
+									<div className={styles.addon_details_segment}>
+										<div className={styles.skel_title} />
+										<div className={styles.skel_line} />
+										<section className={styles.addon_actions}>
+											<div className={styles.btn_container}>
+												<div className={styles.skel_button} />
 											</div>
+										</section>
+										<section className={styles.about_addon}>
+											<div className={styles.skel_line} />
+											<div className={styles.skel_line_short} />
+										</section>
+									</div>
+								</div>
+
+								<div className={styles.addon_details_middle_column}>
+									<div className={styles.rpc_card_preview}>
+										<div className={styles.skel_rpc} />
+									</div>
+								</div>
+
+								<div className={styles.addon_details_middle_column}>
+									<div className={styles.actions_panel}>
+										<div className={styles.skel_actions_title} />
+										<div className={styles.skel_actions_subtitle} />
+										<div className={styles.actions_buttons}>
+											<div className={styles.skel_action_btn} />
+											<div className={styles.skel_action_btn} />
+											<div className={styles.skel_action_btn} />
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</section>
-				</main>
+					</div>
+				</section>
 			</Page>
 		)
 	}
@@ -83,21 +81,19 @@ export default async function ProfilePage() {
 
 	return (
 		<Page>
-			<main id='main-page-content'>
-				<PageHeader
-					title='Your profile'
-					subtitle='Session data and your configs.'
-				/>
+			<PageHeader
+				title='Your profile'
+				subtitle='Session data and your configs.'
+			/>
 
-				<SaveUserOnMount />
+			<SaveUserOnMount />
 
-				<ProfileContainerClient
-					initialConfigs={[]}
-					user={user}
-					session={session}
-					userId={userId}
-				/>
-			</main>
+			<ProfileContainerClient
+				initialConfigs={[]}
+				user={user}
+				session={session}
+				userId={userId}
+			/>
 		</Page>
 	)
 }

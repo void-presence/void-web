@@ -85,13 +85,11 @@ export function SignInPageClient() {
 
 	return (
 		<Page>
-			<main id='main-page-content'>
-				<PageHeader
-					title='Sign in to Void Presence'
-					subtitle='Connect your account to manage profiles, status cycles and Discord Rich Presence.'
-				/>
-				<PanelLayout left={left} right={right} />
-			</main>
+			<PageHeader
+				title='Sign in to Void Presence'
+				subtitle='Connect your account to manage profiles, status cycles and Discord Rich Presence.'
+			/>
+			<PanelLayout left={left} right={right} />
 			<Footer />
 		</Page>
 	)

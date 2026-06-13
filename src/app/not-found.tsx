@@ -105,18 +105,16 @@ const right = (
 export default function NotFound() {
 	return (
 		<Page>
-			<main id='main-page-content'>
-				<PageHeader
-					title='Page not found'
-					subtitle='The page you requested does not exist or is no longer available.'
-				/>
+			<PageHeader
+				title='Page not found'
+				subtitle='The page you requested does not exist or is no longer available.'
+			/>
 
-				<PanelLayout
-					left={left}
-					right={right}
-					className={styles.not_found_panel}
-				/>
-			</main>
+			<PanelLayout
+				left={left}
+				right={right}
+				className={styles.not_found_panel}
+			/>
 			<Footer />
 		</Page>
 	)

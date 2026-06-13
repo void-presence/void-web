@@ -33,13 +33,11 @@ export default async function ConfigDetailsPage(props: Props) {
 
 	return (
 		<Page>
-			<main id='main-page-content'>
-				<PageHeader
-					title='Pick a Config!'
-					subtitle='Browse community custom Discord Rich Presence configs'
-				/>
-				<ConfigDetailsClient configId={id} initialPreviewTick={previewTick} />
-			</main>
+			<PageHeader
+				title='Pick a Config!'
+				subtitle='Browse community custom Discord Rich Presence configs'
+			/>
+			<ConfigDetailsClient configId={id} initialPreviewTick={previewTick} />
 		</Page>
 	)
 }

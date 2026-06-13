@@ -37,19 +37,17 @@ export default async function ReleaseDetailsPage(
 
 	return (
 		<Page>
-			<main id='main-page-content'>
-				<PageHeader
-					title={title}
-					subtitle='Release details loaded from GitHub release and this tag package.json.'
-				/>
-				<Suspense
-					fallback={
-						<ReleaseListSkeleton countSkeleton={1} backBtn={true} list={true} />
-					}
-				>
-					<ReleaseDetailsContent id={id} />
-				</Suspense>
-			</main>
+			<PageHeader
+				title={title}
+				subtitle='Release details loaded from GitHub release and this tag package.json.'
+			/>
+			<Suspense
+				fallback={
+					<ReleaseListSkeleton countSkeleton={1} backBtn={true} list={true} />
+				}
+			>
+				<ReleaseDetailsContent id={id} />
+			</Suspense>
 			<Footer />
 		</Page>
 	)

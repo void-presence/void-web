@@ -21,24 +21,22 @@ export const metadata: Metadata = {
 export default function SchedulePage() {
 	return (
 		<Page>
-			<main id='main-page-content'>
-				<PageHeader
-					title='Void Presence Release Schedule'
-					subtitle='Track current and past releases, prereleases, and published builds.'
-				/>
-				<Suspense
-					fallback={
-						<ReleaseListSkeleton
-							countSkeleton={5}
-							backBtn={false}
-							analytics={false}
-							list={true}
-						/>
-					}
-				>
-					<ReleasesSection />
-				</Suspense>
-			</main>
+			<PageHeader
+				title='Void Presence Release Schedule'
+				subtitle='Track current and past releases, prereleases, and published builds.'
+			/>
+			<Suspense
+				fallback={
+					<ReleaseListSkeleton
+						countSkeleton={5}
+						backBtn={false}
+						analytics={false}
+						list={true}
+					/>
+				}
+			>
+				<ReleasesSection />
+			</Suspense>
 			<Footer />
 		</Page>
 	)

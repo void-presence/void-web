@@ -79,17 +79,11 @@ export default function StatusPage() {
 
 	return (
 		<Page>
-			<main id='main-page-content'>
-				<PageHeader
-					title='Status'
-					subtitle='Void Presence is working normally; Discord may hide your own buttons, but others still see them.'
-				/>
-				<PanelLayout
-					left={left}
-					right={right}
-					className={styles.status_panel}
-				/>
-			</main>
+			<PageHeader
+				title='Status'
+				subtitle='Void Presence is working normally; Discord may hide your own buttons, but others still see them.'
+			/>
+			<PanelLayout left={left} right={right} className={styles.status_panel} />
 			<Footer />
 		</Page>
 	)

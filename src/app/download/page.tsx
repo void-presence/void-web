@@ -145,15 +145,13 @@ async function DownloadContent() {
 export default function DownloadPage() {
 	return (
 		<Page>
-			<main id='main-page-content'>
-				<PageHeader
-					title='Download Void Presence'
-					subtitle='Get the desktop client and keep your Discord Rich Presence always in sync.'
-				/>
-				<Suspense fallback={<DownloadSkeleton />}>
-					<DownloadContent />
-				</Suspense>
-			</main>
+			<PageHeader
+				title='Download Void Presence'
+				subtitle='Get the desktop client and keep your Discord Rich Presence always in sync.'
+			/>
+			<Suspense fallback={<DownloadSkeleton />}>
+				<DownloadContent />
+			</Suspense>
 			<Footer />
 		</Page>
 	)

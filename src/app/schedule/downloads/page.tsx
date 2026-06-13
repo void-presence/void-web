@@ -23,23 +23,21 @@ export default function DownloadsPage() {
 
 	return (
 		<Page>
-			<main id='main-page-content'>
-				<PageHeader
-					title={title}
-					subtitle='Downloads analytics for all releases, loaded from GitHub release assets.'
-				/>
-				<Suspense
-					fallback={
-						<ReleaseListSkeleton
-							countSkeleton={0}
-							backBtn={true}
-							analytics={true}
-						/>
-					}
-				>
-					<DownloadsContent />
-				</Suspense>
-			</main>
+			<PageHeader
+				title={title}
+				subtitle='Downloads analytics for all releases, loaded from GitHub release assets.'
+			/>
+			<Suspense
+				fallback={
+					<ReleaseListSkeleton
+						countSkeleton={0}
+						backBtn={true}
+						analytics={true}
+					/>
+				}
+			>
+				<DownloadsContent />
+			</Suspense>
 			<Footer />
 		</Page>
 	)

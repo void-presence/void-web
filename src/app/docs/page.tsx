@@ -541,13 +541,11 @@ export default function DocsPage() {
 
 	return (
 		<Page>
-			<main id='main-page-content'>
-				<PageHeader
-					title='Void Presence Docs'
-					subtitle='Learn how to install, configure and debug your Discord Rich Presence.'
-				/>
-				<PanelLayout left={left} right={right} />
-			</main>
+			<PageHeader
+				title='Void Presence Docs'
+				subtitle='Learn how to install, configure and debug your Discord Rich Presence.'
+			/>
+			<PanelLayout left={left} right={right} />
 			<Footer />
 		</Page>
 	)

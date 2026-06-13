@@ -17,6 +17,7 @@
 
 .panel_right_side {
 	min-width: 0;
+	margin-bottom: 32px;
 }
 
 .stats_summary {

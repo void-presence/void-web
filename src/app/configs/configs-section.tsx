@@ -11,21 +11,19 @@ type Props = {
 export function ConfigsSection({ initialSearchTerm }: Props) {
 	return (
 		<Page>
-			<main id='main-page-content'>
-				<PageHeader
-					title='Pick a Config!'
-					subtitle='Browse community custom Discord Rich Presence configs'
-				/>
+			<PageHeader
+				title='Pick a Config!'
+				subtitle='Browse community custom Discord Rich Presence configs'
+			/>
 
-				<section className={styles.section_themes_panel}>
-					<div className={styles.themes_panel}>
-						<ConfigsClient
-							initialConfigs={[]}
-							initialSearchTerm={initialSearchTerm}
-						/>
-					</div>
-				</section>
-			</main>
+			<section className={styles.section_themes_panel}>
+				<div className={styles.themes_panel}>
+					<ConfigsClient
+						initialConfigs={[]}
+						initialSearchTerm={initialSearchTerm}
+					/>
+				</div>
+			</section>
 			<Footer />
 		</Page>
 	)
