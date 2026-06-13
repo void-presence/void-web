@@ -48,26 +48,25 @@ export function SignInPageClient() {
 						<button
 							type='button'
 							className={styles.signin_btn_primary}
-							onClick={() => signIn('github', { callbackUrl })}
-						>
-							<span className={styles.asset_info}>
-								<span className={styles.asset_name}>Sign in with GitHub</span>
-								<span className={styles.asset_size}>
-									Use your GitHub account
-								</span>
-							</span>
-							<span className={styles.asset_action_text}>Continue</span>
-						</button>
-
-						<button
-							type='button'
-							className={styles.signin_btn_primary}
 							onClick={() => signIn('google', { callbackUrl })}
 						>
 							<span className={styles.asset_info}>
 								<span className={styles.asset_name}>Sign in with Google</span>
 								<span className={styles.asset_size}>
 									Use your Google account
+								</span>
+							</span>
+							<span className={styles.asset_action_text}>Continue</span>
+						</button>
+						<button
+							type='button'
+							className={styles.signin_btn_primary}
+							onClick={() => signIn('github', { callbackUrl })}
+						>
+							<span className={styles.asset_info}>
+								<span className={styles.asset_name}>Sign in with GitHub</span>
+								<span className={styles.asset_size}>
+									Use your GitHub account
 								</span>
 							</span>
 							<span className={styles.asset_action_text}>Continue</span>
