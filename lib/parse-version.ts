@@ -42,6 +42,42 @@ export function parseElectronVersionFromNotes(
 	return undefined
 }
 
+export interface ElectronMetadata {
+	chromium: string
+	node: string
+	v8: string
+}
+
+export async function getElectronMetadata(
+	electronVersion: string,
+): Promise<ElectronMetadata | null> {
+	const url = `https://releases.electronjs.org/release/v${electronVersion}`
+	const res = await fetch(url, { cache: 'force-cache' })
+	if (!res.ok) return null
+
+	const html = await res.text()
+
+	const chromiumMatch = html.match(
+		/source\.chromium\.org\/chromium\/chromium\/src\/\+\/refs\/tags\/([0-9]+(?:\.[0-9]+)+):/,
+	)
+
+	const nodeMatch = html.match(
+		/github\.com\/nodejs\/node\/releases\/tag\/v([0-9]+(?:\.[0-9]+)+)/,
+	)
+
+	const v8Match = html.match(
+		/<title>V8<\/title>.*?<span[^>]*>V8<\/span><\/div><span[^>]*>([0-9]+(?:\.[0-9]+)+)<\/span>/,
+	)
+
+	if (!chromiumMatch || !nodeMatch) return null
+
+	return {
+		chromium: chromiumMatch[1],
+		node: nodeMatch[1],
+		v8: v8Match?.[1] ?? '',
+	}
+}
+
 export function parseChromiumVersionFromNotes(
 	notes: string,
 ): string | undefined {

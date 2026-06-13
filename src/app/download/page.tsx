@@ -1,5 +1,6 @@
 import { PanelLayout } from '@components/panel-layout'
 import layoutStyles from '@components/panel-layout/layout-panels.module.css'
+import { getElectronMetadata } from '@lib/parse-version'
 import { getLatestRelease } from '@lib/releases-schedule'
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
@@ -35,6 +36,12 @@ export const metadata: Metadata = {
 async function DownloadContent() {
 	const { release, error } = await getLatestRelease()
 
+	const metadata = await getElectronMetadata(`${release?.electronCurrent}`)
+
+	const chromiumMain = metadata?.chromium
+	const nodeJsMain = metadata?.node
+	const v8Main = metadata?.v8
+
 	const left = (
 		<>
 			{error ? (
@@ -63,25 +70,19 @@ async function DownloadContent() {
 						{release.chromiumCurrent && (
 							<div className={styles.release_row}>
 								<span className={styles.release_label}>Chromium</span>
-								<span className={styles.release_value}>
-									v{release.chromiumCurrent}
-								</span>
+								<span className={styles.release_value}>v{chromiumMain}</span>
 							</div>
 						)}
 						{release.nodeJsCurrent && (
 							<div className={styles.release_row}>
 								<span className={styles.release_label}>Node.js</span>
-								<span className={styles.release_value}>
-									v{release.nodeJsCurrent}
-								</span>
+								<span className={styles.release_value}>v{nodeJsMain}</span>
 							</div>
 						)}
 						{release.v8Current && (
 							<div className={styles.release_row}>
 								<span className={styles.release_label}>V8</span>
-								<span className={styles.release_value}>
-									v{release.v8Current}
-								</span>
+								<span className={styles.release_value}>v{v8Main}</span>
 							</div>
 						)}
 					</div>

@@ -1,26 +1,29 @@
 import { PanelLayout } from '@components/panel-layout'
 import layoutStyles from '@components/panel-layout/layout-panels.module.css'
-import styles from '../../../styles/skeleton.module.css'
+import {
+	default as skeletonStyles,
+	default as styles,
+} from '../../../styles/skeleton.module.css'
 
 export default function DownloadSkeleton() {
 	const left = (
 		<>
+			<div
+				className={`${skeletonStyles.skeleton_release_meta} ${skeletonStyles.skeleton_release_meta_release}`}
+			>
+				<div className={skeletonStyles.skeleton_row}>
+					<div className={skeletonStyles.skeleton_label} />
+				</div>
+				<div className={skeletonStyles.skeleton_row}>
+					<div className={skeletonStyles.skeleton_label} />
+				</div>
+			</div>
+
 			<div className={styles.skeleton_meta}>
 				<div className={styles.skeleton_row}>
 					<div className={styles.skeleton_label} />
 					<div className={styles.skeleton_value_short} />
 				</div>
-				<div className={styles.skeleton_row}>
-					<div className={styles.skeleton_label} />
-					<div className={styles.skeleton_value_short} />
-				</div>
-				<div className={styles.skeleton_row}>
-					<div className={styles.skeleton_label} />
-					<div className={styles.skeleton_value_long} />
-				</div>
-			</div>
-
-			<div className={styles.skeleton_release_meta}>
 				<div className={styles.skeleton_row}>
 					<div className={styles.skeleton_label} />
 					<div className={styles.skeleton_value_short} />

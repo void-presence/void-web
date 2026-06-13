@@ -4,10 +4,8 @@ import layoutStyles from '@components/panel-layout/layout-panels.module.css'
 import { githubHeaders } from '@lib/github-headers'
 import { extractPackageMeta, type PackageJson } from '@lib/package-meta'
 import {
-	parseChromiumVersionFromNotes,
+	getElectronMetadata,
 	parseElectronVersionFromNotes,
-	parseNodeJsVersionFromNotes,
-	parseV8VersionFromNotes,
 } from '@lib/parse-version'
 import { normalizeReleaseNotes } from '@lib/release-notes'
 import { getReleases, type ReleaseInfo } from '@lib/releases-schedule'
@@ -70,18 +68,17 @@ export async function ReleaseDetailsContent({ id }: { id: string }) {
 
 	const notes = release?.notes ? normalizeReleaseNotes(release.notes) : ''
 	const electronVersion = parseElectronVersionFromNotes(notes)
-	const chromiumVersion = parseChromiumVersionFromNotes(notes)
-	const nodeJsVersion = parseNodeJsVersionFromNotes(notes)
-	const v8Version = parseV8VersionFromNotes(notes)
 
 	const electronMain =
 		release?.electronCurrent ??
 		electronVersion ??
 		(electronFromPkg ? String(electronFromPkg) : undefined)
 
-	const chromiumMain = release?.chromiumCurrent ?? chromiumVersion
-	const nodeJsMain = release?.nodeJsCurrent ?? nodeJsVersion
-	const v8Main = release?.v8Current ?? v8Version
+	const metadata = await getElectronMetadata(`${electronMain}`)
+
+	const chromiumMain = metadata?.chromium
+	const nodeJsMain = metadata?.node
+	const v8Main = metadata?.v8
 
 	const left = (
 		<>

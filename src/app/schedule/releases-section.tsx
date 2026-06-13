@@ -1,5 +1,6 @@
 import { PanelLayout } from '@components/panel-layout'
 import layoutStyles from '@components/panel-layout/layout-panels.module.css'
+import { getElectronMetadata } from '@lib/parse-version'
 import { getReleases } from '@lib/releases-schedule'
 import type { Metadata } from 'next'
 import { InfoBox } from '../../../components/status-info/info-box'
@@ -25,6 +26,14 @@ export async function ReleasesSection() {
 	const stableRelease = githubLatestRelease ?? releases[0] ?? null
 	const scheduleElectronSource =
 		releases.find(r => r.version === stableRelease?.version) ?? stableRelease
+
+	const metadata = await getElectronMetadata(
+		`${scheduleElectronSource.electronCurrent}`,
+	)
+	console.log(stableRelease.version)
+	const chromiumMain = metadata?.chromium
+	const nodeJsMain = metadata?.node
+	const v8Main = metadata?.v8
 
 	const left = (
 		<>
@@ -58,25 +67,19 @@ export async function ReleasesSection() {
 						{scheduleElectronSource?.chromiumCurrent && (
 							<div className={styles.release_row}>
 								<span className={styles.release_label}>Chromium</span>
-								<span className={styles.release_value}>
-									v{scheduleElectronSource.chromiumCurrent}
-								</span>
+								<span className={styles.release_value}>v{chromiumMain}</span>
 							</div>
 						)}
 						{scheduleElectronSource?.nodeJsCurrent && (
 							<div className={styles.release_row}>
 								<span className={styles.release_label}>Node.js</span>
-								<span className={styles.release_value}>
-									v{scheduleElectronSource.nodeJsCurrent}
-								</span>
+								<span className={styles.release_value}>v{nodeJsMain}</span>
 							</div>
 						)}
 						{scheduleElectronSource?.v8Current && (
 							<div className={styles.release_row}>
 								<span className={styles.release_label}>V8</span>
-								<span className={styles.release_value}>
-									v{scheduleElectronSource.v8Current}
-								</span>
+								<span className={styles.release_value}>v{v8Main}</span>
 							</div>
 						)}
 					</div>

@@ -38,7 +38,7 @@ export default function ReleaseListSkeleton({
 				</div>
 				<div className={skeletonStyles.skeleton_row}>
 					<div className={skeletonStyles.skeleton_label} />
-					<div className={skeletonStyles.skeleton_value_long} />
+					<div className={skeletonStyles.skeleton_value_short} />
 				</div>
 			</div>
 
