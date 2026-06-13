@@ -95,6 +95,10 @@
 	color: #e4e4e7;
 }
 
+.wrapper_section_page {
+	padding: 32px var(--section-padding-desktop) 0 var(--section-padding-desktop);
+}
+
 @media (max-width: 1035px) {
 	.panel_left_side > *:last-child {
 		grid-column: 1 / -1;
@@ -102,7 +106,7 @@
 }
 
 @media (max-width: 830px) {
-	.panel {
+	.wrapper_section_page {
 		padding: 20px var(--section-padding-mobile);
 	}
 
@@ -120,8 +124,4 @@
 	.panel_left_side {
 		grid-template-columns: 1fr;
 	}
-}
-
-.wrapper_section_page {
-	padding: 32px var(--section-padding-desktop) 0 var(--section-padding-desktop);
 }

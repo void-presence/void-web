@@ -421,7 +421,7 @@
 }
 
 @media (max-width: 830px) {
-	.themes_panel {
+	.section_themes_panel {
 		flex-direction: column;
 		padding: 20px var(--section-padding-mobile);
 	}
