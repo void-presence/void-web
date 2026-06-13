@@ -34,16 +34,24 @@ export default function DownloadSkeleton() {
 				</div>
 			</div>
 
-			<div className={styles.skeleton_release_meta}>
-				<div className={styles.skeleton_row}>
-					<div className={styles.skeleton_label} />
-					<div className={styles.skeleton_value_short} />
+			<div
+				className={`${skeletonStyles.skeleton_release_meta} ${skeletonStyles.skeleton_release_meta_info}`}
+			>
+				<div className={skeletonStyles.skeleton_row}>
+					<div className={skeletonStyles.skeleton_label} />
+				</div>
+				<div className={skeletonStyles.skeleton_row}>
+					<div className={skeletonStyles.skeleton_label} />
 				</div>
 			</div>
-			<div className={styles.skeleton_release_meta}>
-				<div className={styles.skeleton_row}>
-					<div className={styles.skeleton_label} />
-					<div className={styles.skeleton_value_short} />
+			<div
+				className={`${skeletonStyles.skeleton_release_meta} ${skeletonStyles.skeleton_release_meta_info}`}
+			>
+				<div className={skeletonStyles.skeleton_row}>
+					<div className={skeletonStyles.skeleton_label} />
+				</div>
+				<div className={skeletonStyles.skeleton_row}>
+					<div className={skeletonStyles.skeleton_label} />
 				</div>
 			</div>
 		</>
