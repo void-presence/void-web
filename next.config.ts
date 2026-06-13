@@ -2,32 +2,12 @@
 const nextConfig = {
 	images: {
 		remotePatterns: [
-			{
-				protocol: 'https',
-				hostname: 'avatars.githubusercontent.com',
-				pathname: '/**',
-			},
-			{
-				protocol: 'https',
-				hostname: 'github.com',
-				pathname: '/user-attachments/**',
-			},
-			{
-				protocol: 'https',
-				hostname: 'media.giphy.com',
-				pathname: '/**',
-			},
-			{
-				protocol: 'http',
-				hostname: 'localhost',
-				port: '',
-				pathname: '/**',
-			},
-			{
-				protocol: 'https',
-				hostname: 'i.imgur.com',
-				pathname: '/**',
-			},
+			{ protocol: 'https', hostname: '**.com' },
+			{ protocol: 'https', hostname: '**.net' },
+			{ protocol: 'https', hostname: '**.org' },
+			{ protocol: 'https', hostname: '**.co' },
+			{ protocol: 'https', hostname: '**.ru' },
+			{ protocol: 'http', hostname: 'localhost' },
 		],
 	},
 }

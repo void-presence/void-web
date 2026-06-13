@@ -15,8 +15,6 @@ type Props = {
 type CustomRpcPreviewProps = {
 	config: Config
 	previewIndex: number
-	onColorReady?: (color: string) => void
-	hasColor: boolean
 	id: string
 	avatarSrc: string
 }
@@ -24,8 +22,6 @@ type CustomRpcPreviewProps = {
 function CustomRpcPreview({
 	config,
 	previewIndex,
-	onColorReady,
-	hasColor,
 	id,
 	avatarSrc,
 }: CustomRpcPreviewProps) {
@@ -52,64 +48,6 @@ function CustomRpcPreview({
 		label1: '',
 		url1: '',
 	}
-
-	const initialImage = images[0] || { largeImage: '' }
-
-	useEffect(() => {
-		if (!initialImage.largeImage || !onColorReady || hasColor) return
-		if (initialImage.largeImage.startsWith('https://i.pinimg.com')) return
-
-		let cancelled = false
-		const img = new Image()
-		img.crossOrigin = 'anonymous'
-		img.src = initialImage.largeImage
-
-		img.onload = () => {
-			if (cancelled) return
-			try {
-				const canvas = document.createElement('canvas')
-				const ctx = canvas.getContext('2d')
-				if (!ctx) return
-
-				const w = 24
-				const h = 24
-				canvas.width = w
-				canvas.height = h
-				ctx.drawImage(img, 0, 0, w, h)
-
-				const data = ctx.getImageData(0, 0, w, h).data
-				let r = 0
-				let g = 0
-				let b = 0
-				let count = 0
-
-				for (let i = 0; i < data.length; i += 4) {
-					const a = data[i + 3]
-					if (a < 128) continue
-					r += data[i]
-					g += data[i + 1]
-					b += data[i + 2]
-					count++
-				}
-
-				if (!count) return
-
-				r = Math.round(r / count)
-				g = Math.round(g / count)
-				b = Math.round(b / count)
-
-				const toHex = (n: number) => n.toString(16).padStart(2, '0')
-				const hex = `#${toHex(r)}${toHex(g)}${toHex(b)}`
-				onColorReady(hex)
-			} catch {}
-		}
-
-		img.onerror = () => {}
-
-		return () => {
-			cancelled = true
-		}
-	}, [initialImage.largeImage, onColorReady, hasColor])
 
 	return (
 		<div className={styles.rpc_card_preview}>
@@ -186,10 +124,10 @@ export function ProfileConfigsClient({ configs, userId }: Props) {
 	const [searchTerm, setSearchTerm] = useState('')
 	const [previewTick, setPreviewTick] = useState(0)
 	const [mounted, setMounted] = useState(false)
-	const [colors, setColors] = useState<Record<string, string>>({})
 	const [liveConfigs, setLiveConfigs] = useState<Config[]>(configs)
 	const [hasLoadedFirstSnapshot, setHasLoadedFirstSnapshot] = useState(false)
 	const [deleting, setDeleting] = useState<string | null>(null)
+	const [animateColors, setAnimateColors] = useState(false)
 
 	const loading = !hasLoadedFirstSnapshot
 
@@ -202,6 +140,9 @@ export function ProfileConfigsClient({ configs, userId }: Props) {
 			next => {
 				setLiveConfigs(next)
 				setHasLoadedFirstSnapshot(true)
+				setTimeout(() => {
+					setAnimateColors(true)
+				}, 100)
 			},
 			undefined,
 			userId,
@@ -221,6 +162,7 @@ export function ProfileConfigsClient({ configs, userId }: Props) {
 		() => filterConfigs(liveConfigs, searchTerm),
 		[liveConfigs, searchTerm],
 	)
+
 	const sortedConfigs = useMemo(
 		() => sortConfigs(filteredConfigs),
 		[filteredConfigs],
@@ -278,8 +220,10 @@ export function ProfileConfigsClient({ configs, userId }: Props) {
 				) : (
 					<div className={styles.profile_cards_grid}>
 						{sortedConfigs.map((config, index) => {
-							const hasColor = Boolean(colors[config.id])
-							const highlight = hasColor ? colors[config.id] : '#5b5b5b'
+							const highlight = animateColors
+								? config.averageColor || '#5b5b5b'
+								: '#5b5b5b'
+							const hasColor = animateColors && Boolean(config.averageColor)
 							const baseIndex = mounted ? previewTick + index : 0
 							const borderColor = `${highlight}66`
 							const baseBg = 'rgba(26, 26, 26, 0.96)'
@@ -339,15 +283,7 @@ export function ProfileConfigsClient({ configs, userId }: Props) {
 										<CustomRpcPreview
 											config={config}
 											previewIndex={baseIndex}
-											hasColor={hasColor}
-											onColorReady={hex =>
-												setColors(prev =>
-													prev[config.id]
-														? prev
-														: { ...prev, [config.id]: hex },
-												)
-											}
-											id={userId}
+											id={config.id}
 											avatarSrc={avatarSrc}
 										/>
 

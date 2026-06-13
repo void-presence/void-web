@@ -57,6 +57,7 @@ export interface Config {
 	downloads: number
 	description: string
 	configData: ConfigData
+	averageColor: string
 }
 
 export function onConfigsChange(
@@ -82,6 +83,7 @@ export function onConfigsChange(
 						? config.downloads
 						: parseInt(String(config.downloads ?? '0')) || 0,
 				description: config.description || '',
+				averageColor: config.averageColor || '#5b5b5b',
 				configData: config.configData || {
 					cycles: [{ details: 'Idling in the void', state: 'Just vibing' }],
 					imageCycles: [],
@@ -235,6 +237,7 @@ export function onConfigByIdChange(
 			authorId: data.authorId ?? null,
 			authorAvatar: authorAvatar,
 			downloads,
+			averageColor: data.averageColor || '#5b5b5b',
 			description: data.description || '',
 			configData: data.configData || {
 				cycles: [{ details: 'Idling in the void', state: 'Just vibing' }],
@@ -269,6 +272,7 @@ export async function getConfigs(): Promise<Config[]> {
 					? config.downloads
 					: parseInt(String(config.downloads ?? '0')) || 0,
 			description: config.description || '',
+			averageColor: config.averageColor || '#5b5b5b',
 			configData: config.configData || {
 				cycles: [{ details: 'Idling in the void', state: 'Just vibing' }],
 				imageCycles: [],

@@ -15,16 +15,12 @@ type Props = {
 type CustomRpcPreviewProps = {
 	config: Config
 	previewIndex: number
-	onColorReady?: (color: string) => void
-	hasColor: boolean
 	avatarSrc: string
 }
 
 function CustomRpcPreview({
 	config,
 	previewIndex,
-	onColorReady,
-	hasColor,
 	avatarSrc,
 }: CustomRpcPreviewProps) {
 	const configData: any = config.configData
@@ -50,64 +46,6 @@ function CustomRpcPreview({
 		label1: '',
 		url1: '',
 	}
-
-	const initialImage = images[0] || { largeImage: '' }
-
-	useEffect(() => {
-		if (!initialImage.largeImage || !onColorReady || hasColor) return
-		if (initialImage.largeImage.startsWith('https://i.pinimg.com')) return
-
-		let cancelled = false
-		const img = new Image()
-		img.crossOrigin = 'anonymous'
-		img.src = initialImage.largeImage
-
-		img.onload = () => {
-			if (cancelled) return
-			try {
-				const canvas = document.createElement('canvas')
-				const ctx = canvas.getContext('2d')
-				if (!ctx) return
-
-				const w = 24
-				const h = 24
-				canvas.width = w
-				canvas.height = h
-				ctx.drawImage(img, 0, 0, w, h)
-
-				const data = ctx.getImageData(0, 0, w, h).data
-				let r = 0
-				let g = 0
-				let b = 0
-				let count = 0
-
-				for (let i = 0; i < data.length; i += 4) {
-					const a = data[i + 3]
-					if (a < 128) continue
-					r += data[i]
-					g += data[i + 1]
-					b += data[i + 2]
-					count++
-				}
-
-				if (!count) return
-
-				r = Math.round(r / count)
-				g = Math.round(g / count)
-				b = Math.round(b / count)
-
-				const toHex = (n: number) => n.toString(16).padStart(2, '0')
-				const hex = `#${toHex(r)}${toHex(g)}${toHex(b)}`
-				onColorReady(hex)
-			} catch {}
-		}
-
-		img.onerror = () => {}
-
-		return () => {
-			cancelled = true
-		}
-	}, [initialImage.largeImage, onColorReady, hasColor])
 
 	return (
 		<div className={styles.rpc_card_preview}>
@@ -188,8 +126,8 @@ export function ConfigsClient({
 	const [searchTerm, setSearchTerm] = useState(initialSearchTerm ?? '')
 	const [previewTick, setPreviewTick] = useState(0)
 	const [mounted, setMounted] = useState(false)
-	const [colors, setColors] = useState<Record<string, string>>({})
 	const [loading, setLoading] = useState(true)
+	const [animateColors, setAnimateColors] = useState(false)
 
 	useEffect(() => {
 		setMounted(true)
@@ -199,6 +137,9 @@ export function ConfigsClient({
 		const unsubscribe = onConfigsChange(next => {
 			setConfigs(next)
 			setLoading(false)
+			setTimeout(() => {
+				setAnimateColors(true)
+			}, 100)
 		})
 
 		const interval = setInterval(() => {
@@ -215,6 +156,7 @@ export function ConfigsClient({
 		() => filterConfigs(configs, searchTerm),
 		[configs, searchTerm],
 	)
+
 	const sortedConfigs = useMemo(
 		() => sortConfigs(filteredConfigs),
 		[filteredConfigs],
@@ -269,8 +211,10 @@ export function ConfigsClient({
 					) : (
 						<div className={styles.cards_grid}>
 							{sortedConfigs.map((config, index) => {
-								const hasColor = Boolean(colors[config.id])
-								const highlight = hasColor ? colors[config.id] : '#5b5b5b'
+								const highlight = animateColors
+									? config.averageColor || '#5b5b5b'
+									: '#5b5b5b'
+								const hasColor = animateColors && Boolean(config.averageColor)
 								const baseIndex = mounted ? previewTick + index : 0
 								const borderColor = `${highlight}66`
 								const baseBg = 'rgba(26, 26, 26, 0.96)'
@@ -307,14 +251,6 @@ export function ConfigsClient({
 											<CustomRpcPreview
 												config={config}
 												previewIndex={baseIndex}
-												hasColor={hasColor}
-												onColorReady={hex =>
-													setColors(prev =>
-														prev[config.id]
-															? prev
-															: { ...prev, [config.id]: hex },
-													)
-												}
 												avatarSrc={avatarSrc}
 											/>
 
