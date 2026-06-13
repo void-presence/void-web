@@ -18,9 +18,7 @@ export function UseFirebaseAuth() {
 			return
 		}
 
-		signInWithCustomToken(auth, firebaseToken).catch(err =>
-			console.error('FIREBASE AUTH ERROR', err)
-		)
+		signInWithCustomToken(auth, firebaseToken).catch(err => console.error(err))
 	}, [session])
 
 	return null

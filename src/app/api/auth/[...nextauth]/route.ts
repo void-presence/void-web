@@ -45,17 +45,24 @@ export const authOptions: NextAuthOptions = {
 			},
 		}),
 	],
-
 	callbacks: {
 		async jwt({ token, account, user }) {
 			if (account && user) {
 				token.accessToken = account.access_token
 				token.id = user.id ?? token.sub
-
-				// @ts-ignore
-				const firebaseToken = await admin.auth().createCustomToken(user.id)
-				token.firebaseToken = firebaseToken
 			}
+
+			if (token.id) {
+				try {
+					const firebaseToken = await admin
+						.auth()
+						.createCustomToken(String(token.id))
+					token.firebaseToken = firebaseToken
+				} catch (error) {
+					console.error(error)
+				}
+			}
+
 			return token
 		},
 		async session({ session, token }) {
