@@ -13,7 +13,7 @@ export default function Navbar() {
 		<header className={styles.navbar_root}>
 			<div className={styles.navbar_shell}>
 				<Link href='/' className={styles.navbar_brand}>
-					<div className={styles.navbar_logo_mark}>VP</div>
+					<div className={styles.navbar_logo_mark}>vP</div>
 					<div className={styles.navbar_brand_text}>
 						<span className={styles.navbar_brand_title}>Void Presence</span>
 						<span className={styles.navbar_brand_subtitle}>

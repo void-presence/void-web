@@ -35,7 +35,7 @@ export default function AppShell({
 		<div className={styles.config_preview}>
 			<div className={styles.app_header}>
 				<div className={styles.app_title_group}>
-					<div className={styles.app_logo}>VP</div>
+					<div className={styles.app_logo}>vP</div>
 					<div>
 						<div className={styles.app_title}>VOID</div>
 						<div className={styles.app_subtitle}>{subtitle}</div>

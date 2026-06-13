@@ -41,7 +41,7 @@ const Footer = () => {
 						<div className={styles.footer_brand_header}>
 							<div className={styles.footer_logo_circle}>
 								<span className={styles.footer_logo_accent} />
-								<span className={styles.footer_logo_text}>VP</span>
+								<span className={styles.footer_logo_text}>vP</span>
 							</div>
 							<div>
 								<h3 className={styles.footer_brand_title}>Void Presence</h3>
