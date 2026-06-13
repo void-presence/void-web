@@ -13,11 +13,13 @@ export function PanelLayout({ left, right, className }: PanelLayoutProps) {
 		: styles.panel
 
 	return (
-		<div className={rootClassName}>
-			<div className={styles.wrapper_panel_left_side}>
-				<div className={styles.panel_left_side}>{left}</div>
+		<section className={styles.wrapper_section_page}>
+			<div className={rootClassName}>
+				<div className={styles.wrapper_panel_left_side}>
+					<div className={styles.panel_left_side}>{left}</div>
+				</div>
+				<div className={styles.panel_right_side}>{right}</div>
 			</div>
-			<div className={styles.panel_right_side}>{right}</div>
-		</div>
+		</section>
 	)
 }

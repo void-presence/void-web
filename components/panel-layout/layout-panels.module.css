@@ -1,7 +1,6 @@
 .panel {
 	min-height: calc(100vh - 120px);
 	max-width: 1400px;
-	padding: 32px var(--section-padding-desktop) 0 var(--section-padding-desktop);
 	margin: 0 auto;
 }
 
@@ -121,4 +120,8 @@
 	.panel_left_side {
 		grid-template-columns: 1fr;
 	}
+}
+
+.wrapper_section_page {
+	padding: 32px var(--section-padding-desktop) 0 var(--section-padding-desktop);
 }

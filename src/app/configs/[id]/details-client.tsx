@@ -126,6 +126,7 @@ export function ConfigDetailsClient({ configId, initialPreviewTick }: Props) {
 	const firstCycle = cycles[cycleIndex]
 	const firstImage = images[imageIndex]
 	const firstButtons = buttonsList[buttonIndex]
+	const avatarSrc = config.authorAvatar || '/logo.png'
 
 	return (
 		<section id='addon-details' className={styles.page_section}>
@@ -159,14 +160,6 @@ export function ConfigDetailsClient({ configId, initialPreviewTick }: Props) {
 										<strong>Downloads: </strong>
 										{config.downloads.toLocaleString()}
 									</span>
-									<span className={styles.addon_metadata_row}>
-										<strong>Author: </strong>
-										{config.author}
-									</span>
-									<span className={styles.addon_metadata_row}>
-										<strong>Id: </strong>
-										{config.id}
-									</span>
 								</section>
 							</div>
 						</div>
@@ -176,6 +169,7 @@ export function ConfigDetailsClient({ configId, initialPreviewTick }: Props) {
 								<RpcPreview
 									discriminator={`#${config.authorId!.slice(0, 4)}` || '#0001'}
 									username={config.author || 'User'}
+									avatarSrc={avatarSrc}
 									activityType={config.title}
 									currentCycle={firstCycle}
 									currentImage={firstImage}

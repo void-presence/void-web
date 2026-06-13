@@ -1,12 +1,12 @@
 .page_section {
-	padding: 40px 48px 0 48px;
+	padding: 32px var(--section-padding-desktop) 0 var(--section-padding-desktop);
 }
 
 .theme_view_panel {
 	max-width: 1400px;
 	margin: 0 auto;
 	position: relative;
-	border-radius: 24px;
+	border-radius: 16px;
 	overflow: hidden;
 	background: hsla(0, 0%, 10%, 0.9);
 	border: 1px solid hsla(255, 255%, 255%, 0.08);

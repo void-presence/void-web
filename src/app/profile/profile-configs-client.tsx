@@ -18,6 +18,7 @@ type CustomRpcPreviewProps = {
 	onColorReady?: (color: string) => void
 	hasColor: boolean
 	id: string
+	avatarSrc: string
 }
 
 function CustomRpcPreview({
@@ -26,6 +27,7 @@ function CustomRpcPreview({
 	onColorReady,
 	hasColor,
 	id,
+	avatarSrc,
 }: CustomRpcPreviewProps) {
 	const configData: any = config.configData
 	const cycles = configData.cycles ?? []
@@ -115,6 +117,7 @@ function CustomRpcPreview({
 				<RpcPreview
 					discriminator={`#${id.slice(0, 4)}` || '#0001'}
 					username={config.author || 'User'}
+					avatarSrc={avatarSrc}
 					activityType={config.title}
 					currentCycle={cycle}
 					currentImage={image}
@@ -280,6 +283,7 @@ export function ProfileConfigsClient({ configs, userId }: Props) {
 							const baseIndex = mounted ? previewTick + index : 0
 							const borderColor = `${highlight}66`
 							const baseBg = 'rgba(26, 26, 26, 0.96)'
+							const avatarSrc = config.authorAvatar || '/logo.png'
 
 							return (
 								<div
@@ -299,9 +303,6 @@ export function ProfileConfigsClient({ configs, userId }: Props) {
 												<h3 className={styles.profile_card_title}>
 													{config.title}
 												</h3>
-												<div className={styles.card_author}>
-													Author: <span>{config.author}</span>
-												</div>
 											</div>
 											<div>
 												<div className={styles.profile_download_tag}>
@@ -347,6 +348,7 @@ export function ProfileConfigsClient({ configs, userId }: Props) {
 												)
 											}
 											id={userId}
+											avatarSrc={avatarSrc}
 										/>
 
 										<div className={styles.profile_card_actions}>

@@ -41,11 +41,19 @@ export interface ConfigData {
 	buttonPairs: ButtonPair[]
 }
 
+export interface UserRecord {
+	name?: string
+	createdAt?: number
+	avatar?: string
+	image?: string
+}
+
 export interface Config {
 	id: string
 	title: string
 	author: string
 	authorId: string | null
+	authorAvatar?: string
 	downloads: number
 	description: string
 	configData: ConfigData
@@ -59,7 +67,7 @@ export function onConfigsChange(
 	const path = refPath || 'configs'
 	const configsRef = ref(db, path)
 
-	const unsubscribe = onValue(configsRef, snapshot => {
+	const unsubscribe = onValue(configsRef, async snapshot => {
 		const data = snapshot.val()
 		const allConfigs: Config[] = Object.entries(data || {}).map(([id, raw]) => {
 			const config = raw as any
@@ -68,6 +76,7 @@ export function onConfigsChange(
 				title: config.title || 'Unnamed',
 				author: config.author || 'Unknown',
 				authorId: config.authorId ?? null,
+				authorAvatar: config.authorAvatar || '',
 				downloads:
 					typeof config.downloads === 'number'
 						? config.downloads
@@ -91,7 +100,37 @@ export function onConfigsChange(
 				)
 			: allConfigs
 
-		callback(filtered)
+		const authorIds = filtered
+			.map(c => c.authorId)
+			.filter(
+				(id): id is string => id !== null && id !== undefined && id !== '',
+			)
+
+		const uniqueIds = [...new Set(authorIds)]
+		const avatarsMap: Record<string, string> = {}
+
+		for (const authorId of uniqueIds) {
+			try {
+				const userRef = ref(db, `users/${authorId}`)
+				const userSnap = await get(userRef)
+				if (userSnap.exists()) {
+					const userData = userSnap.val() as UserRecord
+					avatarsMap[authorId] = userData.avatar || userData.image || ''
+				}
+			} catch {}
+		}
+
+		const configsWithAvatars = filtered.map(config => {
+			if (config.authorId && avatarsMap[config.authorId]) {
+				return {
+					...config,
+					authorAvatar: avatarsMap[config.authorId],
+				}
+			}
+			return config
+		})
+
+		callback(configsWithAvatars)
 	})
 
 	return unsubscribe
@@ -165,7 +204,7 @@ export function onConfigByIdChange(
 ) {
 	const configRef = ref(db, `configs/${id}`)
 
-	const unsubscribe = onValue(configRef, snapshot => {
+	const unsubscribe = onValue(configRef, async snapshot => {
 		const data = snapshot.val()
 
 		if (!data) {
@@ -178,11 +217,23 @@ export function onConfigByIdChange(
 				? data.downloads
 				: parseInt(String(data.downloads ?? '0')) || 0
 
+		let authorAvatar = data.authorAvatar || ''
+
+		if (!authorAvatar && data.authorId) {
+			try {
+				const user = await fetchAuthor(data.authorId)
+				if (user) {
+					authorAvatar = user.avatar || user.image || ''
+				}
+			} catch {}
+		}
+
 		const config: Config = {
 			id,
 			title: data.title || 'Unnamed',
 			author: data.author || 'Unknown',
 			authorId: data.authorId ?? null,
+			authorAvatar: authorAvatar,
 			downloads,
 			description: data.description || '',
 			configData: data.configData || {
@@ -212,6 +263,7 @@ export async function getConfigs(): Promise<Config[]> {
 			title: config.title || 'Unnamed',
 			author: config.author || 'Unknown',
 			authorId: config.authorId ?? null,
+			authorAvatar: config.authorAvatar || '',
 			downloads:
 				typeof config.downloads === 'number'
 					? config.downloads
@@ -234,14 +286,41 @@ export async function getConfigById(id: string): Promise<Config | null> {
 	return found ?? null
 }
 
-export async function createUserIfNotExists(userId: string, name?: string) {
+export async function fetchAuthor(
+	authorId: string,
+): Promise<UserRecord | null> {
+	const userRef = ref(db, `users/${authorId}`)
+	const snapshot = await get(userRef)
+
+	if (!snapshot.exists()) return null
+
+	const data = snapshot.val() as UserRecord
+	return data
+}
+
+export async function createUserIfNotExists(
+	userId: string,
+	name?: string,
+	avatar?: string,
+) {
 	const userRef = ref(db, `users/${userId}`)
 
 	await runTransaction(userRef, current => {
-		if (current) return current
+		if (current) {
+			const newAvatar = avatar || current.image || current.avatar
+			if (newAvatar && current.avatar !== newAvatar) {
+				return {
+					...current,
+					avatar: newAvatar,
+					image: newAvatar,
+				}
+			}
+			return current
+		}
 
 		return {
 			name: name ?? 'Unknown',
+			avatar: avatar || '/logo.png',
 			createdAt: Date.now(),
 		}
 	})
