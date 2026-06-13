@@ -67,19 +67,19 @@ async function DownloadContent() {
 								</span>
 							</div>
 						)}
-						{release.chromiumCurrent && (
+						{chromiumMain && (
 							<div className={styles.release_row}>
 								<span className={styles.release_label}>Chromium</span>
 								<span className={styles.release_value}>v{chromiumMain}</span>
 							</div>
 						)}
-						{release.nodeJsCurrent && (
+						{nodeJsMain && (
 							<div className={styles.release_row}>
 								<span className={styles.release_label}>Node.js</span>
 								<span className={styles.release_value}>v{nodeJsMain}</span>
 							</div>
 						)}
-						{release.v8Current && (
+						{v8Main && (
 							<div className={styles.release_row}>
 								<span className={styles.release_label}>V8</span>
 								<span className={styles.release_value}>v{v8Main}</span>

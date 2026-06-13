@@ -30,7 +30,7 @@ export async function ReleasesSection() {
 	const metadata = await getElectronMetadata(
 		`${scheduleElectronSource.electronCurrent}`,
 	)
-	console.log(stableRelease.version)
+
 	const chromiumMain = metadata?.chromium
 	const nodeJsMain = metadata?.node
 	const v8Main = metadata?.v8
@@ -64,19 +64,19 @@ export async function ReleasesSection() {
 								</span>
 							</div>
 						)}
-						{scheduleElectronSource?.chromiumCurrent && (
+						{chromiumMain && (
 							<div className={styles.release_row}>
 								<span className={styles.release_label}>Chromium</span>
 								<span className={styles.release_value}>v{chromiumMain}</span>
 							</div>
 						)}
-						{scheduleElectronSource?.nodeJsCurrent && (
+						{nodeJsMain && (
 							<div className={styles.release_row}>
 								<span className={styles.release_label}>Node.js</span>
 								<span className={styles.release_value}>v{nodeJsMain}</span>
 							</div>
 						)}
-						{scheduleElectronSource?.v8Current && (
+						{v8Main && (
 							<div className={styles.release_row}>
 								<span className={styles.release_label}>V8</span>
 								<span className={styles.release_value}>v{v8Main}</span>
