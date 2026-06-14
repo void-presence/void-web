@@ -23,14 +23,14 @@ export default function Navbar() {
 				</Link>
 
 				<nav className={styles.navbar_nav}>
-					<Link className={styles.nav_link} href='/configs'>
-						Configs
+					<Link className={styles.nav_link} href='/download'>
+						Download
 					</Link>
 					<Link className={styles.nav_link} href='/docs'>
 						Docs
 					</Link>
-					<Link className={styles.nav_link} href='/download'>
-						Download
+					<Link className={styles.nav_link} href='/configs'>
+						Configs
 					</Link>
 					<Link
 						className={`${styles.nav_link} ${styles.nav_link_schedule}`}
