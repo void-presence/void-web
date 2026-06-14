@@ -66,9 +66,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth(req => {
 						token.firebaseToken = await admin
 							.auth()
 							.createCustomToken(String(token.id))
-					} catch (error) {
-						console.error('Firebase token generation error:', error)
-					}
+					} catch {}
 				}
 
 				return token
@@ -76,6 +74,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth(req => {
 			async session({ session, token }) {
 				session.accessToken = token.accessToken
 				session.firebaseToken = token.firebaseToken
+				session.provider = token.provider
 
 				if (session.user) {
 					session.user.id = String(token.id || token.sub || '')

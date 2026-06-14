@@ -273,30 +273,35 @@ export async function createUserIfNotExists(
 	userId: string,
 	name?: string,
 	avatar?: string,
+	provider?: string,
 ) {
 	const userRef = ref(db, `users/${userId}`)
 	await runTransaction(userRef, current => {
 		if (current) {
-			const newAvatar = avatar || current.image || current.avatar
-			const newName = name || current.name
-			const next = { ...current } as UserRecord & Record<string, any>
+			const next = { ...current }
 
-			if (newAvatar && current.avatar !== newAvatar) {
-				next.avatar = newAvatar
-				next.image = newAvatar
+			if (name) {
+				next.name = name
 			}
 
-			if (newName && current.name !== newName) {
-				next.name = newName
+			if (avatar) {
+				next.avatar = avatar
 			}
 
+			if (provider) {
+				next.provider = provider
+			}
+
+			next.lastSeen = Date.now()
 			return next
 		}
 
 		return {
 			name: name ?? 'Unknown',
 			avatar: avatar || '/logo.png',
+			provider: provider || null,
 			createdAt: Date.now(),
+			lastSeen: Date.now(),
 		}
 	})
 }

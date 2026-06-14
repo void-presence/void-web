@@ -10,7 +10,12 @@ export function SaveUserOnMount() {
 
 	useEffect(() => {
 		if (!user?.id) return
-		createUserIfNotExists(user.id, user.name, user.image).catch(console.error)
+		createUserIfNotExists(
+			user.id,
+			user.name,
+			user.image,
+			session?.provider,
+		).catch(console.error)
 	}, [user?.id, user?.name])
 
 	return null
