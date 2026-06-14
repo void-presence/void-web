@@ -1,4 +1,4 @@
-import { initializeApp } from 'firebase/app'
+import { getApps, initializeApp } from 'firebase/app'
 import {
 	get,
 	getDatabase,
@@ -20,7 +20,9 @@ const firebaseConfig = {
 	measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID as string,
 }
 
-export const app = initializeApp(firebaseConfig)
+export const app = getApps().length
+	? getApps()[0]
+	: initializeApp(firebaseConfig)
 export const db = getDatabase(app, firebaseConfig.databaseURL)
 
 export interface ButtonPair {
@@ -60,6 +62,31 @@ export interface Config {
 	averageColor: string
 }
 
+function mapRawToConfig(
+	id: string,
+	data: any,
+	overriddenAvatar?: string,
+): Config {
+	return {
+		id,
+		title: data?.title || 'Unnamed',
+		author: data?.author || 'Unknown',
+		authorId: data?.authorId ?? null,
+		authorAvatar: overriddenAvatar || data?.authorAvatar || '',
+		downloads:
+			typeof data?.downloads === 'number'
+				? data.downloads
+				: parseInt(String(data?.downloads ?? '0')) || 0,
+		description: data?.description || '',
+		averageColor: data?.averageColor || '#5b5b5b',
+		configData: data?.configData || {
+			cycles: [{ details: 'Idling in the void', state: 'Just vibing' }],
+			imageCycles: [],
+			buttonPairs: [],
+		},
+	}
+}
+
 export function onConfigsChange(
 	callback: (configs: Config[]) => void,
 	refPath?: string,
@@ -70,27 +97,9 @@ export function onConfigsChange(
 
 	const unsubscribe = onValue(configsRef, async snapshot => {
 		const data = snapshot.val()
-		const allConfigs: Config[] = Object.entries(data || {}).map(([id, raw]) => {
-			const config = raw as any
-			return {
-				id,
-				title: config.title || 'Unnamed',
-				author: config.author || 'Unknown',
-				authorId: config.authorId ?? null,
-				authorAvatar: config.authorAvatar || '',
-				downloads:
-					typeof config.downloads === 'number'
-						? config.downloads
-						: parseInt(String(config.downloads ?? '0')) || 0,
-				description: config.description || '',
-				averageColor: config.averageColor || '#5b5b5b',
-				configData: config.configData || {
-					cycles: [{ details: 'Idling in the void', state: 'Just vibing' }],
-					imageCycles: [],
-					buttonPairs: [],
-				},
-			}
-		})
+		const allConfigs: Config[] = Object.entries(data || {}).map(([id, raw]) =>
+			mapRawToConfig(id, raw),
+		)
 
 		const filtered = authorId
 			? allConfigs.filter(cfg => String(cfg.authorId) === String(authorId))
@@ -134,14 +143,11 @@ export function onConfigsChange(
 
 export async function incrementDownloads(configId: string): Promise<void> {
 	const configRef = ref(db, `configs/${configId}`)
-
 	await runTransaction(configRef, currentData => {
 		if (!currentData) return currentData
-
 		const raw = currentData.downloads
 		const current =
 			typeof raw === 'number' ? raw : parseInt(String(raw ?? '0')) || 0
-
 		return {
 			...currentData,
 			downloads: current + 1,
@@ -208,11 +214,6 @@ export function onConfigByIdChange(
 			return
 		}
 
-		const downloads =
-			typeof data.downloads === 'number'
-				? data.downloads
-				: parseInt(String(data.downloads ?? '0')) || 0
-
 		let authorAvatar = data.authorAvatar || ''
 
 		if (!authorAvatar && data.authorId) {
@@ -224,23 +225,7 @@ export function onConfigByIdChange(
 			} catch {}
 		}
 
-		const config: Config = {
-			id,
-			title: data.title || 'Unnamed',
-			author: data.author || 'Unknown',
-			authorId: data.authorId ?? null,
-			authorAvatar: authorAvatar,
-			downloads,
-			averageColor: data.averageColor || '#5b5b5b',
-			description: data.description || '',
-			configData: data.configData || {
-				cycles: [{ details: 'Idling in the void', state: 'Just vibing' }],
-				imageCycles: [],
-				buttonPairs: [],
-			},
-		}
-
-		callback(config)
+		callback(mapRawToConfig(id, data, authorAvatar))
 	})
 
 	return unsubscribe
@@ -251,41 +236,15 @@ export async function getConfigs(): Promise<Config[]> {
 	const snapshot = await get(configsRef)
 	if (!snapshot.exists()) return []
 	const data = snapshot.val() as Record<string, any>
-
-	const configs: Config[] = Object.entries(data).map(([id, raw]) => {
-		const config = raw as any
-
-		return {
-			id,
-			title: config.title || 'Unnamed',
-			author: config.author || 'Unknown',
-			authorId: config.authorId ?? null,
-			authorAvatar: config.authorAvatar || '',
-			downloads:
-				typeof config.downloads === 'number'
-					? config.downloads
-					: parseInt(String(config.downloads ?? '0')) || 0,
-			description: config.description || '',
-			averageColor: config.averageColor || '#5b5b5b',
-			configData: config.configData || {
-				cycles: [{ details: 'Idling in the void', state: 'Just vibing' }],
-				imageCycles: [],
-				buttonPairs: [],
-			},
-		}
-	})
-
-	return configs
+	return Object.entries(data).map(([id, raw]) => mapRawToConfig(id, raw))
 }
 
 export async function getConfigById(id: string): Promise<Config | null> {
 	const configRef = ref(db, `configs/${id}`)
 	const snapshot = await get(configRef)
 	if (!snapshot.exists()) return null
-
 	const data = snapshot.val()
 	let authorAvatar = data.authorAvatar || ''
-
 	if (!authorAvatar && data.authorId) {
 		try {
 			const user = await fetchAuthor(data.authorId)
@@ -294,25 +253,7 @@ export async function getConfigById(id: string): Promise<Config | null> {
 			}
 		} catch {}
 	}
-
-	return {
-		id,
-		title: data.title || 'Unnamed',
-		author: data.author || 'Unknown',
-		authorId: data.authorId ?? null,
-		authorAvatar: authorAvatar,
-		downloads:
-			typeof data.downloads === 'number'
-				? data.downloads
-				: parseInt(String(data.downloads ?? '0')) || 0,
-		description: data.description || '',
-		averageColor: data.averageColor || '#5b5b5b',
-		configData: data.configData || {
-			cycles: [{ details: 'Idling in the void', state: 'Just vibing' }],
-			imageCycles: [],
-			buttonPairs: [],
-		},
-	}
+	return mapRawToConfig(id, data, authorAvatar)
 }
 
 export async function fetchAuthor(
@@ -320,11 +261,8 @@ export async function fetchAuthor(
 ): Promise<UserRecord | null> {
 	const userRef = ref(db, `users/${authorId}`)
 	const snapshot = await get(userRef)
-
 	if (!snapshot.exists()) return null
-
-	const data = snapshot.val() as UserRecord
-	return data
+	return snapshot.val() as UserRecord
 }
 
 export async function createUserIfNotExists(
@@ -333,7 +271,6 @@ export async function createUserIfNotExists(
 	avatar?: string,
 ) {
 	const userRef = ref(db, `users/${userId}`)
-
 	await runTransaction(userRef, current => {
 		if (current) {
 			const newAvatar = avatar || current.image || current.avatar
