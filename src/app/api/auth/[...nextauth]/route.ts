@@ -34,12 +34,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth(req => {
 			SteamProvider(steamReq, {
 				clientSecret: process.env.NEXTAUTH_STEAM_SECRET!,
 				callbackUrl: `${process.env.NEXTAUTH_URL}/api/auth/fuckoffnextauth`,
-				authorization: {
-					params: {
-						scope: 'read:user user:email',
-						prompt: 'select_account',
-					},
-				},
 			}),
 		],
 		session: {
@@ -49,10 +43,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth(req => {
 			signIn: '/signin',
 		},
 		callbacks: {
-			async jwt({ token, account, user }) {
-				if (account && user) {
+			async jwt({ token, account, user, profile }) {
+				if (account && (user || profile)) {
 					token.accessToken = account.access_token
-					token.id = user.id ?? token.sub
+					token.provider = account.provider
+
+					let stableId = ''
+
+					if (account.provider === 'github') {
+						stableId = String((profile as any)?.id || user?.id || '')
+					} else if (account.provider === 'google') {
+						stableId = String((profile as any)?.sub || user?.id || '')
+					} else if (account.provider === 'steam') {
+						stableId = String((profile as any)?.steamid || user?.id || '')
+					}
+
+					token.id = stableId.trim() || String(user?.id || token.sub || '')
 				}
 
 				if (token.id) {
@@ -61,7 +67,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth(req => {
 							.auth()
 							.createCustomToken(String(token.id))
 					} catch (error) {
-						console.error(error)
+						console.error('Firebase token generation error:', error)
 					}
 				}
 
@@ -72,7 +78,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth(req => {
 				session.firebaseToken = token.firebaseToken
 
 				if (session.user) {
-					session.user.id = token.id ?? token.sub ?? ''
+					session.user.id = String(token.id || token.sub || '')
 				}
 
 				return session
