@@ -61,6 +61,19 @@ export function SignInPageClient() {
 						<button
 							type='button'
 							className={styles.signin_btn_primary}
+							onClick={() => signIn('discord', { callbackUrl })}
+						>
+							<span className={styles.asset_info}>
+								<span className={styles.asset_name}>Sign in with Discord</span>
+								<span className={styles.asset_size}>
+									Use your Discord account
+								</span>
+							</span>
+							<span className={styles.asset_action_text}>Continue</span>
+						</button>
+						<button
+							type='button'
+							className={styles.signin_btn_primary}
 							onClick={() => signIn('steam', { callbackUrl })}
 						>
 							<span className={styles.asset_info}>

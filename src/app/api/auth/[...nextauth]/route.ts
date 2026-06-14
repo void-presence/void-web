@@ -1,4 +1,5 @@
 import NextAuth from 'next-auth'
+import DiscordProvider from 'next-auth/providers/discord'
 import GitHub from 'next-auth/providers/github'
 import Google from 'next-auth/providers/google'
 import SteamProvider from 'steam-next-auth'
@@ -31,6 +32,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth(req => {
 					},
 				},
 			}),
+			DiscordProvider({
+				clientId: process.env.DISCORD_CLIENT_ID!,
+				clientSecret: process.env.DISCORD_CLIENT_SECRET!,
+				authorization: {
+					params: {
+						scope: 'identify email',
+					},
+				},
+			}),
 			SteamProvider(steamReq, {
 				clientSecret: process.env.NEXTAUTH_STEAM_SECRET!,
 				callbackUrl: `${process.env.NEXTAUTH_URL}/api/auth/fuckoffnextauth`,
@@ -56,6 +66,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth(req => {
 						stableId = String((profile as any)?.sub || user?.id || '')
 					} else if (account.provider === 'steam') {
 						stableId = String((profile as any)?.steamid || user?.id || '')
+					} else if (account.provider === 'discord') {
+						stableId = String((profile as any)?.id || user?.id || '')
 					}
 
 					token.id = stableId.trim() || String(user?.id || token.sub || '')
