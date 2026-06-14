@@ -757,6 +757,7 @@
 }
 
 .profile_skeleton_card_wrap {
+	height: 460px;
 	display: block;
 	position: relative;
 	border-radius: 16px;

@@ -72,7 +72,6 @@ function SkeletonCard() {
 			<div className={styles.skeleton_card}>
 				<div className={styles.skeleton_card_header}>
 					<div className={styles.skeleton_title}></div>
-					<div className={styles.skeleton_author}></div>
 				</div>
 				<div className={styles.skeleton_rpc_preview}></div>
 				<div className={styles.skeleton_card_actions}>
