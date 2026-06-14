@@ -93,34 +93,28 @@ export function onConfigsChange(
 		})
 
 		const filtered = authorId
-			? allConfigs.filter(
-					cfg =>
-						cfg.authorId !== null &&
-						cfg.authorId !== undefined &&
-						cfg.authorId !== '' &&
-						String(cfg.authorId) === String(authorId),
-				)
+			? allConfigs.filter(cfg => String(cfg.authorId) === String(authorId))
 			: allConfigs
 
 		const authorIds = filtered
 			.map(c => c.authorId)
-			.filter(
-				(id): id is string => id !== null && id !== undefined && id !== '',
-			)
+			.filter((id): id is string => !!id)
 
 		const uniqueIds = [...new Set(authorIds)]
 		const avatarsMap: Record<string, string> = {}
 
-		for (const authorId of uniqueIds) {
-			try {
-				const userRef = ref(db, `users/${authorId}`)
-				const userSnap = await get(userRef)
-				if (userSnap.exists()) {
-					const userData = userSnap.val() as UserRecord
-					avatarsMap[authorId] = userData.avatar || userData.image || ''
-				}
-			} catch {}
-		}
+		await Promise.all(
+			uniqueIds.map(async id => {
+				try {
+					const userRef = ref(db, `users/${id}`)
+					const userSnap = await get(userRef)
+					if (userSnap.exists()) {
+						const userData = userSnap.val() as UserRecord
+						avatarsMap[id] = userData.avatar || userData.image || ''
+					}
+				} catch {}
+			}),
+		)
 
 		const configsWithAvatars = filtered.map(config => {
 			if (config.authorId && avatarsMap[config.authorId]) {
@@ -285,9 +279,40 @@ export async function getConfigs(): Promise<Config[]> {
 }
 
 export async function getConfigById(id: string): Promise<Config | null> {
-	const all = await getConfigs()
-	const found = all.find(c => c.id === id)
-	return found ?? null
+	const configRef = ref(db, `configs/${id}`)
+	const snapshot = await get(configRef)
+	if (!snapshot.exists()) return null
+
+	const data = snapshot.val()
+	let authorAvatar = data.authorAvatar || ''
+
+	if (!authorAvatar && data.authorId) {
+		try {
+			const user = await fetchAuthor(data.authorId)
+			if (user) {
+				authorAvatar = user.avatar || user.image || ''
+			}
+		} catch {}
+	}
+
+	return {
+		id,
+		title: data.title || 'Unnamed',
+		author: data.author || 'Unknown',
+		authorId: data.authorId ?? null,
+		authorAvatar: authorAvatar,
+		downloads:
+			typeof data.downloads === 'number'
+				? data.downloads
+				: parseInt(String(data.downloads ?? '0')) || 0,
+		description: data.description || '',
+		averageColor: data.averageColor || '#5b5b5b',
+		configData: data.configData || {
+			cycles: [{ details: 'Idling in the void', state: 'Just vibing' }],
+			imageCycles: [],
+			buttonPairs: [],
+		},
+	}
 }
 
 export async function fetchAuthor(
