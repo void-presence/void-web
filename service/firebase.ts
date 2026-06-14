@@ -66,11 +66,12 @@ function mapRawToConfig(
 	id: string,
 	data: any,
 	overriddenAvatar?: string,
+	overriddenAuthor?: string,
 ): Config {
 	return {
 		id,
 		title: data?.title || 'Unnamed',
-		author: data?.author || 'Unknown',
+		author: overriddenAuthor || data?.author || 'Unknown',
 		authorId: data?.authorId ?? null,
 		authorAvatar: overriddenAvatar || data?.authorAvatar || '',
 		downloads:
@@ -85,6 +86,13 @@ function mapRawToConfig(
 			buttonPairs: [],
 		},
 	}
+}
+
+async function fetchAuthor(authorId: string): Promise<UserRecord | null> {
+	const userRef = ref(db, `users/${authorId}`)
+	const snapshot = await get(userRef)
+	if (!snapshot.exists()) return null
+	return snapshot.val() as UserRecord
 }
 
 export function onConfigsChange(
@@ -110,32 +118,29 @@ export function onConfigsChange(
 			.filter((id): id is string => !!id)
 
 		const uniqueIds = [...new Set(authorIds)]
-		const avatarsMap: Record<string, string> = {}
+		const usersMap: Record<string, UserRecord> = {}
 
 		await Promise.all(
 			uniqueIds.map(async id => {
 				try {
-					const userRef = ref(db, `users/${id}`)
-					const userSnap = await get(userRef)
-					if (userSnap.exists()) {
-						const userData = userSnap.val() as UserRecord
-						avatarsMap[id] = userData.avatar || userData.image || ''
-					}
+					const user = await fetchAuthor(id)
+					if (user) usersMap[id] = user
 				} catch {}
 			}),
 		)
 
-		const configsWithAvatars = filtered.map(config => {
-			if (config.authorId && avatarsMap[config.authorId]) {
-				return {
-					...config,
-					authorAvatar: avatarsMap[config.authorId],
-				}
-			}
-			return config
+		const configsWithUsers = filtered.map(config => {
+			const user = config.authorId ? usersMap[config.authorId] : null
+			if (!user) return config
+			return mapRawToConfig(
+				config.id,
+				config,
+				user.avatar || user.image || '',
+				user.name || config.author,
+			)
 		})
 
-		callback(configsWithAvatars)
+		callback(configsWithUsers)
 	})
 
 	return unsubscribe
@@ -191,10 +196,10 @@ export interface Stats {
 export function onStatsChange(callback: (stats: Stats) => void) {
 	const statsRef = ref(db, 'stats')
 	const unsubscribe = onValue(statsRef, snapshot => {
-		const data = snapshot.val()
+		const data = snapshot.val() || {}
 		callback({
-			visitors: data.visitors,
-			downloads: data.downloads,
+			visitors: data.visitors || { count: 0, lastUpdated: Date.now() },
+			downloads: data.downloads || { count: 0, lastUpdated: Date.now() },
 		})
 	})
 	return unsubscribe
@@ -214,18 +219,22 @@ export function onConfigByIdChange(
 			return
 		}
 
-		let authorAvatar = data.authorAvatar || ''
+		let user: UserRecord | null = null
 
-		if (!authorAvatar && data.authorId) {
+		if (data.authorId) {
 			try {
-				const user = await fetchAuthor(data.authorId)
-				if (user) {
-					authorAvatar = user.avatar || user.image || ''
-				}
+				user = await fetchAuthor(data.authorId)
 			} catch {}
 		}
 
-		callback(mapRawToConfig(id, data, authorAvatar))
+		callback(
+			mapRawToConfig(
+				id,
+				data,
+				user?.avatar || user?.image || data.authorAvatar || '',
+				user?.name || data.author || 'Unknown',
+			),
+		)
 	})
 
 	return unsubscribe
@@ -244,25 +253,20 @@ export async function getConfigById(id: string): Promise<Config | null> {
 	const snapshot = await get(configRef)
 	if (!snapshot.exists()) return null
 	const data = snapshot.val()
-	let authorAvatar = data.authorAvatar || ''
-	if (!authorAvatar && data.authorId) {
+
+	let user: UserRecord | null = null
+	if (data.authorId) {
 		try {
-			const user = await fetchAuthor(data.authorId)
-			if (user) {
-				authorAvatar = user.avatar || user.image || ''
-			}
+			user = await fetchAuthor(data.authorId)
 		} catch {}
 	}
-	return mapRawToConfig(id, data, authorAvatar)
-}
 
-export async function fetchAuthor(
-	authorId: string,
-): Promise<UserRecord | null> {
-	const userRef = ref(db, `users/${authorId}`)
-	const snapshot = await get(userRef)
-	if (!snapshot.exists()) return null
-	return snapshot.val() as UserRecord
+	return mapRawToConfig(
+		id,
+		data,
+		user?.avatar || user?.image || data.authorAvatar || '',
+		user?.name || data.author || 'Unknown',
+	)
 }
 
 export async function createUserIfNotExists(
@@ -274,14 +278,19 @@ export async function createUserIfNotExists(
 	await runTransaction(userRef, current => {
 		if (current) {
 			const newAvatar = avatar || current.image || current.avatar
+			const newName = name || current.name
+			const next = { ...current } as UserRecord & Record<string, any>
+
 			if (newAvatar && current.avatar !== newAvatar) {
-				return {
-					...current,
-					avatar: newAvatar,
-					image: newAvatar,
-				}
+				next.avatar = newAvatar
+				next.image = newAvatar
 			}
-			return current
+
+			if (newName && current.name !== newName) {
+				next.name = newName
+			}
+
+			return next
 		}
 
 		return {
