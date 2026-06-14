@@ -1,8 +1,7 @@
 import Page from '@components/page'
 import PageHeader from '@components/page-header'
 import { Metadata } from 'next'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '../api/auth/[...nextauth]/route'
+import { auth } from '../api/auth/[...nextauth]/route'
 import { ProfileContainerClient } from './profile-container-client'
 import styles from './profile-details.module.scss'
 import { SaveUserOnMount } from './save-user-on-mount'
@@ -20,7 +19,7 @@ export const metadata: Metadata = {
 }
 
 export default async function ProfilePage() {
-	const session = await getServerSession(authOptions)
+	const session = await auth()
 
 	if (!session || !session.user) {
 		return (

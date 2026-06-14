@@ -1,89 +1,84 @@
-import NextAuth, { type NextAuthOptions } from 'next-auth'
-import GithubProvider from 'next-auth/providers/github'
-import GoogleProvider from 'next-auth/providers/google'
+import NextAuth from 'next-auth'
+import GitHub from 'next-auth/providers/github'
+import Google from 'next-auth/providers/google'
+import SteamProvider from 'steam-next-auth'
 import { admin } from '../../../../../lib/firebase-admin'
 
-declare module 'next-auth' {
-	interface Session {
-		accessToken?: string
-		firebaseToken?: string
-	}
+export const { handlers, auth, signIn, signOut } = NextAuth(req => {
+	const host = req?.headers.get('host') || 'voidpresence.site'
+	const protocol = host.includes('localhost') ? 'http://' : 'https://'
+	const steamReq = req ?? new Request(`${protocol}${host}`)
 
-	interface User {
-		id: string
-	}
-}
-
-declare module 'next-auth/jwt' {
-	interface JWT {
-		accessToken?: string
-		id?: string
-		firebaseToken?: string
-	}
-}
-
-export const authOptions: NextAuthOptions = {
-	providers: [
-		GithubProvider({
-			clientId: process.env.GITHUB_ID as string,
-			clientSecret: process.env.GITHUB_SECRET as string,
-			authorization: {
-				params: {
-					scope: 'openid email profile',
-					prompt: 'select_account',
+	return {
+		providers: [
+			GitHub({
+				clientId: process.env.GITHUB_ID!,
+				clientSecret: process.env.GITHUB_SECRET!,
+				authorization: {
+					params: {
+						scope: 'read:user user:email',
+						prompt: 'select_account',
+					},
 				},
-			},
-		}),
-		GoogleProvider({
-			clientId: process.env.GOOGLE_ID as string,
-			clientSecret: process.env.GOOGLE_SECRET as string,
-			authorization: {
-				params: {
-					scope: 'openid email profile',
-					prompt: 'select_account',
+			}),
+			Google({
+				clientId: process.env.GOOGLE_ID!,
+				clientSecret: process.env.GOOGLE_SECRET!,
+				authorization: {
+					params: {
+						scope: 'openid email profile',
+						prompt: 'select_account',
+					},
 				},
-			},
-		}),
-	],
-	callbacks: {
-		async jwt({ token, account, user }) {
-			if (account && user) {
-				token.accessToken = account.access_token
-				token.id = user.id ?? token.sub
-			}
-
-			if (token.id) {
-				try {
-					const firebaseToken = await admin
-						.auth()
-						.createCustomToken(String(token.id))
-					token.firebaseToken = firebaseToken
-				} catch (error) {
-					console.error(error)
+			}),
+			SteamProvider(steamReq, {
+				clientSecret: process.env.NEXTAUTH_STEAM_SECRET!,
+				callbackUrl: `${process.env.NEXTAUTH_URL}/api/auth/fuckoffnextauth`,
+				authorization: {
+					params: {
+						scope: 'read:user user:email',
+						prompt: 'select_account',
+					},
+				},
+			}),
+		],
+		session: {
+			strategy: 'jwt',
+		},
+		pages: {
+			signIn: '/signin',
+		},
+		callbacks: {
+			async jwt({ token, account, user }) {
+				if (account && user) {
+					token.accessToken = account.access_token
+					token.id = user.id ?? token.sub
 				}
-			}
 
-			return token
+				if (token.id) {
+					try {
+						token.firebaseToken = await admin
+							.auth()
+							.createCustomToken(String(token.id))
+					} catch (error) {
+						console.error(error)
+					}
+				}
+
+				return token
+			},
+			async session({ session, token }) {
+				session.accessToken = token.accessToken
+				session.firebaseToken = token.firebaseToken
+
+				if (session.user) {
+					session.user.id = token.id ?? token.sub ?? ''
+				}
+
+				return session
+			},
 		},
-		async session({ session, token }) {
-			session.accessToken = token.accessToken ?? undefined
-			session.firebaseToken = token.firebaseToken ?? undefined
+	}
+})
 
-			if (session.user) {
-				session.user.id = token.id ?? token.sub ?? ''
-			}
-
-			return session
-		},
-	},
-	pages: {
-		signIn: '/signin',
-	},
-	session: {
-		strategy: 'jwt',
-	},
-}
-
-const handler = NextAuth(authOptions)
-
-export { handler as GET, handler as POST }
+export const { GET, POST } = handlers
