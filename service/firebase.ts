@@ -48,6 +48,8 @@ export interface UserRecord {
 	createdAt?: number
 	avatar?: string
 	image?: string
+	provider?: string | null
+	lastSeen?: number
 }
 
 export interface Config {
@@ -102,10 +104,16 @@ export function onConfigsChange(
 ) {
 	const path = refPath || 'configs'
 	const configsRef = ref(db, path)
+	const usersCache: Record<string, UserRecord> = {}
 
 	const unsubscribe = onValue(configsRef, async snapshot => {
 		const data = snapshot.val()
-		const allConfigs: Config[] = Object.entries(data || {}).map(([id, raw]) =>
+		if (!data) {
+			callback([])
+			return
+		}
+
+		const allConfigs: Config[] = Object.entries(data).map(([id, raw]) =>
 			mapRawToConfig(id, raw),
 		)
 
@@ -113,24 +121,27 @@ export function onConfigsChange(
 			? allConfigs.filter(cfg => String(cfg.authorId) === String(authorId))
 			: allConfigs
 
-		const authorIds = filtered
-			.map(c => c.authorId)
-			.filter((id): id is string => !!id)
+		const missingAuthorIds = [
+			...new Set(
+				filtered
+					.map(c => c.authorId)
+					.filter((id): id is string => !!id && !usersCache[id]),
+			),
+		]
 
-		const uniqueIds = [...new Set(authorIds)]
-		const usersMap: Record<string, UserRecord> = {}
-
-		await Promise.all(
-			uniqueIds.map(async id => {
-				try {
-					const user = await fetchAuthor(id)
-					if (user) usersMap[id] = user
-				} catch {}
-			}),
-		)
+		if (missingAuthorIds.length > 0) {
+			await Promise.all(
+				missingAuthorIds.map(async id => {
+					try {
+						const user = await fetchAuthor(id)
+						if (user) usersCache[id] = user
+					} catch {}
+				}),
+			)
+		}
 
 		const configsWithUsers = filtered.map(config => {
-			const user = config.authorId ? usersMap[config.authorId] : null
+			const user = config.authorId ? usersCache[config.authorId] : null
 			if (!user) return config
 			return mapRawToConfig(
 				config.id,
@@ -147,44 +158,29 @@ export function onConfigsChange(
 }
 
 export async function incrementDownloads(configId: string): Promise<void> {
-	const configRef = ref(db, `configs/${configId}`)
-	await runTransaction(configRef, currentData => {
-		if (!currentData) return currentData
-		const raw = currentData.downloads
-		const current =
-			typeof raw === 'number' ? raw : parseInt(String(raw ?? '0')) || 0
-		return {
-			...currentData,
-			downloads: current + 1,
-		}
+	const downloadsRef = ref(db, `configs/${configId}/downloads`)
+	await runTransaction(downloadsRef, current => {
+		return (Number(current) || 0) + 1
 	})
 }
 
 export async function incrementVisitors(): Promise<void> {
 	try {
-		const statsRef = ref(db, 'stats/visitors')
-		await runTransaction(statsRef, stats => {
-			if (stats) {
-				stats.count = (stats.count || 0) + 1
-			} else {
-				stats = { count: 1, lastUpdated: Date.now() }
-			}
-			return stats
-		})
+		const countRef = ref(db, 'stats/visitors/count')
+		const lastUpdatedRef = ref(db, 'stats/visitors/lastUpdated')
+
+		await runTransaction(countRef, count => (Number(count) || 0) + 1)
+		await runTransaction(lastUpdatedRef, () => Date.now())
 	} catch {}
 }
 
 export async function incrementDownloadsStats(): Promise<void> {
 	try {
-		const statsRef = ref(db, 'stats/downloads')
-		await runTransaction(statsRef, stats => {
-			if (stats) {
-				stats.count = (stats.count || 0) + 1
-			} else {
-				stats = { count: 1, lastUpdated: Date.now() }
-			}
-			return stats
-		})
+		const countRef = ref(db, 'stats/downloads/count')
+		const lastUpdatedRef = ref(db, 'stats/downloads/lastUpdated')
+
+		await runTransaction(countRef, count => (Number(count) || 0) + 1)
+		await runTransaction(lastUpdatedRef, () => Date.now())
 	} catch {}
 }
 
