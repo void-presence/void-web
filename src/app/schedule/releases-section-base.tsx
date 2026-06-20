@@ -59,9 +59,7 @@ export function ReleasesSectionBase({
 								<div className={styles.release_legend_item}>
 									<span className={`${styles.dot} ${styles.dot_stable}`} />
 									<span className={styles.release_legend_label}>
-										{legendVariant === 'application'
-											? 'Stable (Long-tested, latest recommended)'
-											: 'Stable (Latest recommended)'}
+										Stable (Long-tested, latest recommended)
 									</span>
 								</div>
 								<div className={styles.release_legend_item}>
@@ -73,9 +71,7 @@ export function ReleasesSectionBase({
 								<div className={styles.release_legend_item}>
 									<span className={`${styles.dot} ${styles.dot_nightly}`} />
 									<span className={styles.release_legend_label}>
-										{legendVariant === 'application'
-											? 'Nightly (Fast builds, experimental)'
-											: 'Nightly (Frequent, experimental)'}
+										Nightly (Fast builds, experimental)
 									</span>
 								</div>
 								<div className={styles.release_legend_item}>
@@ -87,17 +83,13 @@ export function ReleasesSectionBase({
 								<div className={styles.release_legend_item}>
 									<span className={`${styles.dot} ${styles.dot_eol}`} />
 									<span className={styles.release_legend_label}>
-										{legendVariant === 'application'
-											? 'End of Life (Legacy, lightly tested)'
-											: 'End of Life (Legacy)'}
+										End of Life (Legacy, lightly tested)
 									</span>
 								</div>
 								<div className={styles.release_legend_item}>
 									<span className={`${styles.dot} ${styles.dot_alpha}`} />
 									<span className={styles.release_legend_label}>
-										{legendVariant === 'application'
-											? 'Alpha (Early testing, very unstable)'
-											: 'Alpha (Very unstable)'}
+										Alpha (Early testing, very unstable)
 									</span>
 								</div>
 								<div className={styles.release_legend_item}>
