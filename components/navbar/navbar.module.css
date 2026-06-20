@@ -5,7 +5,6 @@
 	z-index: 40;
 	display: flex;
 	justify-content: center;
-	background: rgba(0, 0, 0, 0.9);
 	backdrop-filter: blur(14px);
 }
 
