@@ -1,3 +1,5 @@
+import { githubHeaders } from './github-headers'
+
 export type PackageJson = {
 	name?: string
 	version?: string
@@ -51,6 +53,9 @@ const INTERESTING_DEPENDENCIES = [
 		label: 'Marked',
 		kind: 'tooling',
 	},
+	{ name: 'react', label: 'React', kind: 'runtime' },
+	{ name: 'react-dom', label: 'React DOM', kind: 'runtime' },
+	{ name: 'vite', label: 'Vite', kind: 'tooling' },
 ] satisfies {
 	name: string
 	label: string
@@ -100,5 +105,47 @@ export function extractPackageMeta(
 		version: pkg.version ?? null,
 		description: pkg.description ?? null,
 		dependencies: entries,
+	}
+}
+
+export async function getApplicationPackageJsonByTag(
+	tag: string,
+): Promise<PackageJson | null> {
+	const url = `https://raw.githubusercontent.com/Devollox/void-presence/${encodeURIComponent(
+		tag,
+	)}/package.json`
+
+	const res = await fetch(url, {
+		cache: 'force-cache',
+		next: { revalidate: 300 },
+		headers: githubHeaders(),
+	})
+
+	if (!res.ok) return null
+	try {
+		return (await res.json()) as PackageJson
+	} catch {
+		return null
+	}
+}
+
+export async function getInstallerPackageJsonByTag(
+	tag: string,
+): Promise<PackageJson | null> {
+	const url = `https://raw.githubusercontent.com/Devollox/void-installer/${encodeURIComponent(
+		tag,
+	)}/frontend/package.json`
+
+	const res = await fetch(url, {
+		cache: 'force-cache',
+		next: { revalidate: 300 },
+		headers: githubHeaders(),
+	})
+
+	if (!res.ok) return null
+	try {
+		return (await res.json()) as PackageJson
+	} catch {
+		return null
 	}
 }

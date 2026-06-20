@@ -1,7 +1,7 @@
 import { PanelLayout } from '@components/panel-layout'
 import layoutStyles from '@components/panel-layout/layout-panels.module.css'
-import skeletonStyles from '../../../styles/skeleton.module.css'
-import scheduleStyles from './schedule.module.css'
+import skeletonStyles from '../../../../styles/skeleton.module.css'
+import scheduleStyles from '../release-schedule.module.css'
 
 export default function ReleaseListSkeleton({
 	countSkeleton,

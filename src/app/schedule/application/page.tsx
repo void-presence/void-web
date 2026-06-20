@@ -1,28 +1,28 @@
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
-import Footer from '../../../components/footer'
-import Page from '../../../components/page'
-import PageHeader from '../../../components/page-header'
+import Footer from '../../../../components/footer'
+import Page from '../../../../components/page'
+import PageHeader from '../../../../components/page-header'
 import ReleaseListSkeleton from './release-list-skeleton'
 import { ReleasesSection } from './releases-section'
 
 export const metadata: Metadata = {
-	title: 'Release Schedule',
+	title: 'Release Application',
 	description:
-		'Release schedule and history for Void Presence with version timeline and GitHub release data.',
+		'Release Application and history for Void Presence with version timeline and GitHub release data.',
 	openGraph: {
-		title: 'Void Presence Release Schedule',
+		title: 'Void Presence Application Release',
 		description:
 			'Track Void Presence releases, prereleases, and changelog history in one place.',
-		url: '/schedule',
+		url: '/schedule/application',
 	},
 }
 
-export default function SchedulePage() {
+export default function ApplicationPage() {
 	return (
 		<Page>
 			<PageHeader
-				title='Void Presence Release Schedule'
+				title='Void Presence Application Release'
 				subtitle='Track current and past releases, prereleases, and published builds.'
 			/>
 			<Suspense

@@ -1,7 +1,7 @@
 import { PanelLayout } from '@components/panel-layout'
 import layoutStyles from '@components/panel-layout/layout-panels.module.css'
 import { getElectronMetadata } from '@lib/parse-version'
-import { getLatestRelease } from '@lib/releases-schedule'
+import { getLatestRelease } from '@lib/releases-application'
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import Footer from '../../../components/footer'

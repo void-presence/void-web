@@ -1,60 +1,59 @@
 import DownloadButtons from '@/app/download/download-buttons'
 import { PanelLayout } from '@components/panel-layout'
 import layoutStyles from '@components/panel-layout/layout-panels.module.css'
-import { githubHeaders } from '@lib/github-headers'
-import { extractPackageMeta, type PackageJson } from '@lib/package-meta'
+import { InfoBox } from '@components/status-info/info-box'
+import {
+	extractPackageMeta,
+	getApplicationPackageJsonByTag,
+	getInstallerPackageJsonByTag,
+} from '@lib/package-meta'
 import {
 	getElectronMetadata,
+	getWailsMetadata,
 	parseElectronVersionFromNotes,
 } from '@lib/parse-version'
 import { normalizeReleaseNotes } from '@lib/release-notes'
-import { getReleases, type ReleaseInfo } from '@lib/releases-schedule'
-import type { Metadata } from 'next'
-import { InfoBox } from '../../../../components/status-info/info-box'
-import ChangelogClient from '../../download/changelog-client'
-import styles from '../schedule.module.css'
+import {
+	getReleases,
+	type ReleaseInfo as AppReleaseInfo,
+} from '@lib/releases-application'
+import {
+	getInstallerReleases,
+	type ReleaseInfo as InstallerReleaseInfo,
+} from '@lib/releases-installer'
+import ChangelogClient from '../../../download/changelog-client'
+import styles from '../../release-schedule.module.css'
 
-export const metadata: Metadata = {
-	title: 'Release Details',
+type ReleaseType = 'application' | 'installer'
+
+type CommonReleaseInfo = AppReleaseInfo | InstallerReleaseInfo
+
+interface ReleaseDetailsContentProps {
+	type: ReleaseType
+	id: string
 }
 
-async function getPackageJsonByTag(tag: string): Promise<PackageJson | null> {
-	const url = `https://raw.githubusercontent.com/Devollox/void-presence/${encodeURIComponent(
-		tag,
-	)}/package.json`
+export async function ReleaseDetailsContent({
+	type,
+	id,
+}: ReleaseDetailsContentProps) {
+	const isApplication = type === 'application'
 
-	const res = await fetch(url, {
-		cache: 'force-cache',
-		next: { revalidate: 300 },
-		headers: githubHeaders(),
-	})
-
-	if (!res.ok) {
-		return null
-	}
-
-	try {
-		const json = (await res.json()) as PackageJson
-		return json
-	} catch {
-		return null
-	}
-}
-
-export async function ReleaseDetailsContent({ id }: { id: string }) {
 	const [{ releases, githubLatestRelease, error }, pkg] = await Promise.all([
-		getReleases(),
-		getPackageJsonByTag(id),
+		isApplication ? getReleases() : getInstallerReleases(),
+		isApplication
+			? getApplicationPackageJsonByTag(id)
+			: getInstallerPackageJsonByTag(id),
 	])
 
 	const stableRelease = githubLatestRelease ?? releases[0] ?? null
 
 	const matched =
-		releases.find(r => r.version === id) ??
-		releases.find(r => r.version === `v${id}`) ??
+		releases.find((r: CommonReleaseInfo) => r.version === id) ??
+		releases.find((r: CommonReleaseInfo) => r.version === `v${id}`) ??
 		null
 
-	const release: ReleaseInfo | null = matched ?? stableRelease
+	const release: CommonReleaseInfo | null = matched ?? stableRelease
 
 	const isCurrentStable =
 		!!stableRelease && !!release && stableRelease.version === release.version
@@ -62,23 +61,35 @@ export async function ReleaseDetailsContent({ id }: { id: string }) {
 	const effectiveType =
 		release && (isCurrentStable ? ('stable' as const) : release.type)
 
-	const pkgMeta = extractPackageMeta(pkg)
+	const pkgMeta = pkg ? extractPackageMeta(pkg) : null
+
 	const electronFromPkg =
-		pkg?.dependencies?.electron ?? pkg?.devDependencies?.electron
+		isApplication && pkg
+			? (pkg.dependencies?.electron ?? pkg.devDependencies?.electron)
+			: undefined
 
 	const notes = release?.notes ? normalizeReleaseNotes(release.notes) : ''
-	const electronVersion = parseElectronVersionFromNotes(notes)
+
+	const electronVersion =
+		isApplication && notes ? parseElectronVersionFromNotes(notes) : undefined
 
 	const electronMain =
-		release?.electronCurrent ??
-		electronVersion ??
-		(electronFromPkg ? String(electronFromPkg) : undefined)
+		isApplication && release
+			? ((release as AppReleaseInfo).electronCurrent ??
+				electronVersion ??
+				(electronFromPkg ? String(electronFromPkg) : undefined))
+			: undefined
 
-	const metadata = await getElectronMetadata(`${electronMain}`)
+	const electronMeta =
+		isApplication && electronMain
+			? await getElectronMetadata(`${electronMain}`)
+			: null
 
-	const chromiumMain = metadata?.chromium
-	const nodeJsMain = metadata?.node
-	const v8Main = metadata?.v8
+	const chromiumMain = electronMeta?.chromium
+	const nodeJsMain = electronMeta?.node
+	const v8Main = electronMeta?.v8
+
+	const wailsMeta = !isApplication ? await getWailsMetadata(id) : null
 
 	const left = (
 		<>
@@ -89,6 +100,7 @@ export async function ReleaseDetailsContent({ id }: { id: string }) {
 					{release.assets.length > 0 && (
 						<DownloadButtons assets={release.assets} />
 					)}
+
 					<div className={styles.release_meta}>
 						<div className={styles.release_row}>
 							<span className={styles.release_label}>Version</span>
@@ -100,25 +112,73 @@ export async function ReleaseDetailsContent({ id }: { id: string }) {
 								<span className={styles.release_value}>{release.date}</span>
 							</div>
 						)}
-						{electronMain && (
+
+						{!isApplication && (
+							<>
+								{wailsMeta?.wails && (
+									<div className={styles.release_row}>
+										<span className={styles.release_label}>Wails</span>
+										<span className={styles.release_value}>
+											v{wailsMeta.wails}
+										</span>
+									</div>
+								)}
+								{wailsMeta?.go && (
+									<div className={styles.release_row}>
+										<span className={styles.release_label}>Go</span>
+										<span className={styles.release_value}>
+											v{wailsMeta.go}
+										</span>
+									</div>
+								)}
+								<div className={styles.release_row}>
+									<span className={styles.release_label}>React</span>
+									<span className={styles.release_value}>
+										{(() => {
+											const raw = pkgMeta?.dependencies.find(
+												dep => dep.key === 'react',
+											)?.value
+											if (!raw) return 'unknown'
+											const cleaned = raw.replace(/^[~^]/, '')
+											return `v${cleaned}`
+										})()}
+									</span>
+								</div>
+								<div className={styles.release_row}>
+									<span className={styles.release_label}>Vite</span>
+									<span className={styles.release_value}>
+										{(() => {
+											const raw = pkgMeta?.dependencies.find(
+												dep => dep.key === 'vite',
+											)?.value
+											if (!raw) return 'unknown'
+											const cleaned = raw.replace(/^[~^]/, '')
+											return `v${cleaned}`
+										})()}
+									</span>
+								</div>
+							</>
+						)}
+
+						{isApplication && electronMain && (
 							<div className={styles.release_row}>
 								<span className={styles.release_label}>Electron</span>
 								<span className={styles.release_value}>v{electronMain}</span>
 							</div>
 						)}
-						{chromiumMain && (
+						{isApplication && chromiumMain && (
 							<div className={styles.release_row}>
 								<span className={styles.release_label}>Chromium</span>
 								<span className={styles.release_value}>v{chromiumMain}</span>
 							</div>
 						)}
-						{nodeJsMain && (
+						{isApplication && nodeJsMain && (
 							<div className={styles.release_row}>
 								<span className={styles.release_label}>Node.js</span>
 								<span className={styles.release_value}>v{nodeJsMain}</span>
 							</div>
 						)}
-						{v8Main && (
+						{isApplication && v8Main && (
 							<div className={styles.release_row}>
 								<span className={styles.release_label}>V8</span>
 								<span className={styles.release_value}>v{v8Main}</span>
@@ -128,9 +188,15 @@ export async function ReleaseDetailsContent({ id }: { id: string }) {
 
 					<InfoBox
 						variant='secondary'
-						title='Want the latest version?'
+						title={
+							isApplication
+								? 'Want the latest application version?'
+								: 'Want the latest installer?'
+						}
 						lines={[
-							'If you just need the latest stable build, you can always download it from the main download page.',
+							isApplication
+								? 'If you just need the latest stable application build, you can always download it from the main download page.'
+								: 'If you just need the latest recommended installer, you can download it from the main download page.',
 						]}
 						linkHref='/download'
 						linkLabel='Go to download page'
@@ -171,7 +237,7 @@ export async function ReleaseDetailsContent({ id }: { id: string }) {
 			<div style={{ marginBottom: '20px' }}>
 				<InfoBox
 					variant='secondary'
-					linkHref='/schedule'
+					linkHref={`/schedule/${type}`}
 					linkLabel='Back to Schedule'
 				/>
 			</div>
@@ -180,7 +246,7 @@ export async function ReleaseDetailsContent({ id }: { id: string }) {
 					<div className={layoutStyles.preview_header}>
 						<h3 className={styles.preview_title}>Release details</h3>
 						<div className={layoutStyles.preview_badge}>
-							<span className={layoutStyles.preview_badge_text}>
+							<span className={styles.preview_badge_text}>
 								{release && release.version}
 							</span>
 						</div>
@@ -239,7 +305,7 @@ export async function ReleaseDetailsContent({ id }: { id: string }) {
 									</div>
 
 									<div className={styles.release_card_meta}>
-										{(electronMain || pkgMeta) && (
+										{isApplication && (electronMain || pkgMeta) && (
 											<div className={styles.electron_row}>
 												<div className={styles.dot_wrap}>
 													<div

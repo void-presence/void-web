@@ -183,20 +183,19 @@ export function parseBuildTagFromNotes(notes: string): string | undefined {
 	const lines = notes.split(/\r?\n/)
 
 	for (const rawLine of lines) {
-		const line = rawLine.trim()
-		const preNormalized = line
+		const line = rawLine
+			.trim()
 			.replace(/^[-*+]\s*/, '')
 			.replace(/\*\*/g, '')
 			.replace(/\*/g, '')
 			.replace(/__/g, '')
 			.trim()
 
-		if (!/tag:/i.test(preNormalized)) {
+		if (!/tag:/i.test(line)) {
 			continue
 		}
 
-		const normalized = preNormalized
-		const match = normalized.match(/tag:\s*([a-z0-9\-_.]+)/i)
+		const match = line.match(/tag:\s*([a-z0-9\-_.]+)/i)
 
 		if (match?.[1]) {
 			return match[1].toLowerCase()
@@ -215,4 +214,53 @@ export function parseBuildTagFromNotes(notes: string): string | undefined {
 	}
 
 	return undefined
+}
+
+export interface WailsMetadata {
+	go: string
+	wails: string
+}
+
+export async function getWailsMetadata(
+	tag: string,
+): Promise<WailsMetadata | null> {
+	const url = `https://raw.githubusercontent.com/Devollox/void-installer/${encodeURIComponent(
+		tag,
+	)}/go.mod`
+
+	const res = await fetch(url, { cache: 'force-cache' })
+	if (!res.ok) return null
+
+	const content = await res.text()
+	const lines = content.split(/\r?\n/)
+
+	let goVersion: string | null = null
+	let wailsVersion: string | null = null
+
+	for (const line of lines) {
+		const trimmed = line.trim()
+
+		if (trimmed.startsWith('go ')) {
+			const parts = trimmed.split(/\s+/)
+			if (parts[1]) {
+				goVersion = parts[1]
+			}
+		}
+
+		if (trimmed.startsWith('require github.com/wailsapp/wails/v2')) {
+			const match = trimmed.match(/v([0-9]+(?:\.[0-9]+){1,2})/)
+			if (match?.[1]) {
+				wailsVersion = match[1]
+			}
+		}
+
+		if (goVersion && wailsVersion) break
+	}
+
+	if (!goVersion && !wailsVersion) return null
+
+	return {
+		go: goVersion ?? '',
+		wails: wailsVersion ?? '',
+	}
 }

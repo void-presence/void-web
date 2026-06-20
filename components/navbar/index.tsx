@@ -32,12 +32,29 @@ export default function Navbar() {
 					<Link className={styles.nav_link} href='/configs'>
 						Configs
 					</Link>
-					<Link
-						className={`${styles.nav_link} ${styles.nav_link_schedule}`}
-						href='/schedule'
-					>
-						Schedule
-					</Link>
+
+					<div className={styles.nav_schedule_group}>
+						<div
+							className={`${styles.nav_button} ${styles.nav_link} ${styles.nav_link_schedule}`}
+						>
+							Schedule
+						</div>
+						<div className={styles.nav_schedule_dropdown}>
+							<Link
+								className={styles.nav_schedule_item}
+								href='/schedule/application'
+							>
+								Application
+							</Link>
+							<Link
+								className={styles.nav_schedule_item}
+								href='/schedule/installer'
+							>
+								Installer
+							</Link>
+						</div>
+					</div>
+
 					<Link
 						className={`${styles.nav_link} ${styles.nav_link_github}`}
 						target='_blank'
@@ -59,6 +76,7 @@ export default function Navbar() {
 							></path>
 						</svg>
 					</Link>
+
 					{!isAuth && (
 						<Link className={styles.nav_cta_wrap} href='/signin'>
 							<button
