@@ -17,7 +17,7 @@ export default function Button() {
 			try {
 				setLoading(true)
 				const response = await fetch(
-					'https://api.github.com/repos/void-presence/void-installer/releases/latest',
+					'https://api.github.com/repos/Devollox/void-installer/releases/latest',
 				)
 				const release = await response.json()
 

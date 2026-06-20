@@ -83,7 +83,7 @@ export async function getInstallerReleases(): Promise<{
 	try {
 		const [listRes, latestRes] = await Promise.all([
 			fetch(
-				'https://api.github.com/repos/void-presence/void-installer/releases?per_page=100',
+				'https://api.github.com/repos/Devollox/void-installer/releases?per_page=100',
 				{
 					cache: 'force-cache',
 					next: { revalidate: 300 },
@@ -91,7 +91,7 @@ export async function getInstallerReleases(): Promise<{
 				},
 			),
 			fetch(
-				'https://api.github.com/repos/void-presence/void-installer/releases/latest',
+				'https://api.github.com/repos/Devollox/void-installer/releases/latest',
 				{
 					cache: 'force-cache',
 					next: { revalidate: 300 },
@@ -255,7 +255,7 @@ export interface ReleaseDownloadsResult {
 
 export async function getInstallerReleaseDownloads(): Promise<ReleaseDownloadsResult> {
 	const res = await fetch(
-		'https://api.github.com/repos/void-presence/void-installer/releases?per_page=100',
+		'https://api.github.com/repos/Devollox/void-installer/releases?per_page=100',
 		{
 			cache: 'force-cache',
 			next: { revalidate: 300 },

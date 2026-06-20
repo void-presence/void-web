@@ -91,7 +91,7 @@ export async function getReleases(): Promise<{
 	try {
 		const [listRes, latestRes] = await Promise.all([
 			fetch(
-				'https://api.github.com/repos/void-presence/void-presence/releases?per_page=100',
+				'https://api.github.com/repos/Devollox/void-presence/releases?per_page=100',
 				{
 					cache: 'force-cache',
 					next: { revalidate: 300 },
@@ -99,7 +99,7 @@ export async function getReleases(): Promise<{
 				},
 			),
 			fetch(
-				'https://api.github.com/repos/void-presence/void-presence/releases/latest',
+				'https://api.github.com/repos/Devollox/void-presence/releases/latest',
 				{
 					cache: 'force-cache',
 					next: { revalidate: 300 },
@@ -314,7 +314,7 @@ export interface ReleaseDownloadsResult {
 
 export async function getReleaseDownloads(): Promise<ReleaseDownloadsResult> {
 	const res = await fetch(
-		'https://api.github.com/repos/void-presence/void-presence/releases?per_page=100',
+		'https://api.github.com/repos/Devollox/void-presence/releases?per_page=100',
 		{
 			cache: 'force-cache',
 			next: { revalidate: 300 },
@@ -409,7 +409,7 @@ export async function getLatestRelease(): Promise<{
 }> {
 	try {
 		const res = await fetch(
-			'https://api.github.com/repos/void-presence/void-presence/releases/latest',
+			'https://api.github.com/repos/Devollox/void-presence/releases/latest',
 			{
 				cache: 'force-cache',
 				next: { revalidate: 300 },
