@@ -27,20 +27,35 @@ export default function ReleaseListSkeleton({
 				</div>
 			</div>
 
-			<div className={skeletonStyles.skeleton_meta}>
-				<div className={skeletonStyles.skeleton_row}>
-					<div className={skeletonStyles.skeleton_label} />
-					<div className={skeletonStyles.skeleton_value_short} />
+			{!analytics && (
+				<div className={skeletonStyles.skeleton_meta}>
+					<div className={skeletonStyles.skeleton_row}>
+						<div className={skeletonStyles.skeleton_label} />
+						<div className={skeletonStyles.skeleton_value_short} />
+					</div>
+					<div className={skeletonStyles.skeleton_row}>
+						<div className={skeletonStyles.skeleton_label} />
+						<div className={skeletonStyles.skeleton_value_short} />
+					</div>
+					<div className={skeletonStyles.skeleton_row}>
+						<div className={skeletonStyles.skeleton_label} />
+						<div className={skeletonStyles.skeleton_value_short} />
+					</div>
 				</div>
-				<div className={skeletonStyles.skeleton_row}>
-					<div className={skeletonStyles.skeleton_label} />
-					<div className={skeletonStyles.skeleton_value_short} />
+			)}
+
+			{analytics && (
+				<div
+					className={`${skeletonStyles.skeleton_release_meta} ${skeletonStyles.skeleton_release_meta_info}`}
+				>
+					<div className={skeletonStyles.skeleton_row}>
+						<div className={skeletonStyles.skeleton_label} />
+					</div>
+					<div className={skeletonStyles.skeleton_row}>
+						<div className={skeletonStyles.skeleton_label} />
+					</div>
 				</div>
-				<div className={skeletonStyles.skeleton_row}>
-					<div className={skeletonStyles.skeleton_label} />
-					<div className={skeletonStyles.skeleton_value_short} />
-				</div>
-			</div>
+			)}
 
 			<div
 				className={`${skeletonStyles.skeleton_release_meta} ${skeletonStyles.skeleton_release_meta_info}`}

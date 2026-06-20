@@ -19,10 +19,10 @@
 }
 
 .skeleton_meta {
+	height: 188px;
 	display: flex;
 	flex-direction: column;
 	gap: 6px;
-	height: 176px;
 	padding: 60px 14px 14px 14px;
 	background: hsla(0, 0%, 10%, 0.9);
 	border-radius: 16px;
@@ -30,13 +30,14 @@
 }
 
 .skeleton_release_meta {
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-	padding: 24px 14px 14px 14px;
-	background: hsla(0, 0%, 10%, 0.9);
+	background: #1a1a1ae6;
+	border: 1px solid #ffffff0a;
 	border-radius: 16px;
-	border: 1px solid hsla(255, 255%, 255%, 0.04);
+	flex-direction: column;
+	gap: 12px;
+	height: 188px;
+	padding: 28px 14px 14px;
+	display: flex;
 }
 
 .skeleton_release_meta_release {
