@@ -1,6 +1,7 @@
 import { githubHeaders } from '@lib/github-headers'
 import { normalizeReleaseNotes } from '@lib/release-notes'
 import { classifyRelease } from '@lib/release-tags'
+import { getWailsMetadata } from './parse-version'
 
 export interface ReleaseAsset {
 	name: string
@@ -33,6 +34,8 @@ export interface ReleaseInfo {
 	url: string
 	type: ReleaseType
 	buildTag?: string
+	wailsVersion?: string
+	goVersion?: string
 }
 
 function formatDate(input: string) {
@@ -111,49 +114,53 @@ export async function getInstallerReleases(): Promise<{
 		const data = await listRes.json()
 		const rawReleases = Array.isArray(data) ? data : []
 
-		let releases: ReleaseInfo[] = rawReleases
-			.filter((item: any) => item && !item.draft)
-			.map((item: any) => {
-				const rawAssets = Array.isArray(item.assets) ? item.assets : []
+		let releases: ReleaseInfo[] = await Promise.all(
+			rawReleases
+				.filter((item: any) => item && !item.draft)
+				.map(async (item: any) => {
+					const rawAssets = Array.isArray(item.assets) ? item.assets : []
 
-				const assets: ReleaseAsset[] = rawAssets
-					.map((asset: any) => ({
-						name: asset.name,
-						size: asset.size / (1024 * 1024),
-						downloadUrl: asset.browser_download_url,
-					}))
-					.sort((a: ReleaseAsset, b: ReleaseAsset) => {
-						const aIsExe = a.name.toLowerCase().endsWith('.exe')
-						const bIsExe = b.name.toLowerCase().endsWith('.exe')
+					const assets: ReleaseAsset[] = rawAssets
+						.map((asset: any) => ({
+							name: asset.name,
+							size: asset.size / (1024 * 1024),
+							downloadUrl: asset.browser_download_url,
+						}))
+						.sort((a: ReleaseAsset, b: ReleaseAsset) => {
+							const aIsExe = a.name.toLowerCase().endsWith('.exe')
+							const bIsExe = b.name.toLowerCase().endsWith('.exe')
 
-						if (aIsExe && !bIsExe) return -1
-						if (bIsExe && !aIsExe) return 1
+							if (aIsExe && !bIsExe) return -1
+							if (bIsExe && !aIsExe) return 1
 
-						return 0
-					})
+							return 0
+						})
 
-				const rawBody = item.body || ''
-				const notes = normalizeReleaseNotes(rawBody)
-				const classification = classifyRelease(item, rawBody)
+					const rawBody = item.body || ''
+					const notes = normalizeReleaseNotes(rawBody)
+					const classification = classifyRelease(item, rawBody)
 
-				return {
-					version: item.tag_name || 'unknown',
-					commit: item.target_commitish || null,
-					date: item.published_at ? formatDate(item.published_at) : 'Unknown',
-					publishedAt: item.published_at ?? '',
-					notes,
-					assets,
-					prerelease: !!item.prerelease,
-					draft: !!item.draft,
-					url: item.html_url || '',
-					type: classification.type,
-					buildTag: classification.buildTag,
-				} as ReleaseInfo
-			})
+					const tag = item.tag_name || 'unknown'
+					const wailsMeta =
+						tag && tag !== 'unknown' ? await getWailsMetadata(tag) : null
 
-		releases = releases.sort((a, b) => {
-			return getSortDate(b).getTime() - getSortDate(a).getTime()
-		})
+					return {
+						version: tag,
+						commit: item.target_commitish || null,
+						date: item.published_at ? formatDate(item.published_at) : 'Unknown',
+						publishedAt: item.published_at ?? '',
+						notes,
+						assets,
+						prerelease: !!item.prerelease,
+						draft: !!item.draft,
+						url: item.html_url || '',
+						type: classification.type,
+						buildTag: classification.buildTag,
+						wailsVersion: wailsMeta?.wails,
+						goVersion: wailsMeta?.go,
+					} as ReleaseInfo
+				}),
+		)
 
 		releases = applyBuildTagPriority(releases)
 

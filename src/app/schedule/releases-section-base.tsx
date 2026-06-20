@@ -21,6 +21,8 @@ export interface CommonRelease {
 	date: string
 	notes: string
 	assets: CommonAsset[]
+	electronCurrent?: string | null
+	wailsVersion?: string
 	type: CommonReleaseType
 	buildTag?: string
 }
@@ -177,6 +179,45 @@ export function ReleasesSectionBase({
 												</div>
 
 												<div className={styles.release_card_meta}>
+													{(release.electronCurrent ||
+														release.wailsVersion) && (
+														<div className={styles.electron_row}>
+															<div className={styles.dot_wrap}>
+																<div
+																	className={`
+																		${styles.dot}
+																		${
+																			release.buildTag === 'alpha'
+																				? styles.dot_alpha
+																				: release.buildTag === 'beta'
+																					? styles.dot_beta
+																					: release.buildTag === 'broken'
+																						? styles.dot_broken
+																						: effectiveType === 'stable'
+																							? styles.dot_stable
+																							: effectiveType === 'nightly'
+																								? styles.dot_nightly
+																								: effectiveType ===
+																									  'pre-release'
+																									? styles.dot_prerelease
+																									: styles.dot_eol
+																		}
+																	`}
+																/>
+															</div>
+															<span className={styles.electron_versions}>
+																{release.electronCurrent && (
+																	<>Electron v{release.electronCurrent}</>
+																)}
+																{release.electronCurrent &&
+																	release.wailsVersion &&
+																	' · '}
+																{release.wailsVersion && (
+																	<>Wails v{release.wailsVersion}</>
+																)}
+															</span>
+														</div>
+													)}
 													<span className={styles.release_card_meta_item}>
 														{release.assets.length} assets
 													</span>

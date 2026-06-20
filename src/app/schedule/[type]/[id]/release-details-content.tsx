@@ -9,7 +9,6 @@ import {
 } from '@lib/package-meta'
 import {
 	getElectronMetadata,
-	getWailsMetadata,
 	parseElectronVersionFromNotes,
 } from '@lib/parse-version'
 import { normalizeReleaseNotes } from '@lib/release-notes'
@@ -89,7 +88,10 @@ export async function ReleaseDetailsContent({
 	const nodeJsMain = electronMeta?.node
 	const v8Main = electronMeta?.v8
 
-	const wailsMeta = !isApplication ? await getWailsMetadata(id) : null
+	const installerWails =
+		!isApplication && (release as InstallerReleaseInfo | null)?.wailsVersion
+	const installerGo =
+		!isApplication && (release as InstallerReleaseInfo | null)?.goVersion
 
 	const left = (
 		<>
@@ -115,20 +117,18 @@ export async function ReleaseDetailsContent({
 
 						{!isApplication && (
 							<>
-								{wailsMeta?.wails && (
+								{installerWails && (
 									<div className={styles.release_row}>
 										<span className={styles.release_label}>Wails</span>
 										<span className={styles.release_value}>
-											v{wailsMeta.wails}
+											v{installerWails}
 										</span>
 									</div>
 								)}
-								{wailsMeta?.go && (
+								{installerGo && (
 									<div className={styles.release_row}>
 										<span className={styles.release_label}>Go</span>
-										<span className={styles.release_value}>
-											v{wailsMeta.go}
-										</span>
+										<span className={styles.release_value}>v{installerGo}</span>
 									</div>
 								)}
 								<div className={styles.release_row}>
@@ -340,6 +340,38 @@ export async function ReleaseDetailsContent({
 												</span>
 											</div>
 										)}
+
+										{!isApplication &&
+											((installerWails as string | undefined) ||
+												(installerGo as string | undefined)) && (
+												<div className={styles.electron_row}>
+													<div className={styles.dot_wrap}>
+														<div
+															className={`
+                                ${styles.dot}
+                                ${
+																	release.buildTag === 'alpha'
+																		? styles.dot_alpha
+																		: release.buildTag === 'beta'
+																			? styles.dot_beta
+																			: release.buildTag === 'broken'
+																				? styles.dot_broken
+																				: effectiveType === 'stable'
+																					? styles.dot_stable
+																					: effectiveType === 'nightly'
+																						? styles.dot_nightly
+																						: effectiveType === 'pre-release'
+																							? styles.dot_prerelease
+																							: styles.dot_eol
+																}
+                              `}
+														/>
+													</div>
+													<span className={styles.electron_versions}>
+														{installerWails && <>Wails v{installerWails}</>}
+													</span>
+												</div>
+											)}
 
 										<span className={styles.release_card_meta_item}>
 											{release.assets.length} assets
