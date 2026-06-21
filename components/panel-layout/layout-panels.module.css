@@ -88,6 +88,12 @@
 	padding: 3px 12px;
 	display: flex;
 	border: 1px solid hsla(0, 0%, 100%, 0.08);
+
+	> span {
+		color: #e4e4e7;
+		font-size: 12px;
+		font-weight: 600;
+	}
 }
 
 .preview_badge_text {
