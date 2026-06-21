@@ -169,6 +169,20 @@ export function ProfileConfigsClient({ configs, userId }: Props) {
 
 	const showSkeleton = loading
 
+	const handleOpenInApp = async (config: Config) => {
+		window.location.href = `voidpresence://import-config?title=${encodeURIComponent(
+			config.title,
+		)}&data=${encodeURIComponent(JSON.stringify(config.configData))}`
+
+		try {
+			await fetch(`/api/configs/${config.id}/track-open`, {
+				method: 'POST',
+			})
+		} catch (err) {
+			console.error('Failed to track open in app', err)
+		}
+	}
+
 	return (
 		<section className={styles.profile_section}>
 			<div className={styles.profile_configs_layout}>
@@ -289,14 +303,10 @@ export function ProfileConfigsClient({ configs, userId }: Props) {
 										<div className={styles.profile_card_actions}>
 											<div className={styles.profile_card_buttons}>
 												<a
-													className={styles.profile_btn_primary}
-													href={`/api/configs/${config.id}/download`}
+													className={styles.btn_primary}
+													onClick={() => handleOpenInApp(config)}
 												>
-													Download
-													<span className={styles.profile_download_size}>
-														{' '}
-														JSON
-													</span>
+													Open in app
 												</a>
 												<a
 													className={styles.profile_btn_secondary}
