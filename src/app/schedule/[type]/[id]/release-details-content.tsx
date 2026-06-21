@@ -205,7 +205,7 @@ export async function ReleaseDetailsContent({ type, id }: ReleaseDetailsContentP
 
 	const right = (
 		<section className={styles.page_section}>
-			<div style={{ marginBottom: '20px' }}>
+			<div className={styles.wrapper_info_section} style={{ marginBottom: '20px' }}>
 				<InfoBox variant='secondary' linkHref={`/schedule/${type}`} linkLabel='Back to Schedule' />
 			</div>
 			<div className={layoutStyles.preview_card_wrap}>
