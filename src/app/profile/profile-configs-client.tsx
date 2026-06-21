@@ -303,7 +303,7 @@ export function ProfileConfigsClient({ configs, userId }: Props) {
 										<div className={styles.profile_card_actions}>
 											<div className={styles.profile_card_buttons}>
 												<a
-													className={styles.btn_primary}
+													className={styles.profile_btn_primary}
 													onClick={() => handleOpenInApp(config)}
 												>
 													Open in app
