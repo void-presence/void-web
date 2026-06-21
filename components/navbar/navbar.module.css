@@ -1,11 +1,12 @@
 .navbar_root {
+	background: rgb(0 0 0 / 55%);
 	position: fixed;
 	top: 0;
 	inset-inline: 0;
 	z-index: 40;
 	display: flex;
 	justify-content: center;
-	backdrop-filter: blur(14px);
+	backdrop-filter: blur(48px);
 }
 
 .navbar_external_arrow {
