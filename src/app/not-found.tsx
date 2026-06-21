@@ -15,13 +15,13 @@ export const metadata: Metadata = {
 	},
 }
 
-const left = (
-	<a href='/download' className={downloadStyles.download_btn_primary}>
-		<span className={downloadStyles.asset_action_text}>Go to download page</span>
+export const leftNotFound = ({ text, url }: { text: string; url: string }) => (
+	<a href={`${url}`} className={downloadStyles.download_btn_primary}>
+		<span className={downloadStyles.asset_action_text}>{text}</span>
 	</a>
 )
 
-const right = (
+export const rightNotFound = (
 	<section
 		style={{
 			padding: 0,
@@ -102,7 +102,11 @@ export default function NotFound() {
 				subtitle='The page you requested does not exist or is no longer available.'
 			/>
 
-			<PanelLayout left={left} right={right} className={styles.not_found_panel} />
+			<PanelLayout
+				left={leftNotFound({ text: 'Go to download page', url: '/download' })}
+				right={rightNotFound}
+				className={styles.not_found_panel}
+			/>
 			<Footer />
 		</Page>
 	)
