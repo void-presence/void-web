@@ -501,9 +501,3 @@
 .release_legend_label {
 	white-space: nowrap;
 }
-
-.wrapper_info_section {
-	> div {
-		height: auto !important;
-	}
-}

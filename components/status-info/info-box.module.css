@@ -1,7 +1,6 @@
 .info_box,
 .info_box_secondary,
 .info_box_muted {
-	height: 188px;
 	width: 100%;
 	box-sizing: border-box;
 	display: flex;
