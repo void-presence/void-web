@@ -107,28 +107,32 @@ export async function ReleaseDetailsContent({ type, id }: ReleaseDetailsContentP
 										<span className={styles.release_value}>v{installerGo}</span>
 									</div>
 								)}
-								<div className={styles.release_row}>
-									<span className={styles.release_label}>React</span>
-									<span className={styles.release_value}>
-										{(() => {
-											const raw = pkgMeta?.dependencies.find(dep => dep.key === 'react')?.value
-											if (!raw) return 'unknown'
-											const cleaned = raw.replace(/^[~^]/, '')
-											return `v${cleaned}`
-										})()}
-									</span>
-								</div>
-								<div className={styles.release_row}>
-									<span className={styles.release_label}>Vite</span>
-									<span className={styles.release_value}>
-										{(() => {
-											const raw = pkgMeta?.dependencies.find(dep => dep.key === 'vite')?.value
-											if (!raw) return 'unknown'
-											const cleaned = raw.replace(/^[~^]/, '')
-											return `v${cleaned}`
-										})()}
-									</span>
-								</div>
+								{pkgMeta && (
+									<div className={styles.release_row}>
+										<span className={styles.release_label}>React</span>
+										<span className={styles.release_value}>
+											{(() => {
+												const raw = pkgMeta.dependencies.find(dep => dep.key === 'react')?.value
+												if (!raw) return 'unknown'
+												const cleaned = raw.replace(/^[~^]/, '')
+												return `v${cleaned}`
+											})()}
+										</span>
+									</div>
+								)}
+								{pkgMeta && (
+									<div className={styles.release_row}>
+										<span className={styles.release_label}>Vite</span>
+										<span className={styles.release_value}>
+											{(() => {
+												const raw = pkgMeta.dependencies.find(dep => dep.key === 'vite')?.value
+												if (!raw) return 'unknown'
+												const cleaned = raw.replace(/^[~^]/, '')
+												return `v${cleaned}`
+											})()}
+										</span>
+									</div>
+								)}
 							</>
 						)}
 
