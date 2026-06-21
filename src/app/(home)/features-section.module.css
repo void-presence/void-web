@@ -4,11 +4,7 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	background-image: radial-gradient(
-		circle at top center,
-		var(--bg3),
-		var(--bg2)
-	);
+	background-image: radial-gradient(circle at top center, var(--bg3), var(--bg2));
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: 50%;
@@ -134,8 +130,9 @@
 
 .log_time {
 	color: hsla(0, 0%, 100%, 0.55);
-	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-		'Liberation Mono', 'Courier New', monospace;
+	font-family:
+		ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+		monospace;
 	font-size: 10px;
 }
 
@@ -273,8 +270,9 @@
 }
 
 .summary_code {
-	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-		'Liberation Mono', 'Courier New', monospace;
+	font-family:
+		ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+		monospace;
 	font-size: 10px;
 	background: hsla(0, 0%, 100%, 0.06);
 	padding: 1px 4px;

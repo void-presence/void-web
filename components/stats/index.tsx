@@ -2,11 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import CountUp from '../../lib/count-up'
-import {
-	incrementVisitors,
-	onStatsChange,
-	type Stats,
-} from '../../service/firebase'
+import { incrementVisitors, onStatsChange, type Stats } from '../../service/firebase'
 import styles from './stats.module.css'
 
 export default function Stats() {
@@ -31,20 +27,12 @@ export default function Stats() {
 	return (
 		<div className={styles.downloads_container}>
 			<strong>
-				{loaded ? (
-					<CountUp to={stats.downloads.count} duration={2.5} />
-				) : (
-					<span>0</span>
-				)}
+				{loaded ? <CountUp to={stats.downloads.count} duration={2.5} /> : <span>0</span>}
 			</strong>
 			<span> Downloads</span>
 
 			<strong>
-				{loaded ? (
-					<CountUp to={stats.visitors.count} duration={2.5} />
-				) : (
-					<span>0</span>
-				)}
+				{loaded ? <CountUp to={stats.visitors.count} duration={2.5} /> : <span>0</span>}
 			</strong>
 			<span> Visitors</span>
 		</div>

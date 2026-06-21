@@ -21,12 +21,7 @@ export interface ReleaseDownloadsItem {
 	totalDownloads: number
 }
 
-export type ReleaseType =
-	| 'stable'
-	| 'pre-release'
-	| 'nightly'
-	| 'end of life'
-	| 'broken'
+export type ReleaseType = 'stable' | 'pre-release' | 'nightly' | 'end of life' | 'broken'
 
 export interface ReleaseInfo {
 	version: string
@@ -90,22 +85,16 @@ export async function getReleases(): Promise<{
 }> {
 	try {
 		const [listRes, latestRes] = await Promise.all([
-			fetch(
-				'https://api.github.com/repos/Devollox/void-presence/releases?per_page=100',
-				{
-					cache: 'force-cache',
-					next: { revalidate: 300 },
-					headers: githubHeaders(),
-				},
-			),
-			fetch(
-				'https://api.github.com/repos/Devollox/void-presence/releases/latest',
-				{
-					cache: 'force-cache',
-					next: { revalidate: 300 },
-					headers: githubHeaders(),
-				},
-			),
+			fetch('https://api.github.com/repos/Devollox/void-presence/releases?per_page=100', {
+				cache: 'force-cache',
+				next: { revalidate: 300 },
+				headers: githubHeaders(),
+			}),
+			fetch('https://api.github.com/repos/Devollox/void-presence/releases/latest', {
+				cache: 'force-cache',
+				next: { revalidate: 300 },
+				headers: githubHeaders(),
+			}),
 		])
 
 		if (!listRes.ok) {
@@ -177,8 +166,7 @@ export async function getReleases(): Promise<{
 		releases = applyBuildTagPriority(releases)
 
 		const normalSorted = [...releases].filter(
-			r =>
-				r.type !== 'nightly' && r.type !== 'pre-release' && r.type !== 'broken',
+			r => r.type !== 'nightly' && r.type !== 'pre-release' && r.type !== 'broken'
 		)
 
 		normalSorted.sort((a, b) => {
@@ -186,17 +174,11 @@ export async function getReleases(): Promise<{
 		})
 
 		const stableTagVersions = new Set(
-			releases
-				.filter(r => r.buildTag?.toLowerCase() === 'stable')
-				.map(r => r.version),
+			releases.filter(r => r.buildTag?.toLowerCase() === 'stable').map(r => r.version)
 		)
 
 		releases = releases.map(r => {
-			if (
-				r.type === 'nightly' ||
-				r.type === 'pre-release' ||
-				r.type === 'broken'
-			) {
+			if (r.type === 'nightly' || r.type === 'pre-release' || r.type === 'broken') {
 				return r
 			}
 
@@ -248,9 +230,7 @@ export async function getReleases(): Promise<{
 
 		if (latestRes.ok) {
 			const latestData = await latestRes.json()
-			const rawAssets = Array.isArray(latestData.assets)
-				? latestData.assets
-				: []
+			const rawAssets = Array.isArray(latestData.assets) ? latestData.assets : []
 
 			const assets: ReleaseAsset[] = rawAssets
 				.map((asset: any) => ({
@@ -279,9 +259,7 @@ export async function getReleases(): Promise<{
 			githubLatestRelease = {
 				version: latestData.tag_name || 'unknown',
 				commit: latestData.target_commitish || null,
-				date: latestData.published_at
-					? formatDate(latestData.published_at)
-					: 'Unknown',
+				date: latestData.published_at ? formatDate(latestData.published_at) : 'Unknown',
 				publishedAt: latestData.published_at ?? '',
 				notes,
 				assets,
@@ -319,7 +297,7 @@ export async function getReleaseDownloads(): Promise<ReleaseDownloadsResult> {
 			cache: 'force-cache',
 			next: { revalidate: 300 },
 			headers: githubHeaders(),
-		},
+		}
 	)
 
 	if (!res.ok) {
@@ -344,9 +322,8 @@ export async function getReleaseDownloads(): Promise<ReleaseDownloadsResult> {
 
 			const totalDownloads = assets.reduce(
 				(sum: number, asset: any) =>
-					sum +
-					(typeof asset.download_count === 'number' ? asset.download_count : 0),
-				0,
+					sum + (typeof asset.download_count === 'number' ? asset.download_count : 0),
+				0
 			)
 
 			return {
@@ -367,11 +344,9 @@ export async function getReleaseDownloads(): Promise<ReleaseDownloadsResult> {
 	return { items, error: null }
 }
 
-export async function getPackageJsonByTag(
-	tag: string,
-): Promise<PackageJson | null> {
+export async function getPackageJsonByTag(tag: string): Promise<PackageJson | null> {
 	const url = `https://raw.githubusercontent.com/Devollox/void-presence/${encodeURIComponent(
-		tag,
+		tag
 	)}/package.json`
 
 	const res = await fetch(url, {
@@ -408,14 +383,11 @@ export async function getLatestRelease(): Promise<{
 	error: string | null
 }> {
 	try {
-		const res = await fetch(
-			'https://api.github.com/repos/Devollox/void-presence/releases/latest',
-			{
-				cache: 'force-cache',
-				next: { revalidate: 300 },
-				headers: githubHeaders(),
-			},
-		)
+		const res = await fetch('https://api.github.com/repos/Devollox/void-presence/releases/latest', {
+			cache: 'force-cache',
+			next: { revalidate: 300 },
+			headers: githubHeaders(),
+		})
 
 		if (!res.ok) {
 			throw new Error('GitHub response not ok')
@@ -455,9 +427,7 @@ export async function getLatestRelease(): Promise<{
 
 		const release: ReleaseInfoLatest = {
 			version: data.tag_name,
-			date: data.published_at
-				? new Date(data.published_at).toISOString().slice(0, 10)
-				: '',
+			date: data.published_at ? new Date(data.published_at).toISOString().slice(0, 10) : '',
 			notes,
 			assets,
 			electronCurrent: electronVersion || electronFromPkg || undefined,

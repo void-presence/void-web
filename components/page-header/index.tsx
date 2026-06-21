@@ -9,11 +9,7 @@ interface PageHeaderProps {
 	rightSlot?: ReactNode
 }
 
-export default function PageHeader({
-	title,
-	subtitle,
-	rightSlot,
-}: PageHeaderProps) {
+export default function PageHeader({ title, subtitle, rightSlot }: PageHeaderProps) {
 	return (
 		<section id='configs-header' className={styles.content_header}>
 			<div

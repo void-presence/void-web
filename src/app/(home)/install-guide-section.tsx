@@ -26,19 +26,17 @@ export default function InstallGuide() {
 							<div className={styles.step_body}>
 								<div className={styles.step_title}>Download Void Presence</div>
 								<div className={styles.step_text}>
-									Grab the latest release from GitHub releases and extract it to
-									any folder you control.
+									Grab the latest release from GitHub releases and extract it to any folder you
+									control.
 								</div>
 							</div>
 						</div>
 						<div className={styles.install_step}>
 							<div className={styles.step_body}>
-								<div className={styles.step_title}>
-									Add your Discord Client ID
-								</div>
+								<div className={styles.step_title}>Add your Discord Client ID</div>
 								<div className={styles.step_text}>
-									Open the app, paste your Discord application client ID into
-									the Client ID field and hit Save.
+									Open the app, paste your Discord application client ID into the Client ID field
+									and hit Save.
 								</div>
 							</div>
 						</div>
@@ -46,8 +44,8 @@ export default function InstallGuide() {
 							<div className={styles.step_body}>
 								<div className={styles.step_title}>Start Rich Presence</div>
 								<div className={styles.step_text}>
-									Press Start or enable Auto‑launch to keep your custom presence
-									running while Discord is open.
+									Press Start or enable Auto‑launch to keep your custom presence running while
+									Discord is open.
 								</div>
 							</div>
 						</div>

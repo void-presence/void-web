@@ -50,13 +50,7 @@ const RpcUser = ({
 	<div className={styles.rpc_user}>
 		<div className={styles.rpc_avatar}>
 			<div className={styles.avatar_placeholder}>
-				<Image
-					src={avatarSrc || '/logo.png'}
-					alt='Avatar'
-					width={48}
-					height={48}
-					unoptimized
-				/>
+				<Image src={avatarSrc || '/logo.png'} alt='Avatar' width={48} height={48} unoptimized />
 			</div>
 			<div className={styles.status_indicator} />
 		</div>
@@ -98,15 +92,10 @@ const RpcActivityDetails = ({
 	const images = config?.imageCycles ?? []
 	const buttonPairs = config?.buttonPairs ?? []
 
-	const maxLen = Math.max(
-		cycles.length || 1,
-		images.length || 1,
-		buttonPairs.length || 1,
-	)
+	const maxLen = Math.max(cycles.length || 1, images.length || 1, buttonPairs.length || 1)
 
 	const clampedIndex = (((currentIndex ?? 0) % maxLen) + maxLen) % maxLen
-	const progress =
-		maxLen > 0 ? Math.round(((clampedIndex + 1) / maxLen) * 100) : 100
+	const progress = maxLen > 0 ? Math.round(((clampedIndex + 1) / maxLen) * 100) : 100
 
 	return (
 		<div className={styles.activity_details}>
@@ -114,10 +103,7 @@ const RpcActivityDetails = ({
 			<div className={styles.details_state}>{currentCycle.state}</div>
 			<div className={styles.progress_bar}>
 				<div className={styles.progress_bg}>
-					<div
-						className={styles.progress_fill}
-						style={{ width: `${progress}%` }}
-					/>
+					<div className={styles.progress_fill} style={{ width: `${progress}%` }} />
 				</div>
 				<div className={styles.progress_time}>{progress}%</div>
 			</div>
@@ -126,21 +112,12 @@ const RpcActivityDetails = ({
 }
 
 const RpcButton = ({ label, url }: { label: string; url: string }) => (
-	<a
-		href={url}
-		className={styles.rpc_btn}
-		target='_blank'
-		rel='noopener noreferrer'
-	>
+	<a href={url} className={styles.rpc_btn} target='_blank' rel='noopener noreferrer'>
 		{label}
 	</a>
 )
 
-const RpcButtons = ({
-	buttons,
-}: {
-	buttons: Array<{ label: string; url: string }>
-}) => (
+const RpcButtons = ({ buttons }: { buttons: Array<{ label: string; url: string }> }) => (
 	<div className={styles.rpc_buttons}>
 		{buttons.map((button, index) => (
 			<RpcButton key={index} {...button} />
@@ -165,11 +142,7 @@ const RpcActivity = ({
 		<div className={styles.activity_type}>{activityType}</div>
 		<div className={styles.activity_content}>
 			<RpcActivityArt currentImage={currentImage} />
-			<RpcActivityDetails
-				currentCycle={currentCycle}
-				currentIndex={currentIndex}
-				config={config}
-			/>
+			<RpcActivityDetails currentCycle={currentCycle} currentIndex={currentIndex} config={config} />
 		</div>
 	</div>
 )
@@ -196,11 +169,7 @@ export default function RpcPreview({
 
 	return (
 		<div className={styles.rpc_preview}>
-			<RpcUser
-				username={username}
-				discriminator={discriminator}
-				avatarSrc={avatarSrc}
-			/>
+			<RpcUser username={username} discriminator={discriminator} avatarSrc={avatarSrc} />
 			<RpcActivity
 				activityType={activityType}
 				currentCycle={currentCycle}

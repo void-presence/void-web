@@ -1,15 +1,7 @@
 'use client'
 
 import layoutStyles from '@components/panel-layout/layout-panels.module.css'
-import {
-	Bar,
-	BarChart,
-	CartesianGrid,
-	ResponsiveContainer,
-	Tooltip,
-	XAxis,
-	YAxis,
-} from 'recharts'
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import styles from '../release-schedule.module.css'
 
 interface ReleasesDownloadsChartProps {
@@ -20,10 +12,7 @@ interface ReleasesDownloadsChartProps {
 	title: string
 }
 
-export default function ReleasesDownloadsChart({
-	data,
-	title,
-}: ReleasesDownloadsChartProps) {
+export default function ReleasesDownloadsChart({ data, title }: ReleasesDownloadsChartProps) {
 	const chartData = data.map(item => ({
 		tag: item.tag,
 		downloads: item.totalDownloads,
@@ -32,14 +21,8 @@ export default function ReleasesDownloadsChart({
 	const total = chartData.reduce((sum, item) => sum + item.downloads, 0)
 
 	return (
-		<div
-			className={layoutStyles.preview_card}
-			style={{ padding: '20px 20px 20px 0' }}
-		>
-			<div
-				className={layoutStyles.preview_header}
-				style={{ padding: '0 0 0 20px' }}
-			>
+		<div className={layoutStyles.preview_card} style={{ padding: '20px 20px 20px 0' }}>
+			<div className={layoutStyles.preview_header} style={{ padding: '0 0 0 20px' }}>
 				<h3 className={styles.preview_title}>{title}</h3>
 				<div className={layoutStyles.preview_badge}>
 					<span className={layoutStyles.preview_badge_text}>
@@ -49,10 +32,7 @@ export default function ReleasesDownloadsChart({
 			</div>
 			<div className={styles.downloads_chart_wrap}>
 				<ResponsiveContainer width='100%' height={260}>
-					<BarChart
-						data={chartData}
-						margin={{ top: 10, right: 10, left: 0, bottom: 32 }}
-					>
+					<BarChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 32 }}>
 						<CartesianGrid
 							stroke='rgba(148, 163, 184, 0.18)'
 							strokeDasharray='3 3'
@@ -92,10 +72,7 @@ export default function ReleasesDownloadsChart({
 								fontSize: 11,
 								color: '#e5e7eb',
 							}}
-							formatter={(value: any) => [
-								Number(value).toLocaleString('en-US'),
-								'Downloads',
-							]}
+							formatter={(value: any) => [Number(value).toLocaleString('en-US'), 'Downloads']}
 						/>
 						<Bar
 							dataKey='downloads'

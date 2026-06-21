@@ -28,13 +28,7 @@ export default function DownloadsPage() {
 				subtitle='Downloads analytics for all installer releases, loaded from GitHub release assets.'
 			/>
 			<Suspense
-				fallback={
-					<ReleaseListSkeleton
-						countSkeleton={0}
-						backBtn={true}
-						analytics={true}
-					/>
-				}
+				fallback={<ReleaseListSkeleton countSkeleton={0} backBtn={true} analytics={true} />}
 			>
 				<DownloadsContent />
 			</Suspense>

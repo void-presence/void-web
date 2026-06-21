@@ -31,10 +31,7 @@ export function InfoBox({
 			{title && <h4 className={styles.info_title}>{title}</h4>}
 
 			{lines.map((line, idx) => (
-				<p
-					key={idx}
-					className={variant === 'muted' ? styles.info_small : styles.info_text}
-				>
+				<p key={idx} className={variant === 'muted' ? styles.info_small : styles.info_text}>
 					{line}
 				</p>
 			))}

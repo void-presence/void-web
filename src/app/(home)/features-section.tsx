@@ -6,9 +6,7 @@ import AppShell from './app-shell'
 import styles from './features-section.module.css'
 
 export default function FeaturesSection() {
-	const [activeTab, setActiveTab] = useState<
-		'overview' | 'profiles' | 'cycles'
-	>('overview')
+	const [activeTab, setActiveTab] = useState<'overview' | 'profiles' | 'cycles'>('overview')
 
 	const tabs = [
 		{ id: 'overview' as const, label: 'OVERVIEW' },
@@ -26,16 +24,15 @@ export default function FeaturesSection() {
 								<span className={styles.feature_badge}>Profiles</span>
 								<div className={styles.feature_title}>Multiple presets</div>
 								<div className={styles.feature_text}>
-									Create different profiles for games, work sessions or chill
-									modes and switch them in one click.
+									Create different profiles for games, work sessions or chill modes and switch them
+									in one click.
 								</div>
 							</div>
 							<div className={styles.feature_item}>
 								<span className={styles.feature_badge}>Status cycles</span>
 								<div className={styles.feature_title}>Rotating details</div>
 								<div className={styles.feature_text}>
-									Rotate through rich presence texts over time instead of a
-									static single line.
+									Rotate through rich presence texts over time instead of a static single line.
 								</div>
 							</div>
 						</div>
@@ -55,9 +52,7 @@ export default function FeaturesSection() {
 								</div>
 								<div className={styles.summary_stat}>
 									<span className={styles.summary_stat_value}>8</span>
-									<span className={styles.summary_stat_label}>
-										button pairs
-									</span>
+									<span className={styles.summary_stat_label}>button pairs</span>
 								</div>
 								<div className={styles.summary_stat}>
 									<span className={styles.summary_stat_value}>30s</span>
@@ -65,9 +60,8 @@ export default function FeaturesSection() {
 								</div>
 							</div>
 							<div className={styles.summary_footer}>
-								Config lives in{' '}
-								<span className={styles.summary_code}>/config</span> as JSON, so
-								you can version it with Git.
+								Config lives in <span className={styles.summary_code}>/config</span> as JSON, so you
+								can version it with Git.
 							</div>
 						</div>
 					</div>
@@ -83,9 +77,7 @@ export default function FeaturesSection() {
 						<div className={styles.log_entry}>
 							<span className={styles.log_level}></span>
 							<span className={styles.log_time}>10:32:18 · INFO</span>
-							<span className={styles.log_text}>
-								Connecting RPC with clientId
-							</span>
+							<span className={styles.log_text}>Connecting RPC with clientId</span>
 						</div>
 					</div>
 				)
@@ -95,10 +87,7 @@ export default function FeaturesSection() {
 						<div className={styles.config_row}>
 							<span className={styles.config_field_label}>Cycle Text</span>
 							<div className={styles.config_field_group}>
-								<input
-									className={styles.config_field_input}
-									placeholder='Exploring the void...'
-								/>
+								<input className={styles.config_field_input} placeholder='Exploring the void...' />
 								<button className={styles.config_add_button}>+</button>
 							</div>
 						</div>

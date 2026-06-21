@@ -12,8 +12,7 @@ export const metadata: Metadata = {
 		'Release history for the Void Presence installer with version timeline and GitHub release data.',
 	openGraph: {
 		title: 'Void Presence Installer Releases',
-		description:
-			'Track Void Presence installer releases and changelog history in one place.',
+		description: 'Track Void Presence installer releases and changelog history in one place.',
 		url: '/schedule/installer',
 	},
 }
@@ -27,12 +26,7 @@ export default function InstallerPage() {
 			/>
 			<Suspense
 				fallback={
-					<ReleaseListSkeleton
-						countSkeleton={5}
-						backBtn={false}
-						analytics={false}
-						list={true}
-					/>
+					<ReleaseListSkeleton countSkeleton={5} backBtn={false} analytics={false} list={true} />
 				}
 			>
 				<ReleasesSection />

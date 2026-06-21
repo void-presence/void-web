@@ -18,21 +18,13 @@ type CustomRpcPreviewProps = {
 	avatarSrc: string
 }
 
-function CustomRpcPreview({
-	config,
-	previewIndex,
-	avatarSrc,
-}: CustomRpcPreviewProps) {
+function CustomRpcPreview({ config, previewIndex, avatarSrc }: CustomRpcPreviewProps) {
 	const configData: any = config.configData
 	const cycles = configData.cycles ?? []
 	const images = configData.imageCycles ?? []
 	const buttonPairs = configData.buttonPairs ?? []
 
-	const maxLen = Math.max(
-		cycles.length || 1,
-		images.length || 1,
-		buttonPairs.length || 1,
-	)
+	const maxLen = Math.max(cycles.length || 1, images.length || 1, buttonPairs.length || 1)
 
 	const localIndex = maxLen ? previewIndex % maxLen : 0
 
@@ -97,30 +89,23 @@ function filterConfigs(configs: Config[], searchTerm: string) {
 		config =>
 			config.title.toLowerCase().includes(term) ||
 			config.author.toLowerCase().includes(term) ||
-			config.description.toLowerCase().includes(term),
+			config.description.toLowerCase().includes(term)
 	)
 }
 
 function sortConfigs(configs: Config[]) {
 	return [...configs].sort((a, b) => {
 		const aDownloads =
-			typeof a.downloads === 'number'
-				? a.downloads
-				: parseInt(String(a.downloads ?? '0')) || 0
+			typeof a.downloads === 'number' ? a.downloads : parseInt(String(a.downloads ?? '0')) || 0
 
 		const bDownloads =
-			typeof b.downloads === 'number'
-				? b.downloads
-				: parseInt(String(b.downloads ?? '0')) || 0
+			typeof b.downloads === 'number' ? b.downloads : parseInt(String(b.downloads ?? '0')) || 0
 
 		return bDownloads - aDownloads
 	})
 }
 
-export function ConfigsClient({
-	initialConfigs = [],
-	initialSearchTerm,
-}: Props) {
+export function ConfigsClient({ initialConfigs = [], initialSearchTerm }: Props) {
 	const [configs, setConfigs] = useState<Config[]>(initialConfigs)
 	const [searchTerm, setSearchTerm] = useState(initialSearchTerm ?? '')
 	const [previewTick, setPreviewTick] = useState(0)
@@ -151,21 +136,15 @@ export function ConfigsClient({
 		}
 	}, [])
 
-	const filteredConfigs = useMemo(
-		() => filterConfigs(configs, searchTerm),
-		[configs, searchTerm],
-	)
+	const filteredConfigs = useMemo(() => filterConfigs(configs, searchTerm), [configs, searchTerm])
 
-	const sortedConfigs = useMemo(
-		() => sortConfigs(filteredConfigs),
-		[filteredConfigs],
-	)
+	const sortedConfigs = useMemo(() => sortConfigs(filteredConfigs), [filteredConfigs])
 
 	const showSkeleton = loading && !sortedConfigs.length
 
 	const handleOpenInApp = async (config: Config) => {
 		window.location.href = `voidpresence://import-config?title=${encodeURIComponent(
-			config.title,
+			config.title
 		)}&data=${encodeURIComponent(JSON.stringify(config.configData))}`
 
 		try {
@@ -180,10 +159,7 @@ export function ConfigsClient({
 	return (
 		<>
 			<div className={styles.themes_left_side}>
-				<form
-					className={styles.search_container}
-					onSubmit={e => e.preventDefault()}
-				>
+				<form className={styles.search_container} onSubmit={e => e.preventDefault()}>
 					<Search className={styles.search_icon} />
 					<input
 						className={styles.search}
@@ -224,9 +200,7 @@ export function ConfigsClient({
 					) : (
 						<div className={styles.cards_grid}>
 							{sortedConfigs.map((config, index) => {
-								const highlight = animateColors
-									? config.averageColor || '#5b5b5b'
-									: '#5b5b5b'
+								const highlight = animateColors ? config.averageColor || '#5b5b5b' : '#5b5b5b'
 								const hasColor = animateColors && Boolean(config.averageColor)
 								const baseIndex = mounted ? previewTick + index : 0
 								const borderColor = `${highlight}66`
@@ -236,9 +210,7 @@ export function ConfigsClient({
 								return (
 									<div
 										key={config.id}
-										className={`${styles.card_wrap} ${
-											hasColor ? styles.card_wrap_hasColor : ''
-										}`}
+										className={`${styles.card_wrap} ${hasColor ? styles.card_wrap_hasColor : ''}`}
 										style={{
 											background: baseBg,
 											borderColor,
@@ -251,10 +223,7 @@ export function ConfigsClient({
 													<h3 className={styles.card_title}>{config.title}</h3>
 												</div>
 												<div className={styles.download_tag}>
-													<Download
-														size={14}
-														className={styles.download_icon}
-													/>
+													<Download size={14} className={styles.download_icon} />
 													<span className={styles.download_text}>
 														{config.downloads.toLocaleString()}
 													</span>
@@ -269,16 +238,10 @@ export function ConfigsClient({
 
 											<div className={styles.card_actions}>
 												<div className={styles.card_buttons}>
-													<a
-														className={styles.btn_primary}
-														onClick={() => handleOpenInApp(config)}
-													>
+													<a className={styles.btn_primary} onClick={() => handleOpenInApp(config)}>
 														Open in app
 													</a>
-													<a
-														className={styles.btn_secondary}
-														href={`/configs/${config.id}`}
-													>
+													<a className={styles.btn_secondary} href={`/configs/${config.id}`}>
 														Show details
 													</a>
 												</div>

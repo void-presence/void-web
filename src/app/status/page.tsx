@@ -56,9 +56,7 @@ export default function StatusPage() {
 			<div className={layoutStyles.preview_card_wrap}>
 				<div className={layoutStyles.preview_card}>
 					<div className={layoutStyles.preview_header}>
-						<h3 className={layoutStyles.preview_title}>
-							Live presence preview
-						</h3>
+						<h3 className={layoutStyles.preview_title}>Live presence preview</h3>
 					</div>
 
 					<div className={styles.rpc_card_preview}>
@@ -67,9 +65,8 @@ export default function StatusPage() {
 
 					<div className={styles.preview_footer}>
 						<p className={styles.preview_note}>
-							This preview shows how your activity looks to others. Button
-							visibility in your own client may differ because of the current
-							Discord bug.
+							This preview shows how your activity looks to others. Button visibility in your own
+							client may differ because of the current Discord bug.
 						</p>
 					</div>
 				</div>

@@ -11,9 +11,7 @@ const Page = ({ children, home = false }: PageProps) => {
 	return (
 		<>
 			<Header />
-			<main className={`${styles.main} ${home ? styles.home : styles.normal}`}>
-				{children}
-			</main>
+			<main className={`${styles.main} ${home ? styles.home : styles.normal}`}>{children}</main>
 		</>
 	)
 }

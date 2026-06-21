@@ -15,12 +15,7 @@ export interface ReleaseDownloadsItem {
 	totalDownloads: number
 }
 
-export type ReleaseType =
-	| 'stable'
-	| 'pre-release'
-	| 'nightly'
-	| 'end of life'
-	| 'broken'
+export type ReleaseType = 'stable' | 'pre-release' | 'nightly' | 'end of life' | 'broken'
 
 export interface ReleaseInfo {
 	version: string
@@ -82,22 +77,16 @@ export async function getInstallerReleases(): Promise<{
 }> {
 	try {
 		const [listRes, latestRes] = await Promise.all([
-			fetch(
-				'https://api.github.com/repos/Devollox/void-installer/releases?per_page=100',
-				{
-					cache: 'force-cache',
-					next: { revalidate: 300 },
-					headers: githubHeaders(),
-				},
-			),
-			fetch(
-				'https://api.github.com/repos/Devollox/void-installer/releases/latest',
-				{
-					cache: 'force-cache',
-					next: { revalidate: 300 },
-					headers: githubHeaders(),
-				},
-			),
+			fetch('https://api.github.com/repos/Devollox/void-installer/releases?per_page=100', {
+				cache: 'force-cache',
+				next: { revalidate: 300 },
+				headers: githubHeaders(),
+			}),
+			fetch('https://api.github.com/repos/Devollox/void-installer/releases/latest', {
+				cache: 'force-cache',
+				next: { revalidate: 300 },
+				headers: githubHeaders(),
+			}),
 		])
 
 		if (!listRes.ok) {
@@ -141,8 +130,7 @@ export async function getInstallerReleases(): Promise<{
 					const classification = classifyRelease(item, rawBody)
 
 					const tag = item.tag_name || 'unknown'
-					const wailsMeta =
-						tag && tag !== 'unknown' ? await getWailsMetadata(tag) : null
+					const wailsMeta = tag && tag !== 'unknown' ? await getWailsMetadata(tag) : null
 
 					return {
 						version: tag,
@@ -159,23 +147,17 @@ export async function getInstallerReleases(): Promise<{
 						wailsVersion: wailsMeta?.wails,
 						goVersion: wailsMeta?.go,
 					} as ReleaseInfo
-				}),
+				})
 		)
 
 		releases = applyBuildTagPriority(releases)
 
 		const stableTagVersions = new Set(
-			releases
-				.filter(r => r.buildTag?.toLowerCase() === 'stable')
-				.map(r => r.version),
+			releases.filter(r => r.buildTag?.toLowerCase() === 'stable').map(r => r.version)
 		)
 
 		releases = releases.map(r => {
-			if (
-				r.type === 'nightly' ||
-				r.type === 'pre-release' ||
-				r.type === 'broken'
-			) {
+			if (r.type === 'nightly' || r.type === 'pre-release' || r.type === 'broken') {
 				return r
 			}
 
@@ -196,9 +178,7 @@ export async function getInstallerReleases(): Promise<{
 
 		if (latestRes.ok) {
 			const latestData = await latestRes.json()
-			const rawAssets = Array.isArray(latestData.assets)
-				? latestData.assets
-				: []
+			const rawAssets = Array.isArray(latestData.assets) ? latestData.assets : []
 
 			const assets: ReleaseAsset[] = rawAssets
 				.map((asset: any) => ({
@@ -223,9 +203,7 @@ export async function getInstallerReleases(): Promise<{
 			githubLatestRelease = {
 				version: latestData.tag_name || 'unknown',
 				commit: latestData.target_commitish || null,
-				date: latestData.published_at
-					? formatDate(latestData.published_at)
-					: 'Unknown',
+				date: latestData.published_at ? formatDate(latestData.published_at) : 'Unknown',
 				publishedAt: latestData.published_at ?? '',
 				notes,
 				assets,
@@ -242,8 +220,7 @@ export async function getInstallerReleases(): Promise<{
 		return {
 			releases: [],
 			githubLatestRelease: null,
-			error:
-				'Failed to load installer release schedule. Please try again later.',
+			error: 'Failed to load installer release schedule. Please try again later.',
 		}
 	}
 }
@@ -260,7 +237,7 @@ export async function getInstallerReleaseDownloads(): Promise<ReleaseDownloadsRe
 			cache: 'force-cache',
 			next: { revalidate: 300 },
 			headers: githubHeaders(),
-		},
+		}
 	)
 
 	if (!res.ok) {
@@ -285,9 +262,8 @@ export async function getInstallerReleaseDownloads(): Promise<ReleaseDownloadsRe
 
 			const totalDownloads = assets.reduce(
 				(sum: number, asset: any) =>
-					sum +
-					(typeof asset.download_count === 'number' ? asset.download_count : 0),
-				0,
+					sum + (typeof asset.download_count === 'number' ? asset.download_count : 0),
+				0
 			)
 
 			return {

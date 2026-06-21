@@ -1,17 +1,11 @@
 import { NextResponse } from 'next/server'
-import {
-	getConfigById,
-	incrementDownloads,
-} from '../../../../../../service/firebase'
+import { getConfigById, incrementDownloads } from '../../../../../../service/firebase'
 
 type Params = {
 	id: string
 }
 
-export async function GET(
-	_req: Request,
-	ctx: { params: Promise<Params> | Params }
-) {
+export async function GET(_req: Request, ctx: { params: Promise<Params> | Params }) {
 	try {
 		const { id } = await ctx.params
 
@@ -28,18 +22,13 @@ export async function GET(
 			status: 200,
 			headers: {
 				'Content-Type': 'application/json',
-				'Content-Disposition': `attachment; filename="${
-					config.title || 'config'
-				}.json"`,
+				'Content-Disposition': `attachment; filename="${config.title || 'config'}.json"`,
 			},
 		})
 	} catch (err) {
 		console.error('DOWNLOAD ROUTE ERROR', err)
 
 		const message = err instanceof Error ? err.message : JSON.stringify(err)
-		return NextResponse.json(
-			{ error: 'Internal error', message },
-			{ status: 500 }
-		)
+		return NextResponse.json({ error: 'Internal error', message }, { status: 500 })
 	}
 }

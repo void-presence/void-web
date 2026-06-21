@@ -18,10 +18,7 @@ export function ConfigsSection({ initialSearchTerm }: Props) {
 
 			<section className={styles.section_themes_panel}>
 				<div className={styles.themes_panel}>
-					<ConfigsClient
-						initialConfigs={[]}
-						initialSearchTerm={initialSearchTerm}
-					/>
+					<ConfigsClient initialConfigs={[]} initialSearchTerm={initialSearchTerm} />
 				</div>
 			</section>
 			<Footer />

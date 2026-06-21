@@ -84,18 +84,9 @@ export default function ReleaseListSkeleton({
 	const right = (
 		<section className={scheduleStyles.page_section}>
 			{backBtn === true && (
-				<div
-					className={layoutStyles.preview_card_wrap}
-					style={{ marginBottom: 20, height: 88 }}
-				>
-					<div
-						className={layoutStyles.preview_card}
-						style={{ flexDirection: 'row' }}
-					>
-						<div
-							className={layoutStyles.preview_header}
-							style={{ width: '100%' }}
-						>
+				<div className={layoutStyles.preview_card_wrap} style={{ marginBottom: 20, height: 88 }}>
+					<div className={layoutStyles.preview_card} style={{ flexDirection: 'row' }}>
+						<div className={layoutStyles.preview_header} style={{ width: '100%' }}>
 							<div
 								className={skeletonStyles.skeleton_title}
 								style={{ width: '100%', height: 40, borderRadius: 12 }}
@@ -105,10 +96,7 @@ export default function ReleaseListSkeleton({
 				</div>
 			)}
 			{analytics === true && (
-				<div
-					className={layoutStyles.preview_card_wrap}
-					style={{ marginBottom: 20, height: 342 }}
-				>
+				<div className={layoutStyles.preview_card_wrap} style={{ marginBottom: 20, height: 342 }}>
 					<div className={layoutStyles.preview_card}>
 						<div className={layoutStyles.preview_header}>
 							<div className={skeletonStyles.skeleton_title} />
@@ -119,18 +107,9 @@ export default function ReleaseListSkeleton({
 				</div>
 			)}
 			{backBtn === false && (
-				<div
-					className={layoutStyles.preview_card_wrap}
-					style={{ marginBottom: 20, height: 88 }}
-				>
-					<div
-						className={layoutStyles.preview_card}
-						style={{ flexDirection: 'row' }}
-					>
-						<div
-							className={layoutStyles.preview_header}
-							style={{ width: '100%' }}
-						>
+				<div className={layoutStyles.preview_card_wrap} style={{ marginBottom: 20, height: 88 }}>
+					<div className={layoutStyles.preview_card} style={{ flexDirection: 'row' }}>
+						<div className={layoutStyles.preview_header} style={{ width: '100%' }}>
 							<div
 								className={skeletonStyles.skeleton_title}
 								style={{ width: '100%', height: 40, borderRadius: 12 }}
@@ -155,9 +134,7 @@ export default function ReleaseListSkeleton({
 											<div className={scheduleStyles.release_card_left}>
 												<div className={skeletonStyles.skeleton_version_row}>
 													<div className={skeletonStyles.skeleton_version} />
-													<div
-														className={skeletonStyles.skeleton_badge_small}
-													/>
+													<div className={skeletonStyles.skeleton_badge_small} />
 												</div>
 											</div>
 											<div className={skeletonStyles.skeleton_date} />
@@ -167,9 +144,7 @@ export default function ReleaseListSkeleton({
 											<div className={skeletonStyles.skeleton_meta_chip} />
 										</div>
 										<div className={scheduleStyles.release_card_meta}>
-											<div
-												className={skeletonStyles.skeleton_meta_chip_changelog}
-											/>
+											<div className={skeletonStyles.skeleton_meta_chip_changelog} />
 										</div>
 									</div>
 								</li>

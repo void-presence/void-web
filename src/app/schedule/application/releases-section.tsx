@@ -12,8 +12,7 @@ export const metadata: Metadata = {
 		'Release Application and history for Void Presence with version timeline and GitHub release data.',
 	openGraph: {
 		title: 'Void Presence Application Release',
-		description:
-			'Track Void Presence releases, prereleases, and changelog history in one place.',
+		description: 'Track Void Presence releases, prereleases, and changelog history in one place.',
 		url: '/schedule/application',
 	},
 }
@@ -39,16 +38,12 @@ export async function ReleasesSection() {
 				<InfoBox variant='muted' lines={[error]} />
 			) : stableRelease ? (
 				<>
-					{stableRelease.assets.length > 0 && (
-						<DownloadButtons assets={stableRelease.assets} />
-					)}
+					{stableRelease.assets.length > 0 && <DownloadButtons assets={stableRelease.assets} />}
 
 					<div className={styles.release_meta}>
 						<div className={styles.release_row}>
 							<span className={styles.release_label}>Version</span>
-							<span className={styles.release_value}>
-								{stableRelease.version}
-							</span>
+							<span className={styles.release_value}>{stableRelease.version}</span>
 						</div>
 						<div className={styles.release_row}>
 							<span className={styles.release_label}>Release date</span>

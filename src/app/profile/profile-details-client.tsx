@@ -34,21 +34,13 @@ export function ProfileDetailsClient({ user, lastConfig, authorID }: Props) {
 
 	const configData: any = lastConfig?.configData
 
-	const cycles = configData?.cycles?.length
-		? configData.cycles
-		: [{ details: '', state: '' }]
-	const images = configData?.imageCycles?.length
-		? configData.imageCycles
-		: [{ largeImage: '' }]
+	const cycles = configData?.cycles?.length ? configData.cycles : [{ details: '', state: '' }]
+	const images = configData?.imageCycles?.length ? configData.imageCycles : [{ largeImage: '' }]
 	const buttonsList = configData?.buttonPairs?.length
 		? configData.buttonPairs
 		: [{ label1: '', url1: '' }]
 
-	const maxLen = Math.max(
-		cycles.length || 1,
-		images.length || 1,
-		buttonsList.length || 1,
-	)
+	const maxLen = Math.max(cycles.length || 1, images.length || 1, buttonsList.length || 1)
 
 	const localIndex = maxLen ? previewTick % maxLen : 0
 
@@ -134,29 +126,23 @@ export function ProfileDetailsClient({ user, lastConfig, authorID }: Props) {
 						<div className={styles.addon_details_middle_column}>
 							<div className={styles.actions_panel}>
 								<h2 className={styles.actions_title}>Profile actions</h2>
-								<p className={styles.actions_subtitle}>
-									Manage your account and configs.
-								</p>
+								<p className={styles.actions_subtitle}>Manage your account and configs.</p>
 								<div className={styles.actions_buttons}>
 									<a href='/configs' className={styles.action_btn_primary}>
 										<span>View all configs</span>
-										<span className={styles.action_btn_hint}>
-											community list
-										</span>
+										<span className={styles.action_btn_hint}>community list</span>
 									</a>
 									<a
 										href={`voidpresence://auth?authorId=${encodeURIComponent(
-											String(authorID),
+											String(authorID)
 										)}&name=${encodeURIComponent(user.name || '')}&provider=${encodeURIComponent(
-											user.provider || '',
+											user.provider || ''
 										)}`}
 										className={styles.action_btn_primary}
 										rel='noreferrer'
 									>
 										<span>Use this author ID in app</span>
-										<span className={styles.action_btn_hint}>
-											open app and connect profile
-										</span>
+										<span className={styles.action_btn_hint}>open app and connect profile</span>
 									</a>
 									<button
 										type='button'

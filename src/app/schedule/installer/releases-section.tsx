@@ -1,7 +1,4 @@
-import {
-	extractPackageMeta,
-	getInstallerPackageJsonByTag,
-} from '@lib/package-meta'
+import { extractPackageMeta, getInstallerPackageJsonByTag } from '@lib/package-meta'
 import { getWailsMetadata } from '@lib/parse-version'
 import { getInstallerReleases } from '@lib/releases-installer'
 import type { Metadata } from 'next'
@@ -16,8 +13,7 @@ export const metadata: Metadata = {
 		'Release history for the Void Presence installer with version timeline and GitHub release data.',
 	openGraph: {
 		title: 'Void Presence Installer Releases',
-		description:
-			'Track Void Presence installer releases and changelog history in one place.',
+		description: 'Track Void Presence installer releases and changelog history in one place.',
 		url: '/schedule/installer',
 	},
 }
@@ -35,9 +31,7 @@ export async function ReleasesSection() {
 	const pkgMeta = pkg ? extractPackageMeta(pkg) : null
 
 	const wailsMeta =
-		stableRelease && stableRelease.version
-			? await getWailsMetadata(stableRelease.version)
-			: null
+		stableRelease && stableRelease.version ? await getWailsMetadata(stableRelease.version) : null
 
 	const left = (
 		<>
@@ -45,16 +39,12 @@ export async function ReleasesSection() {
 				<InfoBox variant='muted' lines={[error]} />
 			) : stableRelease ? (
 				<>
-					{stableRelease.assets.length > 0 && (
-						<DownloadButtons assets={stableRelease.assets} />
-					)}
+					{stableRelease.assets.length > 0 && <DownloadButtons assets={stableRelease.assets} />}
 
 					<div className={styles.release_meta}>
 						<div className={styles.release_row}>
 							<span className={styles.release_label}>Version</span>
-							<span className={styles.release_value}>
-								{stableRelease.version}
-							</span>
+							<span className={styles.release_value}>{stableRelease.version}</span>
 						</div>
 						<div className={styles.release_row}>
 							<span className={styles.release_label}>Release date</span>
@@ -76,9 +66,7 @@ export async function ReleasesSection() {
 							<span className={styles.release_label}>React</span>
 							<span className={styles.release_value}>
 								{(() => {
-									const raw = pkgMeta?.dependencies.find(
-										dep => dep.key === 'react',
-									)?.value
+									const raw = pkgMeta?.dependencies.find(dep => dep.key === 'react')?.value
 									if (!raw) return 'unknown'
 									const cleaned = raw.replace(/^[~^]/, '')
 									return `v${cleaned}`
@@ -89,9 +77,7 @@ export async function ReleasesSection() {
 							<span className={styles.release_label}>Vite</span>
 							<span className={styles.release_value}>
 								{(() => {
-									const raw = pkgMeta?.dependencies.find(
-										dep => dep.key === 'vite',
-									)?.value
+									const raw = pkgMeta?.dependencies.find(dep => dep.key === 'vite')?.value
 									if (!raw) return 'unknown'
 									const cleaned = raw.replace(/^[~^]/, '')
 									return `v${cleaned}`

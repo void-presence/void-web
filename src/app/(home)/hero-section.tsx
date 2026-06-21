@@ -15,12 +15,9 @@ export function NotificationBanner() {
 					Total downloads exceeded <strong>400</strong>!
 				</span>
 				<span className={styles.notification_subtitle}>
-					Thank you for your support! We appreciate every one of you. Wishing
-					you an amazing experience with Void Presence! <br /> Check out our new{' '}
-					<a
-						href='/schedule/application/downloads'
-						className={styles.notification_link}
-					>
+					Thank you for your support! We appreciate every one of you. Wishing you an amazing
+					experience with Void Presence! <br /> Check out our new{' '}
+					<a href='/schedule/application/downloads' className={styles.notification_link}>
 						downloads schedule
 					</a>
 					!

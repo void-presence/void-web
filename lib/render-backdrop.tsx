@@ -2,8 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 
-const lerp = (start: number, end: number, t: number) =>
-	start * (1 - t) + end * t
+const lerp = (start: number, end: number, t: number) => start * (1 - t) + end * t
 
 export default function RenderBackdropAnimation() {
 	const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -18,14 +17,7 @@ export default function RenderBackdropAnimation() {
 		let height = (canvas.height = window.innerHeight)
 
 		const drawBackground = () => {
-			const bg = ctx.createRadialGradient(
-				width / 2,
-				height / 2,
-				0,
-				width / 2,
-				height / 2,
-				width,
-			)
+			const bg = ctx.createRadialGradient(width / 2, height / 2, 0, width / 2, height / 2, width)
 			bg.addColorStop(0, '#000000')
 			bg.addColorStop(1, '#000000')
 			ctx.fillStyle = bg
@@ -89,7 +81,7 @@ export default function RenderBackdropAnimation() {
 						this.x,
 						this.y,
 						this.x + this.len,
-						this.y - this.len * 0.5,
+						this.y - this.len * 0.5
 					)
 					grad.addColorStop(0, 'rgba(255, 255, 255, 0.8)')
 					grad.addColorStop(1, 'transparent')

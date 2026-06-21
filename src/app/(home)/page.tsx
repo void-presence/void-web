@@ -12,9 +12,7 @@ import InstallGuide from './install-guide-section'
 
 export default function Home() {
 	const [currentIndex, setCurrentIndex] = useState<number>(0)
-	const [activeTab, setActiveTab] = useState<'MAIN' | 'LOGS' | 'CONFIG'>(
-		'CONFIG',
-	)
+	const [activeTab, setActiveTab] = useState<'MAIN' | 'LOGS' | 'CONFIG'>('CONFIG')
 
 	useEffect(() => {
 		const interval = setInterval(() => {

@@ -39,13 +39,7 @@ export function CopyJsonButton({ configId }: Props) {
 	return (
 		<form onSubmit={onSubmit}>
 			<button type='submit' className={styles.action_btn_secondary}>
-				<span>
-					{status === 'copied'
-						? 'Copied!'
-						: status === 'error'
-							? 'Error'
-							: 'Copy JSON'}
-				</span>
+				<span>{status === 'copied' ? 'Copied!' : status === 'error' ? 'Error' : 'Copy JSON'}</span>
 				<span className={styles.action_btn_hint}>to clipboard</span>
 			</button>
 		</form>

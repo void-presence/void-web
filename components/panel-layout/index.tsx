@@ -8,9 +8,7 @@ interface PanelLayoutProps {
 }
 
 export function PanelLayout({ left, right, className }: PanelLayoutProps) {
-	const rootClassName = className
-		? `${styles.panel} ${className}`
-		: styles.panel
+	const rootClassName = className ? `${styles.panel} ${className}` : styles.panel
 
 	return (
 		<section className={styles.wrapper_section_page}>

@@ -24,10 +24,7 @@ export default async function ProfilePage() {
 	if (!session || !session.user) {
 		return (
 			<Page>
-				<PageHeader
-					title='Not signed in'
-					subtitle='You need to sign in to view your profile.'
-				/>
+				<PageHeader title='Not signed in' subtitle='You need to sign in to view your profile.' />
 
 				<section id='addon-details' className={styles.page_section}>
 					<div className={styles.theme_view_panel}>
@@ -80,19 +77,11 @@ export default async function ProfilePage() {
 
 	return (
 		<Page>
-			<PageHeader
-				title='Your profile'
-				subtitle='Session data and your configs.'
-			/>
+			<PageHeader title='Your profile' subtitle='Session data and your configs.' />
 
 			<SaveUserOnMount />
 
-			<ProfileContainerClient
-				initialConfigs={[]}
-				user={user}
-				session={session}
-				userId={userId}
-			/>
+			<ProfileContainerClient initialConfigs={[]} user={user} session={session} userId={userId} />
 		</Page>
 	)
 }

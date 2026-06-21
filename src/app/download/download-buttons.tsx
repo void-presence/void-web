@@ -49,7 +49,7 @@ export default function DownloadButtons({ assets }: Props) {
 
 		const cleanedBase = withoutPlatformOrSetup.replace(
 			/\.[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?$/i,
-			'',
+			''
 		)
 
 		return cleanedBase + ext
@@ -64,12 +64,8 @@ export default function DownloadButtons({ assets }: Props) {
 					onClick={() => handleDownload(asset)}
 				>
 					<div className={styles.asset_info}>
-						<span className={styles.asset_name}>
-							{getDisplayName(asset.name)}
-						</span>
-						<span className={styles.asset_size}>
-							{asset.size.toFixed(1)} MB
-						</span>
+						<span className={styles.asset_name}>{getDisplayName(asset.name)}</span>
+						<span className={styles.asset_size}>{asset.size.toFixed(1)} MB</span>
 					</div>
 					<div className={styles.asset_action}>
 						<Download size={16} color='#f1f1f1' />

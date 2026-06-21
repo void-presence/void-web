@@ -42,8 +42,7 @@ function parseConfigFile(filename: string): Config {
 	return {
 		id,
 		title: configData.name || id,
-		description:
-			configData.description || 'Custom Discord Rich Presence config',
+		description: configData.description || 'Custom Discord Rich Presence config',
 		image:
 			configData.preview ||
 			configData.image ||
@@ -51,9 +50,7 @@ function parseConfigFile(filename: string): Config {
 			`/config/${id}/preview.jpg`,
 		downloads: configData.downloads?.toString() || 'N/A',
 		author: configData.author || 'Community',
-		avatar:
-			configData.authorAvatar ||
-			'https://avatars.githubusercontent.com/u/66759305?v=4',
+		avatar: configData.authorAvatar || 'https://avatars.githubusercontent.com/u/66759305?v=4',
 		configData,
 	}
 }
@@ -80,9 +77,7 @@ export const getConfigs = cache((): Config[] => {
 					name: 'Demo Config',
 					description: 'Sample Discord Rich Presence config',
 					cycles: [{ details: 'Demo', state: 'Active' }],
-					imageCycles: [
-						{ largeImage: 'https://via.placeholder.com/64/333/fff?text=D' },
-					],
+					imageCycles: [{ largeImage: 'https://via.placeholder.com/64/333/fff?text=D' }],
 					buttonPairs: [{ label1: 'Demo', url1: '#' }],
 				},
 			},

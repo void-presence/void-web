@@ -14,9 +14,7 @@ interface ReleaseDetailsPageProps {
 	searchParams: Record<string, string | string[] | undefined>
 }
 
-export async function generateMetadata(
-	props: ReleaseDetailsPageProps,
-): Promise<Metadata> {
+export async function generateMetadata(props: ReleaseDetailsPageProps): Promise<Metadata> {
 	const { type, id } = await props.params
 
 	const isApplication = type === 'application'
@@ -34,16 +32,12 @@ export async function generateMetadata(
 	}
 }
 
-export default async function ReleaseDetailsPage(
-	props: ReleaseDetailsPageProps,
-) {
+export default async function ReleaseDetailsPage(props: ReleaseDetailsPageProps) {
 	const { type, id } = await props.params
 
 	const isApplication = type === 'application'
 	const productLabel = isApplication ? 'Application' : 'Installer'
-	const title = id
-		? `Void Presence ${id}`
-		: `Void Presence ${productLabel} Release`
+	const title = id ? `Void Presence ${id}` : `Void Presence ${productLabel} Release`
 
 	return (
 		<Page>
@@ -53,11 +47,7 @@ export default async function ReleaseDetailsPage(
 					isApplication ? ' and package.json tag.' : '.'
 				}`}
 			/>
-			<Suspense
-				fallback={
-					<ReleaseListSkeleton countSkeleton={1} backBtn={true} list={true} />
-				}
-			>
+			<Suspense fallback={<ReleaseListSkeleton countSkeleton={1} backBtn={true} list={true} />}>
 				<ReleaseDetailsContent type={type} id={id} />
 			</Suspense>
 			<Footer />

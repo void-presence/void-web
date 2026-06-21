@@ -8,16 +8,13 @@ interface RpcPreviewClientProps {
 	activityType?: string
 }
 
-export default function RpcPreviewClient({
-	config,
-	activityType,
-}: RpcPreviewClientProps) {
+export default function RpcPreviewClient({ config, activityType }: RpcPreviewClientProps) {
 	const [currentIndex, setCurrentIndex] = useState(0)
 
 	useEffect(() => {
 		const interval = setInterval(
 			() => setCurrentIndex(prev => (prev + 1) % config.cycles.length),
-			1500,
+			1500
 		)
 		return () => clearInterval(interval)
 	}, [config.cycles.length])

@@ -19,22 +19,13 @@ type CustomRpcPreviewProps = {
 	avatarSrc: string
 }
 
-function CustomRpcPreview({
-	config,
-	previewIndex,
-	id,
-	avatarSrc,
-}: CustomRpcPreviewProps) {
+function CustomRpcPreview({ config, previewIndex, id, avatarSrc }: CustomRpcPreviewProps) {
 	const configData: any = config.configData
 	const cycles = configData.cycles ?? []
 	const images = configData.imageCycles ?? []
 	const buttonPairs = configData.buttonPairs ?? []
 
-	const maxLen = Math.max(
-		cycles.length || 1,
-		images.length || 1,
-		buttonPairs.length || 1,
-	)
+	const maxLen = Math.max(cycles.length || 1, images.length || 1, buttonPairs.length || 1)
 
 	const localIndex = maxLen ? previewIndex % maxLen : 0
 
@@ -99,21 +90,17 @@ function filterConfigs(configs: Config[], searchTerm: string) {
 		config =>
 			config.title.toLowerCase().includes(term) ||
 			config.author.toLowerCase().includes(term) ||
-			config.description.toLowerCase().includes(term),
+			config.description.toLowerCase().includes(term)
 	)
 }
 
 function sortConfigs(configs: Config[]) {
 	return [...configs].sort((a, b) => {
 		const aDownloads =
-			typeof a.downloads === 'number'
-				? a.downloads
-				: parseInt(String(a.downloads ?? '0')) || 0
+			typeof a.downloads === 'number' ? a.downloads : parseInt(String(a.downloads ?? '0')) || 0
 
 		const bDownloads =
-			typeof b.downloads === 'number'
-				? b.downloads
-				: parseInt(String(b.downloads ?? '0')) || 0
+			typeof b.downloads === 'number' ? b.downloads : parseInt(String(b.downloads ?? '0')) || 0
 
 		return bDownloads - aDownloads
 	})
@@ -144,7 +131,7 @@ export function ProfileConfigsClient({ configs, userId }: Props) {
 				}, 100)
 			},
 			undefined,
-			userId,
+			userId
 		)
 
 		const interval = setInterval(() => {
@@ -159,19 +146,16 @@ export function ProfileConfigsClient({ configs, userId }: Props) {
 
 	const filteredConfigs = useMemo(
 		() => filterConfigs(liveConfigs, searchTerm),
-		[liveConfigs, searchTerm],
+		[liveConfigs, searchTerm]
 	)
 
-	const sortedConfigs = useMemo(
-		() => sortConfigs(filteredConfigs),
-		[filteredConfigs],
-	)
+	const sortedConfigs = useMemo(() => sortConfigs(filteredConfigs), [filteredConfigs])
 
 	const showSkeleton = loading
 
 	const handleOpenInApp = async (config: Config) => {
 		window.location.href = `voidpresence://import-config?title=${encodeURIComponent(
-			config.title,
+			config.title
 		)}&data=${encodeURIComponent(JSON.stringify(config.configData))}`
 
 		try {
@@ -191,10 +175,7 @@ export function ProfileConfigsClient({ configs, userId }: Props) {
 				</div>
 
 				<div className={styles.profile_search_row}>
-					<form
-						className={styles.profile_search_container}
-						onSubmit={e => e.preventDefault()}
-					>
+					<form className={styles.profile_search_container} onSubmit={e => e.preventDefault()}>
 						<Search className={styles.profile_search_icon} />
 						<input
 							className={styles.profile_search_input}
@@ -233,9 +214,7 @@ export function ProfileConfigsClient({ configs, userId }: Props) {
 				) : (
 					<div className={styles.profile_cards_grid}>
 						{sortedConfigs.map((config, index) => {
-							const highlight = animateColors
-								? config.averageColor || '#5b5b5b'
-								: '#5b5b5b'
+							const highlight = animateColors ? config.averageColor || '#5b5b5b' : '#5b5b5b'
 							const hasColor = animateColors && Boolean(config.averageColor)
 							const baseIndex = mounted ? previewTick + index : 0
 							const borderColor = `${highlight}66`
@@ -257,16 +236,11 @@ export function ProfileConfigsClient({ configs, userId }: Props) {
 									<div className={styles.profile_card}>
 										<div className={styles.profile_card_header}>
 											<div className={styles.profile_card_title}>
-												<h3 className={styles.profile_card_title}>
-													{config.title}
-												</h3>
+												<h3 className={styles.profile_card_title}>{config.title}</h3>
 											</div>
 											<div>
 												<div className={styles.profile_download_tag}>
-													<Download
-														size={14}
-														className={styles.profile_download_icon}
-													/>
+													<Download size={14} className={styles.profile_download_icon} />
 													<span className={styles.download_text}>
 														{config.downloads.toLocaleString()}
 													</span>
@@ -280,9 +254,7 @@ export function ProfileConfigsClient({ configs, userId }: Props) {
 														setDeleting(config.id)
 														try {
 															await deleteConfig(config.id)
-															setLiveConfigs(prev =>
-																prev.filter(c => c.id !== config.id),
-															)
+															setLiveConfigs(prev => prev.filter(c => c.id !== config.id))
 														} finally {
 															setDeleting(null)
 														}
@@ -308,10 +280,7 @@ export function ProfileConfigsClient({ configs, userId }: Props) {
 												>
 													Open in app
 												</a>
-												<a
-													className={styles.profile_btn_secondary}
-													href={`/configs/${config.id}`}
-												>
+												<a className={styles.profile_btn_secondary} href={`/configs/${config.id}`}>
 													Show details
 												</a>
 											</div>

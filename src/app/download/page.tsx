@@ -62,9 +62,7 @@ async function DownloadContent() {
 						{release.electronCurrent && (
 							<div className={styles.release_row}>
 								<span className={styles.release_label}>Electron</span>
-								<span className={styles.release_value}>
-									v{release.electronCurrent}
-								</span>
+								<span className={styles.release_value}>v{release.electronCurrent}</span>
 							</div>
 						)}
 						{chromiumMain && (
@@ -94,9 +92,7 @@ async function DownloadContent() {
 			<InfoBox
 				variant='secondary'
 				title='Need help installing?'
-				lines={[
-					'Check the install guide on the main page for platform-specific setup and tips.',
-				]}
+				lines={['Check the install guide on the main page for platform-specific setup and tips.']}
 				linkHref='/docs'
 				linkLabel='Read docs'
 			/>
@@ -117,14 +113,10 @@ async function DownloadContent() {
 			<div className={layoutStyles.preview_card_wrap}>
 				<div className={layoutStyles.preview_card}>
 					<div className={layoutStyles.preview_header}>
-						<h3 className={layoutStyles.preview_title}>
-							Live presence preview
-						</h3>
+						<h3 className={layoutStyles.preview_title}>Live presence preview</h3>
 						{release && (
 							<div className={layoutStyles.preview_badge}>
-								<span className={layoutStyles.preview_badge_text}>
-									{release.version}
-								</span>
+								<span className={layoutStyles.preview_badge_text}>{release.version}</span>
 							</div>
 						)}
 					</div>

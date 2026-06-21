@@ -64,13 +64,7 @@ export default function RpcPreview({
 					<div className={styles.rpc_user}>
 						<div className={styles.rpc_avatar}>
 							<div className={styles.avatar_placeholder}>
-								<Image
-									src={avatarSrc || Logo}
-									alt='Avatar'
-									width={48}
-									height={48}
-									unoptimized
-								/>
+								<Image src={avatarSrc || Logo} alt='Avatar' width={48} height={48} unoptimized />
 							</div>
 							<div className={styles.status_indicator} />
 						</div>
@@ -95,26 +89,19 @@ export default function RpcPreview({
 								<div className={styles.art_overlay} />
 							</div>
 							<div className={styles.activity_details}>
-								<div className={styles.details_title}>
-									{currentCycle.details}
-								</div>
+								<div className={styles.details_title}>{currentCycle.details}</div>
 								<div className={styles.details_state}>{currentCycle.state}</div>
 								<div className={styles.progress_bar}>
 									<div className={styles.progress_bg}>
 										<div
 											className={styles.progress_fill}
 											style={{
-												width: `${
-													((currentIndex + 1) / config.cycles.length) * 100
-												}%`,
+												width: `${((currentIndex + 1) / config.cycles.length) * 100}%`,
 											}}
 										/>
 									</div>
 									<div className={styles.progress_time}>
-										{Math.round(
-											((currentIndex + 1) / config.cycles.length) * 100
-										)}
-										%
+										{Math.round(((currentIndex + 1) / config.cycles.length) * 100)}%
 									</div>
 								</div>
 							</div>

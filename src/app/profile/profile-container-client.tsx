@@ -14,12 +14,7 @@ type Props = {
 	userId: string
 }
 
-export function ProfileContainerClient({
-	initialConfigs,
-	user,
-	session,
-	userId,
-}: Props) {
+export function ProfileContainerClient({ initialConfigs, user, session, userId }: Props) {
 	const [configs, setConfigs] = useState<Config[]>(initialConfigs)
 
 	useEffect(() => {
@@ -28,7 +23,7 @@ export function ProfileContainerClient({
 				setConfigs(next)
 			},
 			undefined,
-			userId,
+			userId
 		)
 
 		return () => {
@@ -36,10 +31,7 @@ export function ProfileContainerClient({
 		}
 	}, [userId])
 
-	const lastConfig = useMemo(
-		() => (configs.length ? configs[configs.length - 1] : null),
-		[configs],
-	)
+	const lastConfig = useMemo(() => (configs.length ? configs[configs.length - 1] : null), [configs])
 
 	return (
 		<>

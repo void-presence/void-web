@@ -61,26 +61,18 @@ export function useCountUp({
 			motionValue.set(startValue)
 		}, delay * 1000)
 
-		const durationTimeoutId = setTimeout(() => {
-			onEnd?.()
-		}, (delay + duration) * 1000)
+		const durationTimeoutId = setTimeout(
+			() => {
+				onEnd?.()
+			},
+			(delay + duration) * 1000
+		)
 
 		return () => {
 			clearTimeout(timeoutId)
 			clearTimeout(durationTimeoutId)
 		}
-	}, [
-		isInView,
-		startWhen,
-		direction,
-		from,
-		to,
-		delay,
-		duration,
-		motionValue,
-		onStart,
-		onEnd,
-	])
+	}, [isInView, startWhen, direction, from, to, delay, duration, motionValue, onStart, onEnd])
 
 	const formatted = useRef<string>(String(direction === 'down' ? to : from))
 
@@ -94,9 +86,7 @@ export function useCountUp({
 			}
 
 			const formattedNumber = Intl.NumberFormat('en-US', options).format(latest)
-			formatted.current = separator
-				? formattedNumber.replace(/,/g, separator)
-				: formattedNumber
+			formatted.current = separator ? formattedNumber.replace(/,/g, separator) : formattedNumber
 
 			if (ref.current) {
 				ref.current.textContent = formatted.current

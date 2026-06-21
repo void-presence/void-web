@@ -16,12 +16,10 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
 	return {
 		title: 'Config details',
-		description:
-			'Inspect and use a community Void Presence Discord Rich Presence config.',
+		description: 'Inspect and use a community Void Presence Discord Rich Presence config.',
 		openGraph: {
 			title: 'Config details',
-			description:
-				'Inspect and use a community Void Presence Discord Rich Presence config.',
+			description: 'Inspect and use a community Void Presence Discord Rich Presence config.',
 			url: `/configs/${id}`,
 		},
 	}

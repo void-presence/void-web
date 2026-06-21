@@ -67,9 +67,7 @@ export default function AppShell({
 							{statusLabel}
 						</span>
 					)}
-					{statusHint && (
-						<span className={styles.app_status_hint}>{statusHint}</span>
-					)}
+					{statusHint && <span className={styles.app_status_hint}>{statusHint}</span>}
 				</div>
 			)}
 

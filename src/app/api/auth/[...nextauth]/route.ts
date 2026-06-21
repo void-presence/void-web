@@ -75,9 +75,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth(req => {
 
 				if (token.id) {
 					try {
-						token.firebaseToken = await admin
-							.auth()
-							.createCustomToken(String(token.id))
+						token.firebaseToken = await admin.auth().createCustomToken(String(token.id))
 					} catch {}
 				}
 

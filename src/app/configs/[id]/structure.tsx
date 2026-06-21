@@ -15,9 +15,7 @@ export function ConfigStructure({ configData }: Props) {
 		<>
 			<button
 				type='button'
-				className={`${styles.details_toggle} ${
-					open ? styles.details_toggle_open : ''
-				}`}
+				className={`${styles.details_toggle} ${open ? styles.details_toggle_open : ''}`}
 				onClick={() => setOpen(o => !o)}
 			>
 				<div className={styles.details_toggle_left}>
@@ -25,8 +23,7 @@ export function ConfigStructure({ configData }: Props) {
 					<span className={styles.details_title}>Config structure</span>
 				</div>
 				<span className={styles.details_count}>
-					{configData.cycles?.length ?? 0} cycles •{' '}
-					{configData.imageCycles?.length ?? 0} images •{' '}
+					{configData.cycles?.length ?? 0} cycles • {configData.imageCycles?.length ?? 0} images •{' '}
 					{configData.buttonPairs?.length ?? 0} button sets
 				</span>
 			</button>
@@ -46,12 +43,8 @@ export function ConfigStructure({ configData }: Props) {
 										{index + 1}/{configData.cycles.length}
 									</div>
 									<div className={styles.cycle_details}>
-										<div className={styles.cycle_title}>
-											{cycle.details || 'No details'}
-										</div>
-										<div className={styles.cycle_state}>
-											{cycle.state || 'No state'}
-										</div>
+										<div className={styles.cycle_title}>{cycle.details || 'No details'}</div>
+										<div className={styles.cycle_state}>{cycle.state || 'No state'}</div>
 									</div>
 								</div>
 							))
@@ -71,9 +64,7 @@ export function ConfigStructure({ configData }: Props) {
 										{index + 1}/{configData.imageCycles.length}
 									</div>
 									<div className={styles.cycle_details}>
-										<div className={styles.cycle_title}>
-											{img.largeImage || 'No image key'}
-										</div>
+										<div className={styles.cycle_title}>{img.largeImage || 'No image key'}</div>
 									</div>
 								</div>
 							))
@@ -93,12 +84,8 @@ export function ConfigStructure({ configData }: Props) {
 										{index + 1}/{configData.buttonPairs.length}
 									</div>
 									<div className={styles.cycle_details}>
-										<div className={styles.cycle_title}>
-											{pair.label1 || 'Button 1'}
-										</div>
-										<div className={styles.cycle_state}>
-											{pair.url1 || 'No URL'}
-										</div>
+										<div className={styles.cycle_title}>{pair.label1 || 'Button 1'}</div>
+										<div className={styles.cycle_state}>{pair.url1 || 'No URL'}</div>
 										{pair.label2 && pair.url2 && (
 											<>
 												<div className={styles.cycle_title}>{pair.label2}</div>

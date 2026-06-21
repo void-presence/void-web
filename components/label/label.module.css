@@ -38,12 +38,7 @@
 	transform: translateX(-50%);
 	width: 82px;
 	height: 1px;
-	background: linear-gradient(
-		90deg,
-		transparent,
-		rgba(148, 163, 184, 0.9),
-		transparent
-	);
+	background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.9), transparent);
 	opacity: 0.8;
 }
 

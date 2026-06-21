@@ -3,28 +3,21 @@ import Page from '@components/page'
 import PageHeader from '@components/page-header'
 import { PanelLayout } from '@components/panel-layout'
 import type { Metadata } from 'next'
-import {
-	default as downloadStyles,
-	default as styles,
-} from './download/download.module.css'
+import { default as downloadStyles, default as styles } from './download/download.module.css'
 
 export const metadata: Metadata = {
 	title: 'Page not found',
-	description:
-		'The page you requested does not exist or is no longer available.',
+	description: 'The page you requested does not exist or is no longer available.',
 	openGraph: {
 		title: 'Void Presence – Page not found',
-		description:
-			'The page you requested does not exist or is no longer available.',
+		description: 'The page you requested does not exist or is no longer available.',
 		url: '/not-found',
 	},
 }
 
 const left = (
 	<a href='/download' className={downloadStyles.download_btn_primary}>
-		<span className={downloadStyles.asset_action_text}>
-			Go to download page
-		</span>
+		<span className={downloadStyles.asset_action_text}>Go to download page</span>
 	</a>
 )
 
@@ -92,9 +85,8 @@ const right = (
 							color: 'rgba(226,232,240,0.8)',
 						}}
 					>
-						The content you were looking for might have been moved, renamed, or
-						deleted. Try going back to the homepage or checking the downloads
-						and docs sections.
+						The content you were looking for might have been moved, renamed, or deleted. Try going
+						back to the homepage or checking the downloads and docs sections.
 					</p>
 				</div>
 			</div>
@@ -110,11 +102,7 @@ export default function NotFound() {
 				subtitle='The page you requested does not exist or is no longer available.'
 			/>
 
-			<PanelLayout
-				left={left}
-				right={right}
-				className={styles.not_found_panel}
-			/>
+			<PanelLayout left={left} right={right} className={styles.not_found_panel} />
 			<Footer />
 		</Page>
 	)

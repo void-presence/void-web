@@ -44,8 +44,8 @@
 
 .docs_code {
 	font-family:
-		ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
-		'Courier New', monospace;
+		ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+		monospace;
 	font-size: 12px;
 	background: hsla(0, 0%, 100%, 0.06);
 	padding: 1px 4px;

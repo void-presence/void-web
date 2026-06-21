@@ -17,12 +17,12 @@ export default function Button() {
 			try {
 				setLoading(true)
 				const response = await fetch(
-					'https://api.github.com/repos/Devollox/void-installer/releases/latest',
+					'https://api.github.com/repos/Devollox/void-installer/releases/latest'
 				)
 				const release = await response.json()
 
 				const exeAsset = release.assets?.find((asset: { name: string }) =>
-					asset.name.toLowerCase().endsWith('.exe'),
+					asset.name.toLowerCase().endsWith('.exe')
 				)
 
 				if (exeAsset) {
@@ -73,10 +73,7 @@ export default function Button() {
 			</button>
 
 			<a href='/configs'>
-				<button
-					className={`${styles.btn} ${styles.btn_secondary}`}
-					id='hero-community-button'
-				>
+				<button className={`${styles.btn} ${styles.btn_secondary}`} id='hero-community-button'>
 					<Book size={18} />
 					<span>Configs</span>
 				</button>

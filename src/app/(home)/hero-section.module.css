@@ -10,11 +10,7 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	background-image: radial-gradient(
-		circle at top center,
-		var(--bg3),
-		var(--bg2)
-	);
+	background-image: radial-gradient(circle at top center, var(--bg3), var(--bg2));
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: 50%;
@@ -78,14 +74,7 @@
 }
 
 .title_gradient {
-	background: linear-gradient(
-		135deg,
-		#fff 0%,
-		#fff 40%,
-		#a8a8a8 50%,
-		#fff 60%,
-		#fff 100%
-	);
+	background: linear-gradient(135deg, #fff 0%, #fff 40%, #a8a8a8 50%, #fff 60%, #fff 100%);
 	background-size: 200% 200%;
 	-webkit-background-clip: text;
 	background-clip: text;

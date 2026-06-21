@@ -37,10 +37,7 @@ export function DownloadsContentBase({
 		}))
 		.reverse()
 
-	const totalDownloads = chartData.reduce(
-		(sum, item) => sum + item.totalDownloads,
-		0,
-	)
+	const totalDownloads = chartData.reduce((sum, item) => sum + item.totalDownloads, 0)
 
 	const left = (
 		<>
@@ -55,9 +52,7 @@ export function DownloadsContentBase({
 						</div>
 						<div className={styles.release_row}>
 							<span className={styles.release_label}>Total downloads</span>
-							<span className={styles.release_value}>
-								{totalDownloads.toLocaleString('en-US')}
-							</span>
+							<span className={styles.release_value}>{totalDownloads.toLocaleString('en-US')}</span>
 						</div>
 					</div>
 
@@ -98,9 +93,7 @@ export function DownloadsContentBase({
 							<InfoBox
 								variant='secondary'
 								title='Installer docs'
-								lines={[
-									'Read the installer docs for platform-specific steps and troubleshooting.',
-								]}
+								lines={['Read the installer docs for platform-specific steps and troubleshooting.']}
 								linkHref={docsHref}
 								linkLabel='Read installer docs'
 							/>
@@ -123,11 +116,7 @@ export function DownloadsContentBase({
 	const right = (
 		<section className={styles.page_section}>
 			<div style={{ marginBottom: '20px' }}>
-				<InfoBox
-					variant='secondary'
-					linkHref={scheduleHref}
-					linkLabel='Back to Schedule'
-				/>
+				<InfoBox variant='secondary' linkHref={scheduleHref} linkLabel='Back to Schedule' />
 			</div>
 			<div className={layoutStyles.preview_card_wrap}>
 				<ReleasesDownloadsChart data={chartData} title={chartTitle} />

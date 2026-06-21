@@ -375,35 +375,19 @@
 }
 
 .bg_release_alpha {
-	background: linear-gradient(
-		135deg,
-		rgba(129, 140, 248, 0.1) 0%,
-		transparent 100%
-	);
+	background: linear-gradient(135deg, rgba(129, 140, 248, 0.1) 0%, transparent 100%);
 }
 
 .bg_release_alpha:hover {
-	background: linear-gradient(
-		135deg,
-		rgba(129, 140, 248, 0.16) 0%,
-		transparent 100%
-	);
+	background: linear-gradient(135deg, rgba(129, 140, 248, 0.16) 0%, transparent 100%);
 }
 
 .dark .bg_release_alpha {
-	background: linear-gradient(
-		135deg,
-		rgba(129, 140, 248, 0.08) 0%,
-		transparent 100%
-	);
+	background: linear-gradient(135deg, rgba(129, 140, 248, 0.08) 0%, transparent 100%);
 }
 
 .dark .bg_release_alpha:hover {
-	background: linear-gradient(
-		135deg,
-		rgba(129, 140, 248, 0.12) 0%,
-		transparent 100%
-	);
+	background: linear-gradient(135deg, rgba(129, 140, 248, 0.12) 0%, transparent 100%);
 }
 
 .dot_alpha {
@@ -411,35 +395,19 @@
 }
 
 .bg_release_beta {
-	background: linear-gradient(
-		135deg,
-		rgba(6, 182, 212, 0.1) 0%,
-		transparent 100%
-	);
+	background: linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, transparent 100%);
 }
 
 .bg_release_beta:hover {
-	background: linear-gradient(
-		135deg,
-		rgba(6, 182, 212, 0.16) 0%,
-		transparent 100%
-	);
+	background: linear-gradient(135deg, rgba(6, 182, 212, 0.16) 0%, transparent 100%);
 }
 
 .dark .bg_release_beta {
-	background: linear-gradient(
-		135deg,
-		rgba(6, 182, 212, 0.08) 0%,
-		transparent 100%
-	);
+	background: linear-gradient(135deg, rgba(6, 182, 212, 0.08) 0%, transparent 100%);
 }
 
 .dark .bg_release_beta:hover {
-	background: linear-gradient(
-		135deg,
-		rgba(6, 182, 212, 0.12) 0%,
-		transparent 100%
-	);
+	background: linear-gradient(135deg, rgba(6, 182, 212, 0.12) 0%, transparent 100%);
 }
 
 .dot_beta {
@@ -486,8 +454,8 @@
 	font-size: 11px;
 	color: #e5e7eb;
 	font-family:
-		ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
-		'Courier New', monospace;
+		ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+		monospace;
 	font-feature-settings: 'tnum' 1;
 	letter-spacing: -0.01em;
 
@@ -501,8 +469,8 @@
 	font-size: 11px;
 	font-weight: 600;
 	font-family:
-		ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
-		'Courier New', monospace;
+		ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+		monospace;
 	font-feature-settings: 'tnum' 1;
 	letter-spacing: -0.01em;
 	white-space: nowrap;

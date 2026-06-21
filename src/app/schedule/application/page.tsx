@@ -12,8 +12,7 @@ export const metadata: Metadata = {
 		'Release Application and history for Void Presence with version timeline and GitHub release data.',
 	openGraph: {
 		title: 'Void Presence Application Release',
-		description:
-			'Track Void Presence releases, prereleases, and changelog history in one place.',
+		description: 'Track Void Presence releases, prereleases, and changelog history in one place.',
 		url: '/schedule/application',
 	},
 }
@@ -27,12 +26,7 @@ export default function ApplicationPage() {
 			/>
 			<Suspense
 				fallback={
-					<ReleaseListSkeleton
-						countSkeleton={5}
-						backBtn={false}
-						analytics={false}
-						list={true}
-					/>
+					<ReleaseListSkeleton countSkeleton={5} backBtn={false} analytics={false} list={true} />
 				}
 			>
 				<ReleasesSection />

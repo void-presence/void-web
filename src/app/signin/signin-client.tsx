@@ -38,9 +38,7 @@ export function SignInPageClient() {
 					<div className={layoutStyles.preview_header}>
 						<h3 className={layoutStyles.preview_title}>Sign in</h3>
 						<div className={layoutStyles.preview_badge}>
-							<span className={layoutStyles.preview_badge_text}>
-								Secure OAuth
-							</span>
+							<span className={layoutStyles.preview_badge_text}>Secure OAuth</span>
 						</div>
 					</div>
 
@@ -52,9 +50,7 @@ export function SignInPageClient() {
 						>
 							<span className={styles.asset_info}>
 								<span className={styles.asset_name}>Sign in with Google</span>
-								<span className={styles.asset_size}>
-									Use your Google account
-								</span>
+								<span className={styles.asset_size}>Use your Google account</span>
 							</span>
 							<span className={styles.asset_action_text}>Continue</span>
 						</button>
@@ -65,9 +61,7 @@ export function SignInPageClient() {
 						>
 							<span className={styles.asset_info}>
 								<span className={styles.asset_name}>Sign in with Discord</span>
-								<span className={styles.asset_size}>
-									Use your Discord account
-								</span>
+								<span className={styles.asset_size}>Use your Discord account</span>
 							</span>
 							<span className={styles.asset_action_text}>Continue</span>
 						</button>
@@ -78,9 +72,7 @@ export function SignInPageClient() {
 						>
 							<span className={styles.asset_info}>
 								<span className={styles.asset_name}>Sign in with Steam</span>
-								<span className={styles.asset_size}>
-									Use your Steam account
-								</span>
+								<span className={styles.asset_size}>Use your Steam account</span>
 							</span>
 							<span className={styles.asset_action_text}>Continue</span>
 						</button>
@@ -91,18 +83,15 @@ export function SignInPageClient() {
 						>
 							<span className={styles.asset_info}>
 								<span className={styles.asset_name}>Sign in with GitHub</span>
-								<span className={styles.asset_size}>
-									Use your GitHub account
-								</span>
+								<span className={styles.asset_size}>Use your GitHub account</span>
 							</span>
 							<span className={styles.asset_action_text}>Continue</span>
 						</button>
 					</div>
 
 					<p className={layoutStyles.secondary_text}>
-						We only use your account to authenticate you and sync your configs.
-						You can revoke access from your provider&apos;s settings at any
-						time.
+						We only use your account to authenticate you and sync your configs. You can revoke
+						access from your provider&apos;s settings at any time.
 					</p>
 				</div>
 			</div>

@@ -102,21 +102,13 @@ export function ConfigDetailsClient({ configId, initialPreviewTick }: Props) {
 
 	const configData: any = config.configData
 
-	const cycles = configData.cycles?.length
-		? configData.cycles
-		: [{ details: '', state: '' }]
-	const images = configData.imageCycles?.length
-		? configData.imageCycles
-		: [{ largeImage: '' }]
+	const cycles = configData.cycles?.length ? configData.cycles : [{ details: '', state: '' }]
+	const images = configData.imageCycles?.length ? configData.imageCycles : [{ largeImage: '' }]
 	const buttonsList = configData.buttonPairs?.length
 		? configData.buttonPairs
 		: [{ label1: '', url1: '' }]
 
-	const maxLen = Math.max(
-		cycles.length || 1,
-		images.length || 1,
-		buttonsList.length || 1,
-	)
+	const maxLen = Math.max(cycles.length || 1, images.length || 1, buttonsList.length || 1)
 
 	const localIndex = maxLen ? previewTick % maxLen : 0
 
@@ -131,7 +123,7 @@ export function ConfigDetailsClient({ configId, initialPreviewTick }: Props) {
 
 	const handleOpenInApp = async () => {
 		window.location.href = `voidpresence://import-config?title=${encodeURIComponent(
-			config.title,
+			config.title
 		)}&data=${encodeURIComponent(JSON.stringify(config.configData))}`
 
 		try {
@@ -160,9 +152,7 @@ export function ConfigDetailsClient({ configId, initialPreviewTick }: Props) {
 									← Back to Configs
 								</a>
 								<h1 className={styles.title}>{config.title}</h1>
-								<div className={styles.title_description}>
-									{config.description}
-								</div>
+								<div className={styles.title_description}>{config.description}</div>
 								<section className={styles.addon_actions}>
 									<div className={styles.btn_container}>
 										<a href='/configs' className={styles.download_btn_primary}>
@@ -202,10 +192,7 @@ export function ConfigDetailsClient({ configId, initialPreviewTick }: Props) {
 									Export or share this Discord Rich Presence config.
 								</p>
 								<div className={styles.actions_buttons}>
-									<a
-										className={styles.action_btn_primary}
-										onClick={handleOpenInApp}
-									>
+									<a className={styles.action_btn_primary} onClick={handleOpenInApp}>
 										Open in app
 										<span className={styles.action_btn_hint}>import .json</span>
 									</a>

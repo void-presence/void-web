@@ -16,9 +16,7 @@ export default function Navbar() {
 					<div className={styles.navbar_logo_mark}>vP</div>
 					<div className={styles.navbar_brand_text}>
 						<span className={styles.navbar_brand_title}>Void Presence</span>
-						<span className={styles.navbar_brand_subtitle}>
-							Discord Rich Presence manager
-						</span>
+						<span className={styles.navbar_brand_subtitle}>Discord Rich Presence manager</span>
 					</div>
 				</Link>
 
@@ -34,22 +32,14 @@ export default function Navbar() {
 					</Link>
 
 					<div className={styles.nav_schedule_group}>
-						<div
-							className={`${styles.nav_button} ${styles.nav_link} ${styles.nav_link_schedule}`}
-						>
+						<div className={`${styles.nav_button} ${styles.nav_link} ${styles.nav_link_schedule}`}>
 							Schedule
 						</div>
 						<div className={styles.nav_schedule_dropdown}>
-							<Link
-								className={styles.nav_schedule_item}
-								href='/schedule/application'
-							>
+							<Link className={styles.nav_schedule_item} href='/schedule/application'>
 								Application
 							</Link>
-							<Link
-								className={styles.nav_schedule_item}
-								href='/schedule/installer'
-							>
+							<Link className={styles.nav_schedule_item} href='/schedule/installer'>
 								Installer
 							</Link>
 						</div>
@@ -79,10 +69,7 @@ export default function Navbar() {
 
 					{!isAuth && (
 						<Link className={styles.nav_cta_wrap} href='/signin'>
-							<button
-								type='button'
-								className={`${styles.btn} ${styles.btn_secondary}`}
-							>
+							<button type='button' className={`${styles.btn} ${styles.btn_secondary}`}>
 								<UserPen size={16} />
 								<span>Sign in</span>
 							</button>
@@ -90,10 +77,7 @@ export default function Navbar() {
 					)}
 					{isAuth && (
 						<Link className={styles.nav_cta_wrap} href='/profile'>
-							<button
-								type='button'
-								className={`${styles.btn} ${styles.btn_secondary}`}
-							>
+							<button type='button' className={`${styles.btn} ${styles.btn_secondary}`}>
 								<UserPen size={16} />
 								<span>{session.user?.name ?? 'Profile'}</span>
 							</button>

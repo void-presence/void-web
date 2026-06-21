@@ -1,20 +1,13 @@
 import { parseBuildTagFromNotes } from './parse-version'
 
-export type ReleaseType =
-	| 'stable'
-	| 'pre-release'
-	| 'nightly'
-	| 'end of life'
-	| 'broken'
+export type ReleaseType = 'stable' | 'pre-release' | 'nightly' | 'end of life' | 'broken'
 
 export interface ClassifiedReleaseTag {
 	type: ReleaseType
 	buildTag?: string
 }
 
-export function parseBuildTagFromTagName(
-	tagName: string | undefined,
-): string | undefined {
+export function parseBuildTagFromTagName(tagName: string | undefined): string | undefined {
 	if (!tagName) return undefined
 
 	const lower = tagName.toLowerCase()
@@ -33,7 +26,7 @@ export function parseBuildTagFromTagName(
 
 export function classifyRelease(
 	raw: { tag_name?: string; prerelease?: boolean },
-	notes: string,
+	notes: string
 ): ClassifiedReleaseTag {
 	const tagFromTagName = parseBuildTagFromTagName(raw.tag_name)
 	const tagFromNotes = parseBuildTagFromNotes(notes)

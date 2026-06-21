@@ -64,9 +64,7 @@ export default function DocsPage() {
 			<InfoBox
 				variant='secondary'
 				title='Where are my configs?'
-				lines={[
-					'You can find all your saved configurations right here in your profile.',
-				]}
+				lines={['You can find all your saved configurations right here in your profile.']}
 				linkHref='/profile'
 				linkLabel='View my configs'
 			/>
@@ -86,9 +84,8 @@ export default function DocsPage() {
 			<section className={styles.docs_card}>
 				<h3 className={styles.docs_title}>Overview</h3>
 				<p className={styles.docs_text}>
-					Void Presence is an advanced Discord Rich Presence manager with
-					customizable button pairs, text cycles, image rotation and profile
-					management via drag and drop.
+					Void Presence is an advanced Discord Rich Presence manager with customizable button pairs,
+					text cycles, image rotation and profile management via drag and drop.
 				</p>
 			</section>
 
@@ -103,9 +100,7 @@ export default function DocsPage() {
 						</div>
 						<div className={styles.quick_activity_title}>
 							<span className={styles.quick_activity_main}>Idle</span>
-							<span className={styles.quick_activity_sub}>
-								Waiting for Discord
-							</span>
+							<span className={styles.quick_activity_sub}>Waiting for Discord</span>
 						</div>
 					</div>
 
@@ -128,16 +123,10 @@ export default function DocsPage() {
 					<div className={styles.quick_blocks}>
 						<div className={styles.quick_block}>
 							<div className={styles.quick_block_header}>
-								<span className={styles.quick_block_label}>
-									Details &amp; State
-								</span>
-								<button className={styles.quick_block_add}>
-									+ DETAILS &amp; STATE
-								</button>
+								<span className={styles.quick_block_label}>Details &amp; State</span>
+								<button className={styles.quick_block_add}>+ DETAILS &amp; STATE</button>
 							</div>
-							<div className={styles.quick_block_hint}>
-								left column · text rows
-							</div>
+							<div className={styles.quick_block_hint}>left column · text rows</div>
 						</div>
 
 						<div className={styles.quick_block}>
@@ -146,8 +135,7 @@ export default function DocsPage() {
 								<button className={styles.quick_block_add}>+ image</button>
 							</div>
 							<div className={styles.quick_block_hint}>
-								center/right · large / small keys (small image and hover text
-								are optional)
+								center/right · large / small keys (small image and hover text are optional)
 							</div>
 						</div>
 
@@ -156,19 +144,16 @@ export default function DocsPage() {
 								<span className={styles.quick_block_label}>button pairs</span>
 								<button className={styles.quick_block_add}>+ pair</button>
 							</div>
-							<div className={styles.quick_block_hint}>
-								bottom block · button 1 / button 2
-							</div>
+							<div className={styles.quick_block_hint}>bottom block · button 1 / button 2</div>
 						</div>
 					</div>
 				</div>
 
 				<ol className={styles.docs_list_ordered}>
 					<li className={styles.docs_list_item}>
-						Open Discord desktop and keep it running. In Void Presence, the
-						status chip at the top of the main card (same as in the mini preview
-						above) will switch from “Waiting for Discord” once the RPC
-						connection is ready.
+						Open Discord desktop and keep it running. In Void Presence, the status chip at the top
+						of the main card (same as in the mini preview above) will switch from “Waiting for
+						Discord” once the RPC connection is ready.
 					</li>
 					<li className={styles.docs_list_item}>
 						In the{' '}
@@ -180,67 +165,53 @@ export default function DocsPage() {
 						>
 							Discord Developer Portal
 						</a>
-						, <span className={styles.docs_code}>New Application</span>, give it
-						a name and choose an{' '}
-						<span className={styles.docs_code}>App icon</span>. This icon will
-						be used as the avatar of your activity when you are in a Discord
-						voice or text channel.
+						, <span className={styles.docs_code}>New Application</span>, give it a name and choose
+						an <span className={styles.docs_code}>App icon</span>. This icon will be used as the
+						avatar of your activity when you are in a Discord voice or text channel.
 					</li>
 					<li className={styles.docs_list_item}>
 						On the application page, copy the{' '}
-						<span className={styles.docs_code}>APPLICATION ID</span> and paste
-						it into the rounded{' '}
-						<span className={styles.docs_code}>client id</span> field at the top
-						of the main card in Void Presence (see the first row in the
-						preview). Then click the{' '}
-						<span className={styles.docs_code}>save</span> button on the right
-						of this row.
+						<span className={styles.docs_code}>APPLICATION ID</span> and paste it into the rounded{' '}
+						<span className={styles.docs_code}>client id</span> field at the top of the main card in
+						Void Presence (see the first row in the preview). Then click the{' '}
+						<span className={styles.docs_code}>save</span> button on the right of this row.
 					</li>
 					<li className={styles.docs_list_item}>
-						In the row below, set{' '}
-						<span className={styles.docs_code}>update(sec)</span> – this is how
-						often Void Presence will move to the next entry in your cycles (for
-						example, 30 seconds for a slow rotation).
+						In the row below, set <span className={styles.docs_code}>update(sec)</span> – this is
+						how often Void Presence will move to the next entry in your cycles (for example, 30
+						seconds for a slow rotation).
 					</li>
 					<li className={styles.docs_list_item}>
-						In the <span className={styles.docs_code}>Details &amp; State</span>{' '}
-						block on the left side of the main card (first small block in the
-						preview), click{' '}
-						<span className={styles.docs_code}>+ DETAILS &amp; STATE</span>. In
-						each new row that appears, type the top line into the first pill
-						input (Details) and the second line into the lower pill input
-						(State).
+						In the <span className={styles.docs_code}>Details &amp; State</span> block on the left
+						side of the main card (first small block in the preview), click{' '}
+						<span className={styles.docs_code}>+ DETAILS &amp; STATE</span>. In each new row that
+						appears, type the top line into the first pill input (Details) and the second line into
+						the lower pill input (State).
 					</li>
 					<li className={styles.docs_list_item}>
-						In the <span className={styles.docs_code}>images</span> block
-						(middle block in the preview), click{' '}
-						<span className={styles.docs_code}>+ image</span>. For each row,
-						fill the large image key, and optionally the small image key and
-						hover texts – these fields can be left empty if you only need one
-						image without captions.
+						In the <span className={styles.docs_code}>images</span> block (middle block in the
+						preview), click <span className={styles.docs_code}>+ image</span>. For each row, fill
+						the large image key, and optionally the small image key and hover texts – these fields
+						can be left empty if you only need one image without captions.
 					</li>
 					<li className={styles.docs_list_item}>
-						In the <span className={styles.docs_code}>button pairs</span> block
-						(bottom block in the preview), click{' '}
-						<span className={styles.docs_code}>+ pair</span>. In each row, type
-						the label and HTTPS URL for Button 1 and optionally Button 2; if
-						Button 2 is empty, only the first button will appear in Discord.
+						In the <span className={styles.docs_code}>button pairs</span> block (bottom block in the
+						preview), click <span className={styles.docs_code}>+ pair</span>. In each row, type the
+						label and HTTPS URL for Button 1 and optionally Button 2; if Button 2 is empty, only the
+						first button will appear in Discord.
 					</li>
 					<li className={styles.docs_list_item}>
 						When all fields are filled, click the{' '}
-						<span className={styles.docs_code}>Save and Restart Presence</span>{' '}
-						button under the main card in the app to apply your configuration.
-						The current payload panel at the bottom of the window will show
-						exactly what is being sent to Discord.
+						<span className={styles.docs_code}>Save and Restart Presence</span> button under the
+						main card in the app to apply your configuration. The current payload panel at the
+						bottom of the window will show exactly what is being sent to Discord.
 					</li>
 				</ol>
 
 				<p className={styles.docs_text}>
-					Click{' '}
-					<span className={styles.docs_code}>Save and Restart Presence</span>{' '}
-					after each change – the app will automatically save your configuration
-					and restart the active Rich Presence session with the updated details,
-					images and buttons.
+					Click <span className={styles.docs_code}>Save and Restart Presence</span> after each
+					change – the app will automatically save your configuration and restart the active Rich
+					Presence session with the updated details, images and buttons.
 				</p>
 
 				<div className={styles.rpc_preview_section}>
@@ -252,54 +223,52 @@ export default function DocsPage() {
 					</div>
 					<div className={styles.preview_legend}>
 						<div>
-							<span className={styles.legend_key}>details</span> - main line
-							(from Details input)
+							<span className={styles.legend_key}>details</span> - main line (from Details input)
 						</div>
 						<div>
-							<span className={styles.legend_key}>state</span> - subtitle (from
-							State input)
+							<span className={styles.legend_key}>state</span> - subtitle (from State input)
 						</div>
 						<div>
-							<span className={styles.legend_key}>largeImage</span> - main
-							artwork (from Images block)
+							<span className={styles.legend_key}>largeImage</span> - main artwork (from Images
+							block)
 						</div>
 						<div>
-							<span className={styles.legend_key}>buttons</span> - clickable
-							links (from Button pairs)
+							<span className={styles.legend_key}>buttons</span> - clickable links (from Button
+							pairs)
 						</div>
 					</div>
 				</div>
 
 				<p className={styles.docs_text}>
-					<strong>App icon is important:</strong> This icon appears as your
-					activity avatar when you're in Discord voice/text channels. Upload a
-					512x512 PNG with transparent background for best results.
+					<strong>App icon is important:</strong> This icon appears as your activity avatar when
+					you're in Discord voice/text channels. Upload a 512x512 PNG with transparent background
+					for best results.
 				</p>
 			</section>
 
 			<section className={styles.docs_card}>
 				<h3 className={styles.docs_subtitle}>How cycles work</h3>
 				<p className={styles.docs_text}>
-					Internally, each list (text, images, buttons) is an ordered array of
-					rows. On every tick, Void Presence moves an index forward and uses the
-					row at that position for the next Rich Presence update.
+					Internally, each list (text, images, buttons) is an ordered array of rows. On every tick,
+					Void Presence moves an index forward and uses the row at that position for the next Rich
+					Presence update.
 				</p>
 				<ul className={styles.docs_list}>
 					<li className={styles.docs_list_item}>
-						Text cycle – rows from the Details &amp; State list are used for the
-						main and secondary lines in Discord.
+						Text cycle – rows from the Details &amp; State list are used for the main and secondary
+						lines in Discord.
 					</li>
 					<li className={styles.docs_list_item}>
-						Image cycle – rows from the images list control large/small image
-						keys and their hover texts.
+						Image cycle – rows from the images list control large/small image keys and their hover
+						texts.
 					</li>
 					<li className={styles.docs_list_item}>
-						Button cycle – rows from the button pairs list control the two
-						clickable buttons; missing second button is simply ignored.
+						Button cycle – rows from the button pairs list control the two clickable buttons;
+						missing second button is simply ignored.
 					</li>
 					<li className={styles.docs_list_item}>
-						If a list has only one row, the same values repeat on every step
-						while other lists still rotate through their own rows.
+						If a list has only one row, the same values repeat on every step while other lists still
+						rotate through their own rows.
 					</li>
 				</ul>
 			</section>
@@ -307,16 +276,14 @@ export default function DocsPage() {
 			<section className={styles.docs_card}>
 				<h3 className={styles.docs_subtitle}>Cycles UI demo</h3>
 				<p className={styles.docs_text}>
-					This example mirrors the Details &amp; State section in the desktop
-					app: a label row, a rounded “+ Details &amp; State” button and a
-					vertical list of draggable rows inside the cycles-list area.
+					This example mirrors the Details &amp; State section in the desktop app: a label row, a
+					rounded “+ Details &amp; State” button and a vertical list of draggable rows inside the
+					cycles-list area.
 				</p>
 				<div className={styles.demo_card}>
 					<div className={styles.demo_header}>
 						<span className={styles.demo_label}>Details &amp; State</span>
-						<button className={styles.demo_add_btn}>
-							+ DETAILS &amp; STATE
-						</button>
+						<button className={styles.demo_add_btn}>+ DETAILS &amp; STATE</button>
 					</div>
 					<div className={styles.demo_list} aria-label='cycles-list'>
 						<div className={styles.demo_row}>
@@ -377,20 +344,18 @@ export default function DocsPage() {
 					</div>
 				</div>
 				<p className={styles.docs_text}>
-					In the real app, each row in the cycles-list is draggable: on drag it
-					darkens, gets a glow border and shadow, and you can drop it above or
-					below other rows to change the order in which statuses appear in
-					Discord.
+					In the real app, each row in the cycles-list is draggable: on drag it darkens, gets a glow
+					border and shadow, and you can drop it above or below other rows to change the order in
+					which statuses appear in Discord.
 				</p>
 			</section>
 
 			<section className={styles.docs_card}>
 				<h3 className={styles.docs_subtitle}>Payload & logs</h3>
 				<p className={styles.docs_text}>
-					Below the main card, the current payload block shows the Buttons,
-					Object, State and Uptime fields that match what is currently sent to
-					Discord, and the logs tab collects a scrollable list of update
-					entries.
+					Below the main card, the current payload block shows the Buttons, Object, State and Uptime
+					fields that match what is currently sent to Discord, and the logs tab collects a
+					scrollable list of update entries.
 				</p>
 				<div className={styles.payload_demo}>
 					<div className={styles.payload_demo_header}>current payload</div>
@@ -398,19 +363,13 @@ export default function DocsPage() {
 						<span className={styles.payload_demo_label}>Buttons</span>
 						<span className={styles.payload_demo_value}>Support · Website</span>
 						<span className={styles.payload_demo_label}>Object</span>
-						<span className={styles.payload_demo_value}>
-							void_presence_activity_v2
-						</span>
+						<span className={styles.payload_demo_value}>void_presence_activity_v2</span>
 						<span className={styles.payload_demo_label}>State</span>
-						<span className={styles.payload_demo_value}>
-							Idle · Desktop client
-						</span>
+						<span className={styles.payload_demo_value}>Idle · Desktop client</span>
 						<span className={styles.payload_demo_label}>Uptime</span>
 						<span className={styles.payload_demo_value}>00:12:34</span>
 					</div>
-					<div className={styles.payload_demo_status}>
-						last update: OK · 3 cycles
-					</div>
+					<div className={styles.payload_demo_status}>last update: OK · 3 cycles</div>
 				</div>
 				<div className={styles.logs_demo}>
 					<div className={styles.logs_demo_header}>
@@ -435,9 +394,7 @@ export default function DocsPage() {
 						<div className={styles.logs_demo_item_warn}>
 							<span className={styles.logs_demo_dot_warn} />
 							<div>
-								<div className={styles.logs_demo_message}>
-									Discord not detected
-								</div>
+								<div className={styles.logs_demo_message}>Discord not detected</div>
 								<div className={styles.logs_demo_meta}>WARN · 18:30:02</div>
 							</div>
 						</div>
@@ -448,15 +405,13 @@ export default function DocsPage() {
 			<section className={styles.docs_card}>
 				<h3 className={styles.docs_subtitle}>Profiles &amp; cloud sync</h3>
 				<p className={styles.docs_text}>
-					Profiles store your cycles, images, buttons and client settings so you
-					can quickly switch between different setups.
+					Profiles store your cycles, images, buttons and client settings so you can quickly switch
+					between different setups.
 				</p>
 				<div className={styles.profiles_demo}>
 					<div className={styles.profiles_demo_header}>
 						<span className={styles.profiles_demo_label}>Profiles</span>
-						<span className={styles.profiles_demo_sub}>
-							save / load presets
-						</span>
+						<span className={styles.profiles_demo_sub}>save / load presets</span>
 					</div>
 					<div className={styles.profiles_demo_row}>
 						<span>name</span>
@@ -465,48 +420,34 @@ export default function DocsPage() {
 					</div>
 					<div className={styles.profiles_demo_row}>
 						<span>author ID</span>
-						<input
-							placeholder='optional author ID for cloud sync'
-							readOnly
-							value='vp_devollox'
-						/>
+						<input placeholder='optional author ID for cloud sync' readOnly value='vp_devollox' />
 					</div>
 					<div className={styles.profiles_demo_list_header}>
-						<span className={styles.profiles_demo_list_label}>
-							saved configs
-						</span>
+						<span className={styles.profiles_demo_list_label}>saved configs</span>
 						<button className={styles.profiles_demo_small_btn}>export</button>
 						<button className={styles.profiles_demo_small_btn}>+ config</button>
 					</div>
 					<div className={styles.profiles_demo_list}>
 						<div className={styles.profiles_demo_item}>
 							<div className={styles.profiles_demo_item_main}>
-								<div className={styles.profiles_demo_item_title}>
-									Tarkov · Stream
-								</div>
-								<div className={styles.profiles_demo_item_sub}>
-									3 text, 2 images, 2 buttons
-								</div>
+								<div className={styles.profiles_demo_item_title}>Tarkov · Stream</div>
+								<div className={styles.profiles_demo_item_sub}>3 text, 2 images, 2 buttons</div>
 							</div>
 							<button className={styles.profiles_demo_item_btn}>load</button>
 						</div>
 						<div className={styles.profiles_demo_item}>
 							<div className={styles.profiles_demo_item_main}>
-								<div className={styles.profiles_demo_item_title}>
-									Dev · Website
-								</div>
-								<div className={styles.profiles_demo_item_sub}>
-									2 text, 1 image, 1 button
-								</div>
+								<div className={styles.profiles_demo_item_title}>Dev · Website</div>
+								<div className={styles.profiles_demo_item_sub}>2 text, 1 image, 1 button</div>
 							</div>
 							<button className={styles.profiles_demo_item_btn}>load</button>
 						</div>
 					</div>
 				</div>
 				<p className={styles.docs_text}>
-					Export and import use JSON files that match exactly the buttonPairs,
-					cycles and imageCycles structures from the desktop client, so shared
-					profiles behave the same on another machine.
+					Export and import use JSON files that match exactly the buttonPairs, cycles and
+					imageCycles structures from the desktop client, so shared profiles behave the same on
+					another machine.
 				</p>
 			</section>
 
@@ -514,16 +455,16 @@ export default function DocsPage() {
 				<h3 className={styles.docs_subtitle}>Features</h3>
 				<ul className={styles.docs_list}>
 					<li className={styles.docs_list_item}>
-						Custom button pairs – Multiple button sets with labels and URLs;
-						leave the second empty if you only need a single button.
+						Custom button pairs – Multiple button sets with labels and URLs; leave the second empty
+						if you only need a single button.
 					</li>
 					<li className={styles.docs_list_item}>
-						Status cycles – Rotate multiple details and state texts on a timer,
-						independently from images and buttons.
+						Status cycles – Rotate multiple details and state texts on a timer, independently from
+						images and buttons.
 					</li>
 					<li className={styles.docs_list_item}>
-						Image rotation – Cycle through large and small Rich Presence images;
-						shorter image lists are reused automatically.
+						Image rotation – Cycle through large and small Rich Presence images; shorter image lists
+						are reused automatically.
 					</li>
 					<li className={styles.docs_list_item}>
 						Profiles with drag &amp; drop – Create and reorder presence presets.

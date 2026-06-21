@@ -64,7 +64,7 @@ const INTERESTING_DEPENDENCIES = [
 
 function findDepValue(
 	pkg: PackageJson,
-	name: string,
+	name: string
 ): { value: string; kind: PackageDependencyEntry['kind'] } | null {
 	if (pkg.dependencies?.[name]) {
 		return { value: pkg.dependencies[name], kind: 'runtime' }
@@ -81,9 +81,7 @@ function findDepValue(
 	return null
 }
 
-export function extractPackageMeta(
-	pkg: PackageJson | null,
-): PackageMeta | null {
+export function extractPackageMeta(pkg: PackageJson | null): PackageMeta | null {
 	if (!pkg) return null
 
 	const entries: PackageDependencyEntry[] = []
@@ -108,11 +106,9 @@ export function extractPackageMeta(
 	}
 }
 
-export async function getApplicationPackageJsonByTag(
-	tag: string,
-): Promise<PackageJson | null> {
+export async function getApplicationPackageJsonByTag(tag: string): Promise<PackageJson | null> {
 	const url = `https://raw.githubusercontent.com/Devollox/void-presence/${encodeURIComponent(
-		tag,
+		tag
 	)}/package.json`
 
 	const res = await fetch(url, {
@@ -129,11 +125,9 @@ export async function getApplicationPackageJsonByTag(
 	}
 }
 
-export async function getInstallerPackageJsonByTag(
-	tag: string,
-): Promise<PackageJson | null> {
+export async function getInstallerPackageJsonByTag(tag: string): Promise<PackageJson | null> {
 	const url = `https://raw.githubusercontent.com/Devollox/void-installer/${encodeURIComponent(
-		tag,
+		tag
 	)}/frontend/package.json`
 
 	const res = await fetch(url, {

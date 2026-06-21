@@ -24,11 +24,7 @@ export default function ChangelogClient({ release }: { release: ReleaseInfo }) {
 
 	return (
 		<div className={styles.changelog_box}>
-			<button
-				type='button'
-				className={styles.changelog_toggle}
-				onClick={() => setOpen(v => !v)}
-			>
+			<button type='button' className={styles.changelog_toggle} onClick={() => setOpen(v => !v)}>
 				<div className={styles.changelog_toggle_left}>
 					<span className={styles.changelog_title}>Changelog</span>
 					<span className={styles.changelog_version}>{release.version}</span>
@@ -38,31 +34,17 @@ export default function ChangelogClient({ release }: { release: ReleaseInfo }) {
 
 			<div
 				className={
-					open
-						? `${styles.changelog_text} ${styles.changelog_text_open}`
-						: styles.changelog_text
+					open ? `${styles.changelog_text} ${styles.changelog_text_open}` : styles.changelog_text
 				}
 			>
 				<ReactMarkdown
 					components={{
-						h1: ({ node, ...props }) => (
-							<h4 className={styles.changelog_h1} {...props} />
-						),
-						h2: ({ node, ...props }) => (
-							<h4 className={styles.changelog_h2} {...props} />
-						),
-						h3: ({ node, ...props }) => (
-							<h5 className={styles.changelog_h3} {...props} />
-						),
-						ul: ({ node, ...props }) => (
-							<ul className={styles.changelog_list} {...props} />
-						),
-						li: ({ node, ...props }) => (
-							<li className={styles.changelog_item} {...props} />
-						),
-						p: ({ node, ...props }) => (
-							<p className={styles.changelog_p} {...props} />
-						),
+						h1: ({ node, ...props }) => <h4 className={styles.changelog_h1} {...props} />,
+						h2: ({ node, ...props }) => <h4 className={styles.changelog_h2} {...props} />,
+						h3: ({ node, ...props }) => <h5 className={styles.changelog_h3} {...props} />,
+						ul: ({ node, ...props }) => <ul className={styles.changelog_list} {...props} />,
+						li: ({ node, ...props }) => <li className={styles.changelog_item} {...props} />,
+						p: ({ node, ...props }) => <p className={styles.changelog_p} {...props} />,
 					}}
 				>
 					{release.notes}

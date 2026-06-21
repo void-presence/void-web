@@ -34,9 +34,7 @@ export default function ConfigPreview({ activeTab, setActiveTab }: Props) {
 							<div className={styles.config_row}>
 								<div className={styles.config_field_label}>CLIENT ID</div>
 								<div className={styles.config_field_group}>
-									<div className={styles.config_field_input}>
-										123456789012345678
-									</div>
+									<div className={styles.config_field_input}>123456789012345678</div>
 									<button className={styles.config_field_button}>SAVE</button>
 								</div>
 							</div>
@@ -59,9 +57,7 @@ export default function ConfigPreview({ activeTab, setActiveTab }: Props) {
 							<div className={styles.log_entry}>
 								<span className={styles.log_time}>15:18:17</span>
 								<span className={styles.log_level}>INFO</span>
-								<span className={styles.log_text}>
-									Connecting RPC with clientId
-								</span>
+								<span className={styles.log_text}>Connecting RPC with clientId</span>
 							</div>
 						</div>
 					)}

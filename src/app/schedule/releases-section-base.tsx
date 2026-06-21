@@ -3,12 +3,7 @@ import layoutStyles from '@components/panel-layout/layout-panels.module.css'
 import ChangelogClient from '../download/changelog-client'
 import styles from './release-schedule.module.css'
 
-export type CommonReleaseType =
-	| 'stable'
-	| 'pre-release'
-	| 'nightly'
-	| 'end of life'
-	| 'broken'
+export type CommonReleaseType = 'stable' | 'pre-release' | 'nightly' | 'end of life' | 'broken'
 
 export interface CommonAsset {
 	name: string
@@ -53,9 +48,7 @@ export function ReleasesSectionBase({
 			left={left}
 			right={
 				<section className={styles.page_section}>
-					<div
-						className={`${layoutStyles.preview_card_wrap} ${styles.preview_release_legend}`}
-					>
+					<div className={`${layoutStyles.preview_card_wrap} ${styles.preview_release_legend}`}>
 						<div className={layoutStyles.preview_card}>
 							<div className={styles.release_legend}>
 								<div className={styles.release_legend_item}>
@@ -66,9 +59,7 @@ export function ReleasesSectionBase({
 								</div>
 								<div className={styles.release_legend_item}>
 									<span className={`${styles.dot} ${styles.dot_prerelease}`} />
-									<span className={styles.release_legend_label}>
-										Prerelease (Testing build)
-									</span>
+									<span className={styles.release_legend_label}>Prerelease (Testing build)</span>
 								</div>
 								<div className={styles.release_legend_item}>
 									<span className={`${styles.dot} ${styles.dot_nightly}`} />
@@ -117,12 +108,9 @@ export function ReleasesSectionBase({
 
 							<ul className={styles.release_list}>
 								{releases.map(release => {
-									const isCurrentStable =
-										stableVersion && release.version === stableVersion
+									const isCurrentStable = stableVersion && release.version === stableVersion
 
-									const effectiveType = isCurrentStable
-										? 'stable'
-										: release.type
+									const effectiveType = isCurrentStable ? 'stable' : release.type
 
 									return (
 										<li
@@ -144,17 +132,13 @@ export function ReleasesSectionBase({
 											}`}
 										>
 											<a
-												href={`${basePath}/${encodeURIComponent(
-													release.version,
-												)}`}
+												href={`${basePath}/${encodeURIComponent(release.version)}`}
 												className={styles.release_card}
 											>
 												<div className={styles.release_card_top}>
 													<div className={styles.release_card_left}>
 														<div className={styles.version_row}>
-															<span className={styles.release_card_version}>
-																{release.version}
-															</span>
+															<span className={styles.release_card_version}>{release.version}</span>
 															<span className={styles.release_card_badge}>
 																{release.buildTag === 'alpha'
 																	? 'Alpha'
@@ -173,14 +157,11 @@ export function ReleasesSectionBase({
 														</div>
 													</div>
 
-													<span className={styles.release_card_date}>
-														{release.date}
-													</span>
+													<span className={styles.release_card_date}>{release.date}</span>
 												</div>
 
 												<div className={styles.release_card_meta}>
-													{(release.electronCurrent ||
-														release.wailsVersion) && (
+													{(release.electronCurrent || release.wailsVersion) && (
 														<div className={styles.electron_row}>
 															<div className={styles.dot_wrap}>
 																<div
@@ -197,8 +178,7 @@ export function ReleasesSectionBase({
 																							? styles.dot_stable
 																							: effectiveType === 'nightly'
 																								? styles.dot_nightly
-																								: effectiveType ===
-																									  'pre-release'
+																								: effectiveType === 'pre-release'
 																									? styles.dot_prerelease
 																									: styles.dot_eol
 																		}
@@ -209,12 +189,8 @@ export function ReleasesSectionBase({
 																{release.electronCurrent && (
 																	<>Electron v{release.electronCurrent}</>
 																)}
-																{release.electronCurrent &&
-																	release.wailsVersion &&
-																	' · '}
-																{release.wailsVersion && (
-																	<>Wails v{release.wailsVersion}</>
-																)}
+																{release.electronCurrent && release.wailsVersion && ' · '}
+																{release.wailsVersion && <>Wails v{release.wailsVersion}</>}
 															</span>
 														</div>
 													)}

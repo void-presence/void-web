@@ -1,12 +1,8 @@
-export function parseElectronVersionFromNotes(
-	notes: string,
-): string | undefined {
+export function parseElectronVersionFromNotes(notes: string): string | undefined {
 	const lines = notes.split(/\r?\n/).map(line => line.trim())
 
 	for (const line of lines) {
-		const match = line.match(
-			/Updated\s+Electron\s+to\s+([0-9]+(?:\.[0-9]+){2})/i,
-		)
+		const match = line.match(/Updated\s+Electron\s+to\s+([0-9]+(?:\.[0-9]+){2})/i)
 		if (match?.[1]) {
 			return match[1]
 		}
@@ -49,7 +45,7 @@ export interface ElectronMetadata {
 }
 
 export async function getElectronMetadata(
-	electronVersion: string,
+	electronVersion: string
 ): Promise<ElectronMetadata | null> {
 	const url = `https://releases.electronjs.org/release/v${electronVersion}`
 	const res = await fetch(url, { cache: 'force-cache' })
@@ -58,15 +54,13 @@ export async function getElectronMetadata(
 	const html = await res.text()
 
 	const chromiumMatch = html.match(
-		/source\.chromium\.org\/chromium\/chromium\/src\/\+\/refs\/tags\/([0-9]+(?:\.[0-9]+)+):/,
+		/source\.chromium\.org\/chromium\/chromium\/src\/\+\/refs\/tags\/([0-9]+(?:\.[0-9]+)+):/
 	)
 
-	const nodeMatch = html.match(
-		/github\.com\/nodejs\/node\/releases\/tag\/v([0-9]+(?:\.[0-9]+)+)/,
-	)
+	const nodeMatch = html.match(/github\.com\/nodejs\/node\/releases\/tag\/v([0-9]+(?:\.[0-9]+)+)/)
 
 	const v8Match = html.match(
-		/<title>V8<\/title>.*?<span[^>]*>V8<\/span><\/div><span[^>]*>([0-9]+(?:\.[0-9]+)+)<\/span>/,
+		/<title>V8<\/title>.*?<span[^>]*>V8<\/span><\/div><span[^>]*>([0-9]+(?:\.[0-9]+)+)<\/span>/
 	)
 
 	if (!chromiumMatch || !nodeMatch) return null
@@ -78,9 +72,7 @@ export async function getElectronMetadata(
 	}
 }
 
-export function parseChromiumVersionFromNotes(
-	notes: string,
-): string | undefined {
+export function parseChromiumVersionFromNotes(notes: string): string | undefined {
 	const lines = notes.split(/\r?\n/).map(line => line.trim())
 
 	let inDependencies = false
@@ -221,11 +213,9 @@ export interface WailsMetadata {
 	wails: string
 }
 
-export async function getWailsMetadata(
-	tag: string,
-): Promise<WailsMetadata | null> {
+export async function getWailsMetadata(tag: string): Promise<WailsMetadata | null> {
 	const url = `https://raw.githubusercontent.com/Devollox/void-installer/${encodeURIComponent(
-		tag,
+		tag
 	)}/go.mod`
 
 	const res = await fetch(url, { cache: 'force-cache' })

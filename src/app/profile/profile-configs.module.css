@@ -654,11 +654,7 @@
 	box-shadow:
 		0 10px 22px hsla(0, 0%, 0%, 0.65),
 		0 0 0 1px hsla(255, 255%, 255%, 0.18);
-	background: linear-gradient(
-		135deg,
-		hsla(0, 0%, 24%, 0.98) 0%,
-		hsla(0, 0%, 20%, 0.98) 100%
-	);
+	background: linear-gradient(135deg, hsla(0, 0%, 24%, 0.98) 0%, hsla(0, 0%, 20%, 0.98) 100%);
 }
 
 .download_size {
@@ -701,11 +697,7 @@
 }
 
 .copy_btn.copied {
-	background: linear-gradient(
-		135deg,
-		hsla(210, 20%, 35%, 0.95) 0%,
-		hsla(210, 20%, 30%, 0.95) 100%
-	);
+	background: linear-gradient(135deg, hsla(210, 20%, 35%, 0.95) 0%, hsla(210, 20%, 30%, 0.95) 100%);
 	border-color: hsla(255, 255%, 255%, 0.2);
 	color: #f1f1f1;
 	animation: pulse 0.6s ease-in-out;

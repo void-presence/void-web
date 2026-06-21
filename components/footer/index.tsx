@@ -46,8 +46,7 @@ const Footer = () => {
 							<div>
 								<h3 className={styles.footer_brand_title}>Void Presence</h3>
 								<p className={styles.footer_brand_text}>
-									Advanced Discord Rich Presence manager with profiles, cycles,
-									buttons and images.
+									Advanced Discord Rich Presence manager with profiles, cycles, buttons and images.
 								</p>
 							</div>
 						</div>
@@ -61,9 +60,7 @@ const Footer = () => {
 									rel='noreferrer'
 									className={styles.footer_social_button}
 								>
-									<span className={styles.footer_social_label}>
-										{link.label}
-									</span>
+									<span className={styles.footer_social_label}>{link.label}</span>
 								</a>
 							))}
 						</div>
@@ -121,8 +118,7 @@ const Footer = () => {
 					<div className={styles.footer_bottom_text}>
 						<div>© {year} Void Presence. All rights reserved.</div>
 						<div className={styles.footer_bottom_sub}>
-							Desktop Discord presence client – profiles, cycles, buttons and
-							images in one place.
+							Desktop Discord presence client – profiles, cycles, buttons and images in one place.
 						</div>
 					</div>
 
