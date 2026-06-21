@@ -40,13 +40,18 @@ export interface UserRecord {
 	image?: string
 	provider?: string | null
 	lastSeen?: number
+	slug?: string
+}
+
+export interface UserRecordWithId extends UserRecord {
+	id: string
 }
 
 export interface Config {
 	id: string
 	title: string
 	author: string
-	authorId: string
+	authorId: string | null
 	authorAvatar?: string
 	downloads: number
 	description: string
@@ -85,6 +90,19 @@ export async function fetchAuthor(authorId: string): Promise<UserRecord | null> 
 	const snapshot = await get(userRef)
 	if (!snapshot.exists()) return null
 	return snapshot.val() as UserRecord
+}
+
+export async function fetchAuthorBySlug(slug: string): Promise<UserRecordWithId | null> {
+	const usersRef = ref(db, 'users')
+	const snapshot = await get(usersRef)
+	if (!snapshot.exists()) return null
+	const data = snapshot.val() as Record<string, any>
+	for (const [id, user] of Object.entries(data)) {
+		if (user && typeof user === 'object' && user.slug === slug) {
+			return { ...(user as UserRecord), id }
+		}
+	}
+	return null
 }
 
 export function onConfigsChange(
@@ -154,7 +172,6 @@ export async function incrementVisitors(): Promise<void> {
 	try {
 		const countRef = ref(db, 'stats/visitors/count')
 		const lastUpdatedRef = ref(db, 'stats/visitors/lastUpdated')
-
 		await runTransaction(countRef, count => (Number(count) || 0) + 1)
 		await runTransaction(lastUpdatedRef, () => Date.now())
 	} catch {}
@@ -164,7 +181,6 @@ export async function incrementDownloadsStats(): Promise<void> {
 	try {
 		const countRef = ref(db, 'stats/downloads/count')
 		const lastUpdatedRef = ref(db, 'stats/downloads/lastUpdated')
-
 		await runTransaction(countRef, count => (Number(count) || 0) + 1)
 		await runTransaction(lastUpdatedRef, () => Date.now())
 	} catch {}
@@ -283,25 +299,25 @@ export async function createUserIfNotExists(
 	userId: string,
 	name?: string,
 	avatar?: string,
-	provider?: string
+	provider?: string,
+	slug?: string
 ) {
 	const userRef = ref(db, `users/${userId}`)
 	await runTransaction(userRef, current => {
 		if (current) {
 			const next = { ...current }
-
 			if (name) {
 				next.name = name
 			}
-
 			if (avatar) {
 				next.avatar = avatar
 			}
-
 			if (provider) {
 				next.provider = provider
 			}
-
+			if (slug && !next.slug) {
+				next.slug = slug
+			}
 			next.lastSeen = Date.now()
 			return next
 		}
@@ -310,10 +326,26 @@ export async function createUserIfNotExists(
 			name: name ?? 'Unknown',
 			avatar: avatar || '/logo.png',
 			provider: provider || null,
+			slug: slug || null,
 			createdAt: Date.now(),
 			lastSeen: Date.now(),
 		}
 	})
+}
+
+export async function fetchAuthorByName(name: string): Promise<UserRecordWithId | null> {
+	const usersRef = ref(db, 'users')
+	const snapshot = await get(usersRef)
+	if (!snapshot.exists()) return null
+
+	const data = snapshot.val() as Record<string, any>
+	for (const [id, user] of Object.entries(data)) {
+		if (user && typeof user === 'object' && user.name === name) {
+			return { ...(user as UserRecord), id }
+		}
+	}
+
+	return null
 }
 
 export async function deleteConfig(configId: string): Promise<void> {

@@ -109,7 +109,6 @@ export function ConfigDetailsClient({ configId, initialPreviewTick }: Props) {
 		: [{ label1: '', url1: '' }]
 
 	const maxLen = Math.max(cycles.length || 1, images.length || 1, buttonsList.length || 1)
-
 	const localIndex = maxLen ? previewTick % maxLen : 0
 
 	const cycleIndex = localIndex % cycles.length
@@ -155,7 +154,7 @@ export function ConfigDetailsClient({ configId, initialPreviewTick }: Props) {
 								<div className={styles.title_description}>{config.description}</div>
 								<section className={styles.addon_actions}>
 									<div className={styles.btn_container}>
-										<a href={`/profile/${config.authorId}`} className={styles.download_btn_primary}>
+										<a href={`/profile/${config.author}`} className={styles.download_btn_primary}>
 											Open profile
 										</a>
 									</div>
