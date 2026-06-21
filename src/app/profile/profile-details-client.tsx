@@ -145,7 +145,11 @@ export function ProfileDetailsClient({ user, lastConfig, authorID }: Props) {
 										</span>
 									</a>
 									<a
-										href={`voidpresence://auth?authorId=${authorID}`}
+										href={`voidpresence://auth?authorId=${encodeURIComponent(
+											String(authorID),
+										)}&name=${encodeURIComponent(user.name || '')}&provider=${encodeURIComponent(
+											user.provider || '',
+										)}`}
 										className={styles.action_btn_primary}
 										rel='noreferrer'
 									>
