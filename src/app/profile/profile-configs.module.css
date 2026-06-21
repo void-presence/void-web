@@ -251,6 +251,7 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
+	cursor: pointer;
 }
 
 .profile_btn_primary:hover,
