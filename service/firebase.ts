@@ -80,7 +80,7 @@ function mapRawToConfig(
 	}
 }
 
-async function fetchAuthor(authorId: string): Promise<UserRecord | null> {
+export async function fetchAuthor(authorId: string): Promise<UserRecord | null> {
 	const userRef = ref(db, `users/${authorId}`)
 	const snapshot = await get(userRef)
 	if (!snapshot.exists()) return null
@@ -185,6 +185,37 @@ export function onStatsChange(callback: (stats: Stats) => void) {
 		})
 	})
 	return unsubscribe
+}
+
+export async function getConfigsByAuthor(authorId: string): Promise<Config[]> {
+	const configsRef = ref(db, 'configs')
+	const snapshot = await get(configsRef)
+	if (!snapshot.exists()) return []
+
+	const data = snapshot.val()
+	const allConfigs: Config[] = Object.entries(data)
+		.filter(([id, raw]: [string, any]) => raw.authorId === authorId)
+		.map(([id, raw]) => mapRawToConfig(id, raw))
+
+	if (allConfigs.length === 0) {
+		return []
+	}
+
+	const author = await fetchAuthor(authorId)
+	if (!author) {
+		return allConfigs
+	}
+
+	const configsWithAuthor = allConfigs.map(config =>
+		mapRawToConfig(
+			config.id,
+			{ ...config, configData: config.configData },
+			author.avatar || author.image || '',
+			author.name || config.author
+		)
+	)
+
+	return configsWithAuthor
 }
 
 export function onConfigByIdChange(id: string, callback: (config: Config | null) => void) {

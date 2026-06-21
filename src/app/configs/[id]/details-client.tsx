@@ -155,8 +155,8 @@ export function ConfigDetailsClient({ configId, initialPreviewTick }: Props) {
 								<div className={styles.title_description}>{config.description}</div>
 								<section className={styles.addon_actions}>
 									<div className={styles.btn_container}>
-										<a href='/configs' className={styles.download_btn_primary}>
-											Back to list
+										<a href={`/profile/${config.authorId}`} className={styles.download_btn_primary}>
+											Open profile
 										</a>
 									</div>
 								</section>
