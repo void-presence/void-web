@@ -163,6 +163,20 @@ export function ConfigsClient({
 
 	const showSkeleton = loading && !sortedConfigs.length
 
+	const handleOpenInApp = async (config: Config) => {
+		window.location.href = `voidpresence://import-config?title=${encodeURIComponent(
+			config.title,
+		)}&data=${encodeURIComponent(JSON.stringify(config.configData))}`
+
+		try {
+			await fetch(`/api/configs/${config.id}/track-open`, {
+				method: 'POST',
+			})
+		} catch (err) {
+			console.error('Failed to track open in app', err)
+		}
+	}
+
 	return (
 		<>
 			<div className={styles.themes_left_side}>
@@ -257,10 +271,9 @@ export function ConfigsClient({
 												<div className={styles.card_buttons}>
 													<a
 														className={styles.btn_primary}
-														href={`/api/configs/${config.id}/download`}
+														onClick={() => handleOpenInApp(config)}
 													>
-														Download
-														<span className={styles.download_size}> JSON</span>
+														Open in app
 													</a>
 													<a
 														className={styles.btn_secondary}

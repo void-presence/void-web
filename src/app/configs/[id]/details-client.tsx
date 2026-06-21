@@ -65,6 +65,7 @@ export function ConfigDetailsClient({ configId, initialPreviewTick }: Props) {
 								<div className={styles.skel_actions_btns}>
 									<div className={styles.skel_btn} />
 									<div className={styles.skel_btn} />
+									<div className={styles.skel_btn} />
 								</div>
 							</div>
 						</div>
@@ -128,6 +129,20 @@ export function ConfigDetailsClient({ configId, initialPreviewTick }: Props) {
 	const firstButtons = buttonsList[buttonIndex]
 	const avatarSrc = config.authorAvatar || '/logo.png'
 
+	const handleOpenInApp = async () => {
+		window.location.href = `voidpresence://import-config?title=${encodeURIComponent(
+			config.title,
+		)}&data=${encodeURIComponent(JSON.stringify(config.configData))}`
+
+		try {
+			await fetch(`/api/configs/${config.id}/track-open`, {
+				method: 'POST',
+			})
+		} catch (err) {
+			console.error('Failed to track open in app', err)
+		}
+	}
+
 	return (
 		<section id='addon-details' className={styles.page_section}>
 			<div className={styles.theme_view_panel}>
@@ -187,6 +202,13 @@ export function ConfigDetailsClient({ configId, initialPreviewTick }: Props) {
 									Export or share this Discord Rich Presence config.
 								</p>
 								<div className={styles.actions_buttons}>
+									<a
+										className={styles.action_btn_primary}
+										onClick={handleOpenInApp}
+									>
+										Open in app
+										<span className={styles.action_btn_hint}>import .json</span>
+									</a>
 									<a
 										href={`/api/configs/${config.id}/download`}
 										className={styles.action_btn_primary}
