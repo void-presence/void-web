@@ -27,6 +27,13 @@ export function CopyJsonButton({ configId }: Props) {
 			setStatus('error')
 			setTimeout(() => setStatus('idle'), 2000)
 		}
+		try {
+			await fetch(`/api/configs/${configId}/track-open`, {
+				method: 'POST',
+			})
+		} catch (err) {
+			console.error('Failed to track open in app', err)
+		}
 	}
 
 	return (
