@@ -503,5 +503,7 @@
 }
 
 .wrapper_info_section {
-	height: auto !important;
+	> div {
+		height: auto !important;
+	}
 }
