@@ -192,10 +192,13 @@ export async function ReleaseDetailsContent({ type, id }: ReleaseDetailsContentP
 			)}
 
 			{!pkg && (
-				<p className={styles.release_footer_note}>
-					Could not load package.json for this tag. It may not exist for older releases or this tag
-					may not be available on GitHub.
-				</p>
+				<InfoBox
+					variant='muted'
+					lines={[
+						'Could not load package.json for this tag.',
+						'It may not exist for older releases or this tag may not be available on GitHub.',
+					]}
+				/>
 			)}
 		</>
 	)
