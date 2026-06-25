@@ -357,7 +357,7 @@ export function onStatusByIdChange(id: string, callback: (status: Status | null)
 }
 
 export async function getConfigs(): Promise<Config[]> {
-	const configsRef = ref(db, 'configs')
+	const configsRef = ref(db, 'presence-configs')
 	const snapshot = await get(configsRef)
 	if (!snapshot.exists()) return []
 	const data = snapshot.val() as Record<string, any>
@@ -415,7 +415,7 @@ export async function getStatusById(id: string): Promise<Status | null> {
 }
 
 export async function getConfigsByAuthor(authorId: string): Promise<Config[]> {
-	const configsRef = ref(db, 'configs')
+	const configsRef = ref(db, 'presence-configs')
 	const snapshot = await get(configsRef)
 	if (!snapshot.exists()) return []
 
