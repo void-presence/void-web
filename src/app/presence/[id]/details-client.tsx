@@ -85,8 +85,8 @@ export function ConfigDetailsClient({ configId, initialPreviewTick }: Props) {
 					<div className={styles.addon_splitview_container}>
 						<div className={styles.addon_details_right_column}>
 							<div className={styles.addon_details_segment}>
-								<a href='/configs' className={styles.back_link}>
-									← Back to Configs
+								<a href='/presence' className={styles.back_link}>
+									← Back to Presence
 								</a>
 								<h1 className={styles.title}>Config not found</h1>
 								<div className={styles.title_description}>
@@ -147,8 +147,8 @@ export function ConfigDetailsClient({ configId, initialPreviewTick }: Props) {
 					<div className={styles.addon_splitview_container}>
 						<div className={styles.addon_details_right_column}>
 							<div className={styles.addon_details_segment}>
-								<a href='/configs' className={styles.back_link}>
-									← Back to Configs
+								<a href='/presence' className={styles.back_link}>
+									← Back to Presence
 								</a>
 								<h1 className={styles.title}>{config.title}</h1>
 								<div className={styles.title_description}>{config.description}</div>
