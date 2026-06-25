@@ -3,7 +3,7 @@ import DiscordProvider from 'next-auth/providers/discord'
 import GitHub from 'next-auth/providers/github'
 import Google from 'next-auth/providers/google'
 import SteamProvider from 'steam-next-auth'
-import { admin } from '../../../../../lib/firebase-admin'
+import { admin } from '../../../../lib/firebase-admin'
 
 export const { handlers, auth, signIn, signOut } = NextAuth(req => {
 	const host = req?.headers.get('host') || 'voidpresence.site'

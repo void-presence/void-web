@@ -1,9 +1,9 @@
 'use client'
 
+import RenderBackdropAnimation from '@/lib/render-backdrop'
 import Button from '@components/button'
 import Stats from '@components/stats'
-import RenderBackdropAnimation from '@lib/render-backdrop'
-import styles from './hero-section.module.css'
+import styles from './hero-section.module.scss'
 
 export function NotificationBanner() {
 	return (

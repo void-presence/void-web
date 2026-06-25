@@ -1,7 +1,7 @@
 'use client'
 
 import { ReactNode } from 'react'
-import styles from './app-shell.module.css'
+import styles from './app-shell.module.scss'
 
 export type AppShellTabId = string
 

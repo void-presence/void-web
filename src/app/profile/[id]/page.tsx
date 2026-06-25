@@ -1,10 +1,10 @@
 import { leftNotFound, rightNotFound } from '@/app/not-found'
 import Footer from '@components/footer'
+import Page from '@components/page'
+import PageHeader from '@components/page-header'
 import { PanelLayout } from '@components/panel-layout'
-import Page from '../../../../components/page'
-import PageHeader from '../../../../components/page-header'
-import { fetchAuthorByName } from '../../../../service/firebase'
-import { default as styles } from '../../../app/download/download.module.css'
+import { default as styles } from '../../../app/download/download.module.scss'
+import { fetchAuthorByName } from '../../../service/firebase'
 import { ProfileClient } from './profile-client'
 
 type Params = {

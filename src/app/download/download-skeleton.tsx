@@ -1,6 +1,6 @@
 import { PanelLayout } from '@components/panel-layout'
-import layoutStyles from '@components/panel-layout/layout-panels.module.css'
-import { default as skeletonStyles, default as styles } from '../../../styles/skeleton.module.css'
+import layoutStyles from '@components/panel-layout/layout-panels.module.scss'
+import { default as skeletonStyles, default as styles } from '@styles/skeleton.module.scss'
 
 export default function DownloadSkeleton() {
 	const left = (

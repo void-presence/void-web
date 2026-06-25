@@ -1,11 +1,11 @@
 'use client'
 
+import RpcPreview from '@components/rpc-preview/rpc-user'
 import { Download, Search, X } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
-import RpcPreview from '../../../components/rpc-preview/rpc-user'
-import type { Config } from '../../../service/firebase'
-import { onConfigsChange } from '../../../service/firebase'
-import styles from './configs.module.css'
+import type { Config } from '../../service/firebase'
+import { onConfigsChange } from '../../service/firebase'
+import styles from './configs.module.scss'
 
 type Props = {
 	initialConfigs?: Config[]

@@ -1,11 +1,11 @@
 'use client'
 
+import RpcPreview from '@components/rpc-preview/rpc-user'
 import { Download, Search, Trash, X } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
-import RpcPreview from '../../../components/rpc-preview/rpc-user'
-import type { Config } from '../../../service/firebase'
-import { deleteConfig, onConfigsChange } from '../../../service/firebase'
-import styles from './profile-configs.module.css'
+import type { Config } from '../../service/firebase'
+import { deleteConfig, onConfigsChange } from '../../service/firebase'
+import styles from './profile-configs.module.scss'
 
 type Props = {
 	configs: Config[]

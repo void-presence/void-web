@@ -3,7 +3,7 @@
 import RpcLabel from '@components/label'
 import { useState } from 'react'
 import AppShell from './app-shell'
-import styles from './features-section.module.css'
+import styles from './features-section.module.scss'
 
 export default function FeaturesSection() {
 	const [activeTab, setActiveTab] = useState<'overview' | 'profiles' | 'cycles'>('overview')

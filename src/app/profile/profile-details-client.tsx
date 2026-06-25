@@ -4,7 +4,7 @@ import RpcPreview from '@components/rpc-preview/rpc-user'
 import type { Session } from 'next-auth'
 import { signOut } from 'next-auth/react'
 import { useEffect, useState } from 'react'
-import type { Config } from '../../../service/firebase'
+import type { Config } from '../../service/firebase'
 import styles from './profile-details.module.scss'
 
 type Props = {

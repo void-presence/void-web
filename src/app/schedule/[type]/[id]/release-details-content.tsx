@@ -1,21 +1,21 @@
 import DownloadButtons from '@/app/download/download-buttons'
-import { PanelLayout } from '@components/panel-layout'
-import layoutStyles from '@components/panel-layout/layout-panels.module.css'
-import { InfoBox } from '@components/status-info/info-box'
 import {
 	extractPackageMeta,
 	getApplicationPackageJsonByTag,
 	getInstallerPackageJsonByTag,
-} from '@lib/package-meta'
-import { getElectronMetadata, parseElectronVersionFromNotes } from '@lib/parse-version'
-import { normalizeReleaseNotes } from '@lib/release-notes'
-import { getReleases, type ReleaseInfo as AppReleaseInfo } from '@lib/releases-application'
+} from '@/lib/package-meta'
+import { getElectronMetadata, parseElectronVersionFromNotes } from '@/lib/parse-version'
+import { normalizeReleaseNotes } from '@/lib/release-notes'
+import { getReleases, type ReleaseInfo as AppReleaseInfo } from '@/lib/releases-application'
 import {
 	getInstallerReleases,
 	type ReleaseInfo as InstallerReleaseInfo,
-} from '@lib/releases-installer'
+} from '@/lib/releases-installer'
+import { PanelLayout } from '@components/panel-layout'
+import layoutStyles from '@components/panel-layout/layout-panels.module.scss'
+import { InfoBox } from '@components/status-info/info-box'
 import ChangelogClient from '../../../download/changelog-client'
-import styles from '../../release-schedule.module.css'
+import styles from '../../release-schedule.module.scss'
 
 type ReleaseType = 'application' | 'installer'
 

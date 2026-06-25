@@ -2,8 +2,8 @@
 
 import { Download } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { incrementDownloadsStats } from '../../../service/firebase'
-import styles from './download.module.css'
+import { incrementDownloadsStats } from '../../service/firebase'
+import styles from './download.module.scss'
 
 interface ReleaseAsset {
 	name: string

@@ -4,10 +4,10 @@ import Footer from '@components/footer'
 import Page from '@components/page'
 import PageHeader from '@components/page-header'
 import { PanelLayout } from '@components/panel-layout'
-import layoutStyles from '@components/panel-layout/layout-panels.module.css'
+import layoutStyles from '@components/panel-layout/layout-panels.module.scss'
 import { InfoBox } from '@components/status-info/info-box'
 import { signIn } from 'next-auth/react'
-import styles from './signin.module.css'
+import styles from './signin.module.scss'
 
 export function SignInPageClient() {
 	const callbackUrl = '/profile'

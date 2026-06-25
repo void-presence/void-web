@@ -1,8 +1,8 @@
-import Footer from '../../../components/footer'
-import Page from '../../../components/page'
-import PageHeader from '../../../components/page-header'
+import Footer from '@components/footer'
+import Page from '@components/page'
+import PageHeader from '@components/page-header'
 import { ConfigsClient } from './configs-client'
-import styles from './configs.module.css'
+import styles from './configs.module.scss'
 
 type Props = {
 	initialSearchTerm: string

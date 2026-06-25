@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
-import styles from './download.module.css'
+import styles from './download.module.scss'
 
 interface ReleaseAsset {
 	name: string

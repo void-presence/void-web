@@ -2,7 +2,7 @@
 
 import RpcLabel from '@components/label'
 import AppShell from './app-shell'
-import styles from './install-guide-section.module.css'
+import styles from './install-guide-section.module.scss'
 
 export default function InstallGuide() {
 	return (

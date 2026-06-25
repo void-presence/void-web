@@ -1,4 +1,4 @@
-import { getInstallerReleaseDownloads } from '@lib/releases-installer'
+import { getInstallerReleaseDownloads } from '@/lib/releases-installer'
 import { DownloadsContentBase } from '../../common/downloads-content-base'
 
 export async function DownloadsContent() {

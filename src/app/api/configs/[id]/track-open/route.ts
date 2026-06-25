@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { incrementDownloads } from '../../../../../../service/firebase'
+import { incrementDownloads } from '../../../../../service/firebase'
 
 type Params = { id: string }
 

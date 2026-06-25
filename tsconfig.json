@@ -20,8 +20,13 @@
 		],
 		"paths": {
 			"@/*": ["./src/*"],
-			"@components/*": ["./components/*"],
-			"@lib/*": ["./lib/*"]
+			"@components/*": ["./src/components/*"],
+			"@lib/*": ["./src/lib/*"],
+			"@hook/*": ["./src/hook/*"],
+			"@data/*": ["./src/data/*"],
+			"@service/*": ["./src/service/*"],
+			"@styles/*": ["./src/styles/*"],
+			"@public/*": ["./public/*"]
 		}
 	},
 	"include": [

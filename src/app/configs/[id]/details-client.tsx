@@ -1,9 +1,9 @@
 'use client'
 
+import RpcPreview from '@components/rpc-preview/rpc-user'
 import { useEffect, useState } from 'react'
-import RpcPreview from '../../../../components/rpc-preview/rpc-user'
-import type { Config } from '../../../../service/firebase'
-import { onConfigByIdChange } from '../../../../service/firebase'
+import type { Config } from '../../../service/firebase'
+import { onConfigByIdChange } from '../../../service/firebase'
 import styles from './config-details.module.scss'
 import { CopyJsonButton } from './copy-button'
 import { ConfigStructure } from './structure'

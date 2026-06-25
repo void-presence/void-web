@@ -1,8 +1,8 @@
 'use client'
 
-import layoutStyles from '@components/panel-layout/layout-panels.module.css'
+import layoutStyles from '@components/panel-layout/layout-panels.module.scss'
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
-import styles from '../release-schedule.module.css'
+import styles from '../release-schedule.module.scss'
 
 interface ReleasesDownloadsChartProps {
 	data: {

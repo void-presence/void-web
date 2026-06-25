@@ -1,0 +1,272 @@
+.rpc_section {
+	height: 100vh;
+	padding: 0 !important;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	background-image: radial-gradient(circle at top center, var(--bg3), var(--bg2));
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: 50%;
+	overflow: hidden;
+	min-height: 532px;
+	padding-bottom: 0;
+	border-top: 1px solid var(--lighter-gray);
+	background-color: #000;
+}
+
+.page_section_inner {
+	height: 100%;
+	width: 100%;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	padding: 0 var(--section-padding-desktop);
+	flex-grow: 1;
+	justify-content: center;
+	align-items: center;
+}
+
+.rpc_inner {
+	position: relative;
+	background-color: #000;
+	height: 100%;
+}
+
+.rpc_preview {
+	background: hsla(0, 0%, 8%, 0.85);
+	backdrop-filter: blur(20px);
+	border-radius: 20px;
+	border: 1px solid hsla(255, 255%, 255%, 0.08);
+	box-shadow: 0 20px 40px hsla(0, 0%, 0%, 0.6);
+	padding: 24px;
+	max-width: 440px;
+	width: 100%;
+	position: relative;
+	overflow: hidden;
+}
+
+.rpc_user {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	margin-bottom: 20px;
+}
+
+.rpc_avatar {
+	position: relative;
+}
+
+.avatar_placeholder {
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	overflow: hidden;
+}
+
+.status_indicator {
+	position: absolute;
+	bottom: 2px;
+	right: 2px;
+	width: 12px;
+	height: 12px;
+	background: #ffffff;
+	border-radius: 50%;
+	border: 3px solid #1a1a1a;
+	box-shadow: 0 0 0 2px #1a1a1a;
+	opacity: 0.8;
+}
+
+.username {
+	color: #ffffff;
+	font-size: 16px;
+	font-weight: 600;
+	margin-bottom: 2px;
+}
+
+.discriminator {
+	color: hsla(0, 0%, 100%, 0.4);
+	font-size: 13px;
+}
+
+.activity_type {
+	color: hsla(255, 255%, 255%, 0.5);
+	font-size: 12px;
+	font-weight: 500;
+	margin-bottom: 12px;
+	letter-spacing: 0.5px;
+}
+
+.activity_content {
+	display: flex;
+	gap: 12px;
+	margin-bottom: 16px;
+}
+
+.activity_art {
+	position: relative;
+	flex-shrink: 0;
+}
+
+.large_art {
+	width: 64px;
+	height: 64px;
+	border-radius: 12px;
+	background: linear-gradient(135deg, #444 0%, #222 100%);
+}
+
+.art_overlay {
+	position: absolute;
+	bottom: -6px;
+	right: -6px;
+	width: 24px;
+	height: 24px;
+	background: #ffffff;
+	border-radius: 6px;
+	border: 3px solid #1a1a1a;
+	opacity: 0.9;
+}
+
+.activity_details {
+	flex: 1;
+	min-width: 0;
+	width: 100%;
+}
+
+.details_title {
+	color: #ffffff;
+	font-size: 14px;
+	font-weight: 600;
+	margin-bottom: 4px;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.details_state {
+	color: hsla(0, 0%, 100%, 0.6);
+	font-size: 12px;
+	margin-bottom: 12px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.progress_bar {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	width: 100%;
+}
+
+.progress_bg {
+	flex: 1;
+	width: 100%;
+	height: 4px;
+	background: hsla(255, 255%, 255%, 0.1);
+	border-radius: 2px;
+	overflow: hidden;
+}
+
+.progress_fill {
+	height: 100%;
+	background: #ffffff;
+	border-radius: 2px;
+	transition: width 1s ease;
+	opacity: 0.9;
+}
+
+.progress_time {
+	font-size: 11px;
+	color: hsla(255, 255%, 255%, 0.8);
+	font-weight: 500;
+	white-space: nowrap;
+	min-width: 36px;
+}
+
+.rpc_buttons {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.rpc_btn {
+	display: block;
+	padding: 10px 16px;
+	background: hsla(255, 255%, 255%, 0.08);
+	backdrop-filter: blur(10px);
+	border: 1px solid hsla(255, 255%, 255%, 0.1);
+	border-radius: 12px;
+	color: #ffffff;
+	text-decoration: none;
+	font-size: 13px;
+	font-weight: 500;
+	text-align: center;
+	transition: all 0.2s ease;
+}
+
+.rpc_btn:hover {
+	background: hsla(255, 255%, 255%, 0.15);
+	border-color: hsla(255, 255%, 255%, 0.2);
+	transform: translateY(-1px);
+}
+
+.page_section,
+.rpc_section,
+.config_section {
+	scroll-snap-align: start;
+	scroll-snap-stop: always;
+	min-height: 100vh;
+	height: 100vh;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+}
+
+@media screen and (max-width: 830px) {
+	.rpc_section {
+		height: auto;
+		padding: 40px 0;
+	}
+
+	.page_section_inner {
+		padding: 0 var(--section-padding-mobile) !important;
+	}
+
+	.rpc_preview {
+		max-width: 100%;
+		padding: 20px;
+	}
+
+	.activity_content {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.activity_art {
+		align-self: flex-start;
+	}
+
+	.large_art {
+		width: 64px;
+		height: 64px;
+	}
+
+	.art_overlay {
+		bottom: -6px;
+		right: -6px;
+		width: 24px;
+		height: 24px;
+	}
+
+	.activity_details {
+		width: 100%;
+	}
+
+	.progress_bar {
+		width: 100%;
+	}
+}

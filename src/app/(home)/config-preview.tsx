@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction } from 'react'
 
 import RpcLabel from '@components/label'
 import AppShell from './app-shell'
-import styles from './config-preview.module.css'
+import styles from './config-preview.module.scss'
 
 interface Props {
 	activeTab: 'MAIN' | 'LOGS' | 'CONFIG'

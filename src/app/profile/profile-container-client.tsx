@@ -2,8 +2,8 @@
 
 import type { Session } from 'next-auth'
 import { useEffect, useMemo, useState } from 'react'
-import type { Config } from '../../../service/firebase'
-import { onConfigsChange } from '../../../service/firebase'
+import type { Config } from '../../service/firebase'
+import { onConfigsChange } from '../../service/firebase'
 import { ProfileConfigsClient } from './profile-configs-client'
 import { ProfileDetailsClient } from './profile-details-client'
 

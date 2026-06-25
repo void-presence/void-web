@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { getConfigById } from '../../../../../../service/firebase'
+import { getConfigById } from '../../../../../service/firebase'
 
 type Params = {
 	id: string

@@ -1,13 +1,13 @@
-import layoutStyles from '@components/panel-layout/layout-panels.module.css'
+import Footer from '@components/footer'
+import Page from '@components/page'
+import PageHeader from '@components/page-header'
+import { PanelLayout } from '@components/panel-layout'
+import layoutStyles from '@components/panel-layout/layout-panels.module.scss'
+import { InfoBox } from '@components/status-info/info-box'
+import config from '@data/config.json'
 import type { Metadata } from 'next'
-import Footer from '../../../components/footer'
-import Page from '../../../components/page'
-import PageHeader from '../../../components/page-header'
-import { PanelLayout } from '../../../components/panel-layout'
-import { InfoBox } from '../../../components/status-info/info-box'
-import config from '../../../data/config.json'
 import RpcPreviewClient from '../download/rpc-preview-client'
-import styles from './status.module.css'
+import styles from './status.module.scss'
 
 export const metadata: Metadata = {
 	title: 'Status',

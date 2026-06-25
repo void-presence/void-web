@@ -1,7 +1,7 @@
 import { PanelLayout } from '@components/panel-layout'
-import layoutStyles from '@components/panel-layout/layout-panels.module.css'
-import { InfoBox } from '../../../../components/status-info/info-box'
-import styles from '../release-schedule.module.css'
+import layoutStyles from '@components/panel-layout/layout-panels.module.scss'
+import { InfoBox } from '@components/status-info/info-box'
+import styles from '../release-schedule.module.scss'
 import ReleasesDownloadsChart from './releases-downloads-chart'
 
 export interface DownloadsItem {

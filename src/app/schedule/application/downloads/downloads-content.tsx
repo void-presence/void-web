@@ -1,4 +1,4 @@
-import { getReleaseDownloads } from '@lib/releases-application'
+import { getReleaseDownloads } from '@/lib/releases-application'
 import { DownloadsContentBase } from '../../common/downloads-content-base'
 
 export async function DownloadsContent() {

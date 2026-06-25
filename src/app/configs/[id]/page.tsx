@@ -1,6 +1,6 @@
+import Page from '@components/page'
+import PageHeader from '@components/page-header'
 import type { Metadata } from 'next'
-import Page from '../../../../components/page'
-import PageHeader from '../../../../components/page-header'
 import { ConfigDetailsClient } from './details-client'
 
 type Params = {

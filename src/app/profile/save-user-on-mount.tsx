@@ -2,7 +2,7 @@
 
 import { useSession } from 'next-auth/react'
 import { useEffect } from 'react'
-import { createUserIfNotExists } from '../../../service/firebase'
+import { createUserIfNotExists } from '../../service/firebase'
 
 export function SaveUserOnMount() {
 	const { data: session } = useSession()

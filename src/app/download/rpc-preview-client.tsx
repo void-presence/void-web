@@ -1,7 +1,7 @@
 'use client'
 
+import RpcPreview from '@components/rpc-preview/rpc-user'
 import { useEffect, useState } from 'react'
-import RpcPreview from '../../../components/rpc-preview/rpc-user'
 
 interface RpcPreviewClientProps {
 	config: any

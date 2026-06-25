@@ -1,7 +1,7 @@
 import { PanelLayout } from '@components/panel-layout'
-import layoutStyles from '@components/panel-layout/layout-panels.module.css'
+import layoutStyles from '@components/panel-layout/layout-panels.module.scss'
 import ChangelogClient from '../download/changelog-client'
-import styles from './release-schedule.module.css'
+import styles from './release-schedule.module.scss'
 
 export type CommonReleaseType = 'stable' | 'pre-release' | 'nightly' | 'end of life' | 'broken'
 

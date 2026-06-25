@@ -3,9 +3,9 @@
 import { ConfigsGrid } from '@components/configs-grid/configs-grid'
 import { Search, X } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
-import type { Config } from '../../../../service/firebase'
-import { getConfigsByAuthor } from '../../../../service/firebase'
-import styles from './profile.module.css'
+import type { Config } from '../../../service/firebase'
+import { getConfigsByAuthor } from '../../../service/firebase'
+import styles from './profile.module.scss'
 
 type Props = {
 	userId: string

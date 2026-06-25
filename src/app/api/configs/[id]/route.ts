@@ -1,6 +1,6 @@
 import { get, ref, remove } from 'firebase/database'
 import { NextResponse } from 'next/server'
-import { db } from '../../../../../service/firebase'
+import { db } from '../../../../service/firebase'
 
 export async function DELETE(_req: Request, context: { params: Promise<{ id: string }> }) {
 	const { id } = await context.params

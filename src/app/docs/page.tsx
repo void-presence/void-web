@@ -1,11 +1,11 @@
+import Footer from '@components/footer'
+import Page from '@components/page'
+import PageHeader from '@components/page-header'
 import { PanelLayout } from '@components/panel-layout'
 import { InfoBox } from '@components/status-info/info-box'
 import type { Metadata } from 'next'
-import Footer from '../../../components/footer'
-import Page from '../../../components/page'
-import PageHeader from '../../../components/page-header'
 import RpcPreviewClient from '../download/rpc-preview-client'
-import styles from './docs.module.css'
+import styles from './docs.module.scss'
 
 export const metadata: Metadata = {
 	title: 'Docs',
