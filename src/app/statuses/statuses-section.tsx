@@ -2,7 +2,7 @@ import Footer from '@components/footer'
 import Page from '@components/page'
 import PageHeader from '@components/page-header'
 import { StatusClient } from './statuses-client'
-import styles from './statuses.module.css'
+import styles from './statuses.module.scss'
 
 type Props = {
 	initialSearchTerm: string

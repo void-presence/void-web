@@ -5,7 +5,7 @@ import type { Status } from '@service/firebase'
 import { onStatusesChange } from '@service/firebase'
 import { Search, X } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
-import styles from './statuses.module.css'
+import styles from './statuses.module.scss'
 
 type Props = {
 	initialStatuses?: Status[]
