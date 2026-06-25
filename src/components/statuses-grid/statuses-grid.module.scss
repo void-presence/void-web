@@ -12,7 +12,7 @@
 @media (max-width: 1435px) {
 	.cards_grid,
 	.theme_listings {
-		grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(292px, 1fr));
 	}
 }
 
@@ -196,7 +196,7 @@
 }
 
 .skeleton_card_wrap {
-	height: 460px;
+	height: 333px;
 	display: block;
 	position: relative;
 	border-radius: 16px;
@@ -251,7 +251,7 @@
 }
 
 .skeleton_rpc_preview {
-	height: 320px;
+	height: 200px;
 	border-radius: 12px;
 }
 

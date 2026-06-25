@@ -72,7 +72,7 @@ const StatusDetails = ({
 }
 
 const StatusActivity = ({
-	activityType = 'Custom status',
+	activityType,
 	currentStatus,
 	currentIndex,
 	config,
@@ -102,12 +102,7 @@ export default function StatusPreview({
 	return (
 		<div className={styles.rpc_preview}>
 			<StatusUser username={username} discriminator={discriminator} avatarSrc={avatarSrc} />
-			<StatusActivity
-				activityType={activityType}
-				currentStatus={currentStatus}
-				currentIndex={currentIndex}
-				config={config}
-			/>
+			<StatusActivity currentStatus={currentStatus} currentIndex={currentIndex} config={config} />
 		</div>
 	)
 }

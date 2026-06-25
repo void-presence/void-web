@@ -118,7 +118,7 @@
 
 @media (max-width: 1435px) {
 	.profile_cards_grid {
-		grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(292px, 1fr));
 	}
 }
 
@@ -288,7 +288,7 @@
 }
 
 .profile_rpc_preview {
-	height: 320px;
+	height: 292px;
 	display: flex;
 	justify-content: center;
 	width: 100%;
@@ -424,7 +424,7 @@
 
 .theme_listings {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(292px, 1fr));
 	gap: 20px;
 }
 
@@ -540,7 +540,7 @@
 }
 
 .rpc_card_preview {
-	height: 320px;
+	height: 292px;
 	position: static;
 	display: flex;
 	justify-content: center;
@@ -750,7 +750,7 @@
 }
 
 .profile_skeleton_card_wrap {
-	height: 460px;
+	height: 433px;
 	display: block;
 	position: relative;
 	border-radius: 16px;
@@ -813,7 +813,7 @@
 	}
 }
 .profile_skeleton_rpc_preview {
-	height: 320px;
+	height: 292px;
 	border-radius: 12px;
 }
 .profile_delete_tag:hover {

@@ -110,7 +110,6 @@ export function ProfileDetailsClient({ user, lastConfig, authorID }: Props) {
 										discriminator={`#${user.id.slice(0, 4)}` || '#0001'}
 										username={user.name || 'User'}
 										avatarSrc={avatarSrc}
-										activityType={lastConfig.title}
 										currentCycle={firstCycle}
 										currentImage={firstImage}
 										currentButtons={firstButtons}

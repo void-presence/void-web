@@ -40,7 +40,6 @@ function CustomRpcPreview({ config, previewIndex, avatarSrc }: CustomRpcPreviewP
 					discriminator={config.authorId ? `#${config.authorId.slice(0, 4)}` : '#0001'}
 					username={config.author || 'User'}
 					avatarSrc={avatarSrc}
-					activityType={config.title}
 					currentCycle={cycle}
 					currentImage={image}
 					currentButtons={buttons}

@@ -126,7 +126,7 @@ const RpcButtons = ({ buttons }: { buttons: Array<{ label: string; url: string }
 )
 
 const RpcActivity = ({
-	activityType = 'Void Presence',
+	activityType,
 	currentCycle,
 	currentImage,
 	currentIndex,
@@ -171,7 +171,6 @@ export default function RpcPreview({
 		<div className={styles.rpc_preview}>
 			<RpcUser username={username} discriminator={discriminator} avatarSrc={avatarSrc} />
 			<RpcActivity
-				activityType={activityType}
 				currentCycle={currentCycle}
 				currentImage={currentImage}
 				currentIndex={currentIndex}

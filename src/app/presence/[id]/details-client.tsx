@@ -174,7 +174,6 @@ export function ConfigDetailsClient({ configId, initialPreviewTick }: Props) {
 									discriminator={`#${config.authorId!.slice(0, 4)}` || '#0001'}
 									username={config.author || 'User'}
 									avatarSrc={avatarSrc}
-									activityType={config.title}
 									currentCycle={firstCycle}
 									currentImage={firstImage}
 									currentButtons={firstButtons}

@@ -25,7 +25,6 @@ export default function RpcPreviewClient({ config, activityType }: RpcPreviewCli
 
 	return (
 		<RpcPreview
-			activityType={activityType}
 			currentCycle={currentCycle}
 			currentImage={currentImage}
 			currentButtons={currentButtons}

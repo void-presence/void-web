@@ -154,7 +154,6 @@ export function StatusDetailsClient({ statusId, initialPreviewTick }: Props) {
 									username={status.author || 'User'}
 									discriminator={`#${String(status.authorId ?? '').slice(0, 4) || '0001'}`}
 									avatarSrc={avatarSrc}
-									activityType='Custom status'
 									currentStatus={currentCycle}
 									currentIndex={localIndex}
 									config={status.configData}
