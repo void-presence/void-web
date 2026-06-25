@@ -27,9 +27,20 @@ export default function Navbar() {
 					<Link className={styles.nav_link} href='/docs'>
 						Docs
 					</Link>
-					<Link className={styles.nav_link} href='/configs'>
-						Configs
-					</Link>
+
+					<div className={styles.nav_configs_group}>
+						<div className={`${styles.nav_button} ${styles.nav_link} ${styles.nav_link_configs}`}>
+							Configs
+						</div>
+						<div className={styles.nav_configs_dropdown}>
+							<Link className={styles.nav_configs_item} href='/presence'>
+								Presence
+							</Link>
+							<Link className={styles.nav_configs_item} href='/statuses'>
+								Status
+							</Link>
+						</div>
+					</div>
 
 					<div className={styles.nav_schedule_group}>
 						<div className={`${styles.nav_button} ${styles.nav_link} ${styles.nav_link_schedule}`}>

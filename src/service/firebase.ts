@@ -40,23 +40,35 @@ export interface UserRecord {
 	image?: string
 	provider?: string | null
 	lastSeen?: number
-	slug?: string
-}
-
-export interface UserRecordWithId extends UserRecord {
-	id: string
 }
 
 export interface Config {
 	id: string
 	title: string
 	author: string
-	authorId: string | null
+	authorId: string
 	authorAvatar?: string
 	downloads: number
 	description: string
 	configData: ConfigData
 	averageColor: string
+}
+
+export interface Status {
+	id: string
+	title: string
+	author: string
+	authorId: string
+	authorAvatar?: string
+	downloads: number
+	description: string
+	configData: {
+		statusCycles: Array<{ text: string }>
+	}
+}
+
+export interface UserRecordWithId extends UserRecord {
+	id: string
 }
 
 function mapRawToConfig(
@@ -85,6 +97,27 @@ function mapRawToConfig(
 	}
 }
 
+function mapRawToStatus(
+	id: string,
+	data: any,
+	overriddenAvatar?: string,
+	overriddenAuthor?: string
+): Status {
+	return {
+		id,
+		title: data?.title || 'Unnamed',
+		author: overriddenAuthor || data?.author || 'Unknown',
+		authorId: data?.authorId ?? null,
+		authorAvatar: overriddenAvatar || data?.authorAvatar || '',
+		downloads:
+			typeof data?.downloads === 'number'
+				? data.downloads
+				: parseInt(String(data?.downloads ?? '0')) || 0,
+		description: data?.description || '',
+		configData: data?.configData || { statusCycles: [] },
+	}
+}
+
 export async function fetchAuthor(authorId: string): Promise<UserRecord | null> {
 	const userRef = ref(db, `users/${authorId}`)
 	const snapshot = await get(userRef)
@@ -92,25 +125,12 @@ export async function fetchAuthor(authorId: string): Promise<UserRecord | null> 
 	return snapshot.val() as UserRecord
 }
 
-export async function fetchAuthorBySlug(slug: string): Promise<UserRecordWithId | null> {
-	const usersRef = ref(db, 'users')
-	const snapshot = await get(usersRef)
-	if (!snapshot.exists()) return null
-	const data = snapshot.val() as Record<string, any>
-	for (const [id, user] of Object.entries(data)) {
-		if (user && typeof user === 'object' && user.slug === slug) {
-			return { ...(user as UserRecord), id }
-		}
-	}
-	return null
-}
-
 export function onConfigsChange(
 	callback: (configs: Config[]) => void,
 	refPath?: string,
 	authorId?: string
 ) {
-	const path = refPath || 'configs'
+	const path = refPath || 'presence-configs'
 	const configsRef = ref(db, path)
 	const usersCache: Record<string, UserRecord> = {}
 
@@ -161,8 +181,71 @@ export function onConfigsChange(
 	return unsubscribe
 }
 
-export async function incrementDownloads(configId: string): Promise<void> {
-	const downloadsRef = ref(db, `configs/${configId}/downloads`)
+export function onStatusesChange(
+	callback: (statuses: Status[]) => void,
+	refPath?: string,
+	authorId?: string
+) {
+	const path = refPath || 'status-configs'
+	const statusesRef = ref(db, path)
+	const usersCache: Record<string, UserRecord> = {}
+
+	const unsubscribe = onValue(statusesRef, async snapshot => {
+		const data = snapshot.val()
+		if (!data) {
+			callback([])
+			return
+		}
+
+		const allStatuses: Status[] = Object.entries(data).map(([id, raw]) => mapRawToStatus(id, raw))
+
+		const filtered = authorId
+			? allStatuses.filter(status => String(status.authorId) === String(authorId))
+			: allStatuses
+
+		const missingAuthorIds = [
+			...new Set(
+				filtered.map(s => s.authorId).filter((id): id is string => !!id && !usersCache[id])
+			),
+		]
+
+		if (missingAuthorIds.length > 0) {
+			await Promise.all(
+				missingAuthorIds.map(async id => {
+					try {
+						const user = await fetchAuthor(id)
+						if (user) usersCache[id] = user
+					} catch {}
+				})
+			)
+		}
+
+		const statusesWithUsers = filtered.map(status => {
+			const user = status.authorId ? usersCache[status.authorId] : null
+			if (!user) return status
+			return mapRawToStatus(
+				status.id,
+				status,
+				user.avatar || user.image || '',
+				user.name || status.author
+			)
+		})
+
+		callback(statusesWithUsers)
+	})
+
+	return unsubscribe
+}
+
+export async function incrementDownloadsConfigs(configId: string): Promise<void> {
+	const downloadsRef = ref(db, `presence-configs/${configId}/downloads`)
+	await runTransaction(downloadsRef, current => {
+		return (Number(current) || 0) + 1
+	})
+}
+
+export async function incrementDownloadsStatuses(configId: string): Promise<void> {
+	const downloadsRef = ref(db, `status-configs/${configId}/downloads`)
 	await runTransaction(downloadsRef, current => {
 		return (Number(current) || 0) + 1
 	})
@@ -172,6 +255,7 @@ export async function incrementVisitors(): Promise<void> {
 	try {
 		const countRef = ref(db, 'stats/visitors/count')
 		const lastUpdatedRef = ref(db, 'stats/visitors/lastUpdated')
+
 		await runTransaction(countRef, count => (Number(count) || 0) + 1)
 		await runTransaction(lastUpdatedRef, () => Date.now())
 	} catch {}
@@ -181,6 +265,7 @@ export async function incrementDownloadsStats(): Promise<void> {
 	try {
 		const countRef = ref(db, 'stats/downloads/count')
 		const lastUpdatedRef = ref(db, 'stats/downloads/lastUpdated')
+
 		await runTransaction(countRef, count => (Number(count) || 0) + 1)
 		await runTransaction(lastUpdatedRef, () => Date.now())
 	} catch {}
@@ -201,6 +286,132 @@ export function onStatsChange(callback: (stats: Stats) => void) {
 		})
 	})
 	return unsubscribe
+}
+
+export function onConfigByIdChange(id: string, callback: (config: Config | null) => void) {
+	const configRef = ref(db, `presence-configs/${id}`)
+
+	const unsubscribe = onValue(configRef, async snapshot => {
+		const data = snapshot.val()
+
+		if (!data) {
+			callback(null)
+			return
+		}
+
+		let user: UserRecord | null = null
+
+		if (data.authorId) {
+			try {
+				user = await fetchAuthor(data.authorId)
+			} catch {}
+		}
+
+		callback(
+			mapRawToConfig(
+				id,
+				data,
+				user?.avatar || user?.image || data.authorAvatar || '',
+				user?.name || data.author || 'Unknown'
+			)
+		)
+	})
+
+	return unsubscribe
+}
+
+export function onStatusByIdChange(id: string, callback: (status: Status | null) => void) {
+	const statusRef = ref(db, `status-configs/${id}`)
+
+	const unsubscribe = onValue(statusRef, async snapshot => {
+		const data = snapshot.val()
+
+		if (!data) {
+			callback(null)
+			return
+		}
+
+		let user: UserRecord | null = null
+
+		if (data.authorId) {
+			try {
+				user = await fetchAuthor(data.authorId)
+			} catch {}
+		}
+
+		callback(
+			mapRawToStatus(
+				id,
+				{
+					...data,
+					authorAvatar: data.authorAvatar,
+					author: data.author,
+				},
+				user?.avatar || user?.image || data.authorAvatar || '',
+				user?.name || data.author || 'Unknown'
+			)
+		)
+	})
+
+	return unsubscribe
+}
+
+export async function getConfigs(): Promise<Config[]> {
+	const configsRef = ref(db, 'configs')
+	const snapshot = await get(configsRef)
+	if (!snapshot.exists()) return []
+	const data = snapshot.val() as Record<string, any>
+	return Object.entries(data).map(([id, raw]) => mapRawToConfig(id, raw))
+}
+
+export async function getStatuses(): Promise<Status[]> {
+	const statusesRef = ref(db, 'status-configs')
+	const snapshot = await get(statusesRef)
+	if (!snapshot.exists()) return []
+	const data = snapshot.val() as Record<string, any>
+	return Object.entries(data).map(([id, raw]) => mapRawToStatus(id, raw))
+}
+
+export async function getConfigById(id: string): Promise<Config | null> {
+	const configRef = ref(db, `presence-configs/${id}`)
+	const snapshot = await get(configRef)
+	if (!snapshot.exists()) return null
+	const data = snapshot.val()
+
+	let user: UserRecord | null = null
+	if (data.authorId) {
+		try {
+			user = await fetchAuthor(data.authorId)
+		} catch {}
+	}
+
+	return mapRawToConfig(
+		id,
+		data,
+		user?.avatar || user?.image || data.authorAvatar || '',
+		user?.name || data.author || 'Unknown'
+	)
+}
+
+export async function getStatusById(id: string): Promise<Status | null> {
+	const statusRef = ref(db, `status-configs/${id}`)
+	const snapshot = await get(statusRef)
+	if (!snapshot.exists()) return null
+	const data = snapshot.val()
+
+	let user: UserRecord | null = null
+	if (data.authorId) {
+		try {
+			user = await fetchAuthor(data.authorId)
+		} catch {}
+	}
+
+	return mapRawToStatus(
+		id,
+		data,
+		user?.avatar || user?.image || data.authorAvatar || '',
+		user?.name || data.author || 'Unknown'
+	)
 }
 
 export async function getConfigsByAuthor(authorId: string): Promise<Config[]> {
@@ -234,90 +445,60 @@ export async function getConfigsByAuthor(authorId: string): Promise<Config[]> {
 	return configsWithAuthor
 }
 
-export function onConfigByIdChange(id: string, callback: (config: Config | null) => void) {
-	const configRef = ref(db, `configs/${id}`)
-
-	const unsubscribe = onValue(configRef, async snapshot => {
-		const data = snapshot.val()
-
-		if (!data) {
-			callback(null)
-			return
-		}
-
-		let user: UserRecord | null = null
-
-		if (data.authorId) {
-			try {
-				user = await fetchAuthor(data.authorId)
-			} catch {}
-		}
-
-		callback(
-			mapRawToConfig(
-				id,
-				data,
-				user?.avatar || user?.image || data.authorAvatar || '',
-				user?.name || data.author || 'Unknown'
-			)
-		)
-	})
-
-	return unsubscribe
-}
-
-export async function getConfigs(): Promise<Config[]> {
-	const configsRef = ref(db, 'configs')
-	const snapshot = await get(configsRef)
+export async function getStatusesByAuthor(authorId: string): Promise<Status[]> {
+	const statusesRef = ref(db, 'status-configs')
+	const snapshot = await get(statusesRef)
 	if (!snapshot.exists()) return []
-	const data = snapshot.val() as Record<string, any>
-	return Object.entries(data).map(([id, raw]) => mapRawToConfig(id, raw))
-}
 
-export async function getConfigById(id: string): Promise<Config | null> {
-	const configRef = ref(db, `configs/${id}`)
-	const snapshot = await get(configRef)
-	if (!snapshot.exists()) return null
 	const data = snapshot.val()
+	const allStatuses: Status[] = Object.entries(data)
+		.filter(([id, raw]: [string, any]) => raw.authorId === authorId)
+		.map(([id, raw]) => mapRawToStatus(id, raw))
 
-	let user: UserRecord | null = null
-	if (data.authorId) {
-		try {
-			user = await fetchAuthor(data.authorId)
-		} catch {}
+	if (allStatuses.length === 0) {
+		return []
 	}
 
-	return mapRawToConfig(
-		id,
-		data,
-		user?.avatar || user?.image || data.authorAvatar || '',
-		user?.name || data.author || 'Unknown'
+	const author = await fetchAuthor(authorId)
+	if (!author) {
+		return allStatuses
+	}
+
+	const statusesWithAuthor = allStatuses.map(status =>
+		mapRawToStatus(
+			status.id,
+			{ ...status },
+			author.avatar || author.image || '',
+			author.name || status.author
+		)
 	)
+
+	return statusesWithAuthor
 }
 
 export async function createUserIfNotExists(
 	userId: string,
 	name?: string,
 	avatar?: string,
-	provider?: string,
-	slug?: string
+	provider?: string
 ) {
 	const userRef = ref(db, `users/${userId}`)
 	await runTransaction(userRef, current => {
 		if (current) {
 			const next = { ...current }
+
 			if (name) {
 				next.name = name
 			}
+
 			if (avatar) {
 				next.avatar = avatar
 			}
+
 			if (provider) {
 				next.provider = provider
 			}
-			if (slug && !next.slug) {
-				next.slug = slug
-			}
+
 			next.lastSeen = Date.now()
 			return next
 		}
@@ -326,11 +507,24 @@ export async function createUserIfNotExists(
 			name: name ?? 'Unknown',
 			avatar: avatar || '/logo.png',
 			provider: provider || null,
-			slug: slug || null,
 			createdAt: Date.now(),
 			lastSeen: Date.now(),
 		}
 	})
+}
+
+export async function deleteConfig(configId: string): Promise<void> {
+	const cfgRef = ref(db, `presence-configs/${configId}`)
+	const snap = await get(cfgRef)
+	if (!snap.exists()) return
+	await remove(cfgRef)
+}
+
+export async function deleteStatus(statusId: string): Promise<void> {
+	const statusRef = ref(db, `status-configs/${statusId}`)
+	const snap = await get(statusRef)
+	if (!snap.exists()) return
+	await remove(statusRef)
 }
 
 export async function fetchAuthorByName(name: string): Promise<UserRecordWithId | null> {
@@ -346,11 +540,4 @@ export async function fetchAuthorByName(name: string): Promise<UserRecordWithId 
 	}
 
 	return null
-}
-
-export async function deleteConfig(configId: string): Promise<void> {
-	const cfgRef = ref(db, `configs/${configId}`)
-	const snap = await get(cfgRef)
-	if (!snap.exists()) return
-	await remove(cfgRef)
 }

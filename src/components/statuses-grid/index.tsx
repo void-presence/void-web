@@ -1,0 +1,192 @@
+'use client'
+
+import type { Status } from '@/service/firebase'
+import { deleteStatus } from '@/service/firebase'
+import { Download, Trash } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import StatusPreview from '../statuses-preview/status-user'
+import styles from './statuses-grid.module.scss'
+
+type CustomStatusPreviewProps = {
+	config: Status
+	previewIndex: number
+}
+
+function CustomStatusPreview({ config, previewIndex }: CustomStatusPreviewProps) {
+	const configData: any = config.configData || {}
+	const cycles = configData.statusCycles ?? []
+
+	const maxLen = cycles.length || 1
+	const localIndex = maxLen ? previewIndex % maxLen : 0
+	const cycleIndex = localIndex % maxLen
+	const cycle = cycles[cycleIndex] || { text: '' }
+
+	return (
+		<div className={styles.rpc_card_preview}>
+			<div className={styles.rpc_card_preview_inner}>
+				<StatusPreview
+					discriminator={`#${String(config.authorId ?? '').slice(0, 4) || '0001'}`}
+					username={config.author || 'User'}
+					currentStatus={cycle}
+					currentIndex={localIndex}
+					config={configData}
+					avatarSrc={config.authorAvatar || '/logo.png'}
+				/>
+			</div>
+		</div>
+	)
+}
+
+function SkeletonCard() {
+	return (
+		<div className={styles.skeleton_card_wrap}>
+			<div className={styles.skeleton_card}>
+				<div className={styles.skeleton_card_header}>
+					<div className={styles.skeleton_title}></div>
+				</div>
+				<div className={styles.skeleton_rpc_preview}></div>
+				<div className={styles.skeleton_card_actions}>
+					<div className={styles.skeleton_download_tag}></div>
+					<div className={styles.skeleton_action_buttons}>
+						<div className={styles.skeleton_btn_primary}></div>
+						<div className={styles.skeleton_btn_secondary}></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	)
+}
+
+function getNextTick(prev: number) {
+	return prev + 1
+}
+
+type StatusesGridProps = {
+	configs: Status[]
+	loading?: boolean
+	allowDelete?: boolean
+}
+
+export function StatusesGrid({ configs, loading, allowDelete }: StatusesGridProps) {
+	const [previewTick, setPreviewTick] = useState(0)
+	const [mounted, setMounted] = useState(false)
+	const [animateColors, setAnimateColors] = useState(false)
+	const [localStatuses, setLocalStatuses] = useState<Status[]>(configs)
+	const [deletingId, setDeletingId] = useState<string | null>(null)
+
+	useEffect(() => {
+		setMounted(true)
+	}, [])
+
+	useEffect(() => {
+		setLocalStatuses(configs)
+	}, [configs])
+
+	useEffect(() => {
+		setTimeout(() => {
+			setAnimateColors(true)
+		}, 100)
+
+		const interval = setInterval(() => {
+			setPreviewTick(prev => getNextTick(prev))
+		}, 3000)
+
+		return () => {
+			clearInterval(interval)
+		}
+	}, [])
+
+	const showSkeleton = loading && !localStatuses.length
+
+	const handleOpenInApp = async (config: Status) => {
+		window.location.href = `voidpresence://import-status-config?title=${encodeURIComponent(
+			config.title
+		)}&data=${encodeURIComponent(JSON.stringify(config.configData ?? {}))}`
+
+		try {
+			await fetch(`/api/statuses/${config.id}/track-open`, {
+				method: 'POST',
+			})
+		} catch (err) {
+			console.error('Failed to track open in app', err)
+		}
+	}
+
+	const handleDelete = async (config: Status) => {
+		if (!allowDelete) return
+		setDeletingId(config.id)
+		try {
+			await deleteStatus(config.id)
+			setLocalStatuses(prev => prev.filter(s => s.id !== config.id))
+		} catch (err) {
+			console.error('Failed to delete status', err)
+		} finally {
+			setDeletingId(null)
+		}
+	}
+
+	return (
+		<section id='status-content' className={styles.page_section}>
+			{showSkeleton ? (
+				<div className={styles.theme_listings}>
+					<SkeletonCard />
+					<SkeletonCard />
+					<SkeletonCard />
+				</div>
+			) : localStatuses.length === 0 ? (
+				<div className={styles.empty_state}>
+					<p>No status found.</p>
+				</div>
+			) : (
+				<div className={styles.cards_grid}>
+					{localStatuses.map((config, index) => {
+						const baseIndex = mounted ? previewTick + index : 0
+
+						return (
+							<div key={config.id} className={styles.card_wrap}>
+								<div className={styles.card}>
+									<div className={styles.card_header}>
+										<div className={styles.card_title}>
+											<h3 className={styles.card_title}>{config.title}</h3>
+										</div>
+										<div className={styles.download_tag_group}>
+											<div className={styles.download_tag}>
+												<Download size={14} className={styles.download_icon} />
+												<span className={styles.download_text}>
+													{config.downloads.toLocaleString()}
+												</span>
+											</div>
+											{allowDelete && (
+												<button
+													type='button'
+													className={styles.profile_delete_tag}
+													disabled={deletingId === config.id}
+													onClick={() => handleDelete(config)}
+												>
+													<Trash size={14} />
+												</button>
+											)}
+										</div>
+									</div>
+
+									<CustomStatusPreview config={config} previewIndex={baseIndex} />
+
+									<div className={styles.card_actions}>
+										<div className={styles.card_buttons}>
+											<a className={styles.btn_primary} onClick={() => handleOpenInApp(config)}>
+												Open in app
+											</a>
+											<a className={styles.btn_secondary} href={`/statuses/${config.id}`}>
+												Show details
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						)
+					})}
+				</div>
+			)}
+		</section>
+	)
+}

@@ -41,7 +41,7 @@ export function ProfileContainerClient({ initialConfigs, user, session, userId }
 				session={session}
 				lastConfig={lastConfig}
 			/>
-			<ProfileConfigsClient configs={configs} userId={userId} />
+			<ProfileConfigsClient userId={userId} />
 		</>
 	)
 }

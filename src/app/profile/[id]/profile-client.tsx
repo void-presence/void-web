@@ -1,10 +1,12 @@
 'use client'
 
-import { ConfigsGrid } from '@components/configs-grid/configs-grid'
+import { PresenceGrid } from '@/components/presence-grid'
 import { Search, X } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
-import type { Config } from '../../../service/firebase'
-import { getConfigsByAuthor } from '../../../service/firebase'
+
+import { StatusesGrid } from '@/components/statuses-grid'
+import type { Config, Status } from '../../../service/firebase'
+import { getConfigsByAuthor, getStatusesByAuthor } from '../../../service/firebase'
 import styles from './profile.module.scss'
 
 type Props = {
@@ -32,25 +34,63 @@ function sortConfigs(configs: Config[]) {
 	})
 }
 
+function filterStatuses(statuses: Status[], searchTerm: string) {
+	const term = searchTerm.toLowerCase()
+	if (!term) return statuses
+	return statuses.filter(
+		status =>
+			status.title.toLowerCase().includes(term) || status.description.toLowerCase().includes(term)
+	)
+}
+
+function sortStatuses(statuses: Status[]) {
+	return [...statuses].sort((a, b) => {
+		const aDownloads =
+			typeof a.downloads === 'number' ? a.downloads : parseInt(String(a.downloads ?? '0')) || 0
+
+		const bDownloads =
+			typeof b.downloads === 'number' ? b.downloads : parseInt(String(b.downloads ?? '0')) || 0
+
+		return bDownloads - aDownloads
+	})
+}
+
 export function ProfileClient({ userId }: Props) {
 	const [configs, setConfigs] = useState<Config[]>([])
+	const [statuses, setStatuses] = useState<Status[]>([])
 	const [searchTerm, setSearchTerm] = useState('')
-	const [loading, setLoading] = useState(true)
+	const [loadingConfigs, setLoadingConfigs] = useState(true)
+	const [loadingStatuses, setLoadingStatuses] = useState(true)
 
 	useEffect(() => {
 		async function fetchConfigs() {
-			setLoading(true)
+			setLoadingConfigs(true)
 			const userConfigs = await getConfigsByAuthor(userId)
 			setConfigs(userConfigs)
-			setLoading(false)
+			setLoadingConfigs(false)
+		}
+
+		async function fetchStatuses() {
+			setLoadingStatuses(true)
+			const userStatuses = await getStatusesByAuthor(userId)
+			setStatuses(userStatuses)
+			setLoadingStatuses(false)
 		}
 
 		fetchConfigs()
+		fetchStatuses()
 	}, [userId])
 
 	const filteredConfigs = useMemo(() => filterConfigs(configs, searchTerm), [configs, searchTerm])
 
 	const sortedConfigs = useMemo(() => sortConfigs(filteredConfigs), [filteredConfigs])
+
+	const filteredStatuses = useMemo(
+		() => filterStatuses(statuses, searchTerm),
+		[statuses, searchTerm]
+	)
+
+	const sortedStatuses = useMemo(() => sortStatuses(filteredStatuses), [filteredStatuses])
 
 	return (
 		<section className={styles.section_profile_panel}>
@@ -78,12 +118,17 @@ export function ProfileClient({ userId }: Props) {
 					</form>
 
 					<div className={styles.stats_summary}>
-						<span>{sortedConfigs.length} configs found</span>
+						<span>{sortedConfigs.length} presence found</span>
+					</div>
+					<div className={styles.stats_summary}>
+						<span>{sortedStatuses.length} statuses found</span>
 					</div>
 				</div>
 
 				<div className={styles.themes_right_side}>
-					<ConfigsGrid configs={sortedConfigs} loading={loading} />
+					<PresenceGrid configs={sortedConfigs} loading={loadingConfigs} />
+					<div style={{ marginTop: '20px' }} />
+					<StatusesGrid configs={sortedStatuses} loading={loadingStatuses} />
 				</div>
 			</div>
 		</section>
