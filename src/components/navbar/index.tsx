@@ -37,7 +37,7 @@ export default function Navbar() {
 								Presence
 							</Link>
 							<Link className={styles.nav_configs_item} href='/statuses'>
-								Status
+								Statuses
 							</Link>
 						</div>
 					</div>
