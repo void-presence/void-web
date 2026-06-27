@@ -84,7 +84,7 @@ export function StatusDetailsClient({ statusId, initialPreviewTick }: Props) {
 					<div className={styles.addon_splitview_container}>
 						<div className={styles.addon_details_right_column}>
 							<div className={styles.addon_details_segment}>
-								<a href='/status' className={styles.back_link}>
+								<a href='/statuses' className={styles.back_link}>
 									← Back to Statuses
 								</a>
 								<h1 className={styles.title}>Status not found</h1>
@@ -127,7 +127,7 @@ export function StatusDetailsClient({ statusId, initialPreviewTick }: Props) {
 					<div className={styles.addon_splitview_container}>
 						<div className={styles.addon_details_right_column}>
 							<div className={styles.addon_details_segment}>
-								<a href='/status' className={styles.back_link}>
+								<a href='/statuses' className={styles.back_link}>
 									← Back to Statuses
 								</a>
 								<h1 className={styles.title}>{status.title}</h1>
