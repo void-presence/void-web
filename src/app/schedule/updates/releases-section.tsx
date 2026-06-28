@@ -1,5 +1,5 @@
+import { getUpdatesReleases } from '@/lib/releases-updates'
 import { InfoBox } from '@components/status-info/info-box'
-import { getReleases } from '@lib/releases-updates'
 import type { Metadata } from 'next'
 import DownloadButtons from '../../download/download-buttons'
 import styles from '../release-schedule.module.scss'
@@ -19,7 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ReleasesSection() {
-	const { releases, githubLatestRelease, error } = await getReleases()
+	const { releases, githubLatestRelease, error } = await getUpdatesReleases()
 
 	const stableRelease = githubLatestRelease ?? releases[0] ?? null
 

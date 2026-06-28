@@ -1,8 +1,8 @@
-import { getReleaseDownloads } from '@/lib/releases-updates'
+import { getUpdatesReleaseDownloads } from '@/lib/releases-updates'
 import { DownloadsContentBase } from '../../common/downloads-content-base'
 
 export async function DownloadsContent() {
-	const { items, error } = await getReleaseDownloads()
+	const { items, error } = await getUpdatesReleaseDownloads()
 
 	return (
 		<DownloadsContentBase

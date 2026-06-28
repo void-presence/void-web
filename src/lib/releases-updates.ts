@@ -70,7 +70,7 @@ function applyBuildTagPriority(releases: ReleaseInfo[]): ReleaseInfo[] {
 	})
 }
 
-export async function getInstallerReleases(): Promise<{
+export async function getUpdatesReleases(): Promise<{
 	releases: ReleaseInfo[]
 	githubLatestRelease: ReleaseInfo | null
 	error: string | null
@@ -96,7 +96,7 @@ export async function getInstallerReleases(): Promise<{
 				error:
 					listRes.status === 403
 						? 'GitHub API rate limit exceeded. Please try again in a few minutes or open the GitHub releases page.'
-						: 'Failed to load installer release schedule. Please try again later.',
+						: 'Failed to load updates release schedule. Please try again later.',
 			}
 		}
 
@@ -220,7 +220,7 @@ export async function getInstallerReleases(): Promise<{
 		return {
 			releases: [],
 			githubLatestRelease: null,
-			error: 'Failed to load installer release schedule. Please try again later.',
+			error: 'Failed to load updates release schedule. Please try again later.',
 		}
 	}
 }
@@ -230,7 +230,7 @@ export interface ReleaseDownloadsResult {
 	error: string | null
 }
 
-export async function getInstallerReleaseDownloads(): Promise<ReleaseDownloadsResult> {
+export async function getUpdatesReleaseDownloads(): Promise<ReleaseDownloadsResult> {
 	const res = await fetch(
 		'https://api.github.com/repos/Devollox/void-updates/releases?per_page=100',
 		{
@@ -246,7 +246,7 @@ export async function getInstallerReleaseDownloads(): Promise<ReleaseDownloadsRe
 			error:
 				res.status === 403
 					? 'GitHub API rate limit exceeded. Please try again in a few minutes or open the GitHub releases page.'
-					: 'Failed to load installer release schedule. Please try again later.',
+					: 'Failed to load updates release schedule. Please try again later.',
 		}
 	}
 
