@@ -1,7 +1,7 @@
 import { PanelLayout } from '@components/panel-layout'
 import layoutStyles from '@components/panel-layout/layout-panels.module.scss'
 import skeletonStyles from '@styles/skeleton.module.scss'
-import scheduleStyles from '../release-schedule.module.scss'
+import installerStyles from './release-schedule.module.scss'
 
 export default function ReleaseListSkeleton({
 	countSkeleton,
@@ -82,7 +82,7 @@ export default function ReleaseListSkeleton({
 	)
 
 	const right = (
-		<section className={scheduleStyles.page_section}>
+		<section className={installerStyles.page_section}>
 			{backBtn === true && (
 				<div className={layoutStyles.preview_card_wrap} style={{ marginBottom: 20, height: 88 }}>
 					<div className={layoutStyles.preview_card} style={{ flexDirection: 'row' }}>
@@ -126,12 +126,12 @@ export default function ReleaseListSkeleton({
 							<div className={skeletonStyles.skeleton_badge} />
 						</div>
 
-						<ul className={scheduleStyles.release_list}>
+						<ul className={installerStyles.release_list}>
 							{Array.from({ length: countSkeleton }).map((_, idx) => (
-								<li key={idx} className={scheduleStyles.release_item}>
-									<div className={scheduleStyles.release_card}>
-										<div className={scheduleStyles.release_card_top}>
-											<div className={scheduleStyles.release_card_left}>
+								<li key={idx} className={installerStyles.release_item}>
+									<div className={installerStyles.release_card}>
+										<div className={installerStyles.release_card_top}>
+											<div className={installerStyles.release_card_left}>
 												<div className={skeletonStyles.skeleton_version_row}>
 													<div className={skeletonStyles.skeleton_version} />
 													<div className={skeletonStyles.skeleton_badge_small} />
@@ -140,10 +140,10 @@ export default function ReleaseListSkeleton({
 											<div className={skeletonStyles.skeleton_date} />
 										</div>
 
-										<div className={scheduleStyles.release_card_meta}>
+										<div className={installerStyles.release_card_meta}>
 											<div className={skeletonStyles.skeleton_meta_chip} />
 										</div>
-										<div className={scheduleStyles.release_card_meta}>
+										<div className={installerStyles.release_card_meta}>
 											<div className={skeletonStyles.skeleton_meta_chip_changelog} />
 										</div>
 									</div>

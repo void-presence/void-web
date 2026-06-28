@@ -3,7 +3,7 @@ import Page from '@components/page'
 import PageHeader from '@components/page-header'
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
-import ReleaseListSkeleton from '../release-list-skeleton'
+import ReleaseListSkeleton from '../../release-list-skeleton'
 import { DownloadsContent } from './downloads-content'
 
 export const metadata: Metadata = {

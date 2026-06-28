@@ -53,6 +53,9 @@ export default function Navbar() {
 							<Link className={styles.nav_schedule_item} href='/schedule/installer'>
 								Installer
 							</Link>
+							<Link className={styles.nav_schedule_item} href='/schedule/updates'>
+								Updates
+							</Link>
 						</div>
 					</div>
 

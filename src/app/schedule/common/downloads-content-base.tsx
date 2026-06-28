@@ -17,7 +17,7 @@ interface DownloadsContentBaseProps {
 	docsHref: string
 	chartTitle: string
 	scheduleLabel: string
-	context: 'application' | 'installer'
+	context: 'application' | 'installer' | 'updates'
 }
 
 export function DownloadsContentBase({

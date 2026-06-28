@@ -4,25 +4,25 @@ import PageHeader from '@components/page-header'
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import ReleaseListSkeleton from '../release-list-skeleton'
-import { ReleasesSection } from './releases-section'
+import ReleasesSection from './releases-section'
 
 export const metadata: Metadata = {
-	title: 'Release Installer',
+	title: 'Updates',
 	description:
-		'Release history for the Void Presence installer with version timeline and GitHub release data.',
+		'Release history for Void Presence updates with version timeline and GitHub release data.',
 	openGraph: {
-		title: 'Void Presence Installer Releases',
-		description: 'Track Void Presence installer releases and changelog history in one place.',
-		url: '/schedule/installer',
+		title: 'Void Presence Updates',
+		description: 'Track Void Presence updates and changelog history in one place.',
+		url: '/schedule/updates',
 	},
 }
 
-export default function InstallerPage() {
+export default function UpdatesPage() {
 	return (
 		<Page>
 			<PageHeader
-				title='Void Presence Installer Releases'
-				subtitle='Track current and past installer releases and published builds.'
+				title='Void Presence Updates'
+				subtitle='Track current and past updates and published builds.'
 			/>
 			<Suspense
 				fallback={
