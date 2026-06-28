@@ -87,6 +87,11 @@ export async function getInstallerReleases(): Promise<{
 				next: { revalidate: 300 },
 				headers: githubHeaders(),
 			}),
+			fetch('https://api.github.com/repos/Devollox/void-updates/releases/latest', {
+				cache: 'force-cache',
+				next: { revalidate: 300 },
+				headers: githubHeaders(),
+			}),
 		])
 
 		if (!listRes.ok) {

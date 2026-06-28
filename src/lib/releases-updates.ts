@@ -232,12 +232,7 @@ export interface ReleaseDownloadsResult {
 
 export async function getUpdatesReleaseDownloads(): Promise<ReleaseDownloadsResult> {
 	const res = await fetch(
-		'https://api.github.com/repos/Devollox/void-updates/releases?per_page=100',
-		{
-			cache: 'force-cache',
-			next: { revalidate: 300 },
-			headers: githubHeaders(),
-		}
+		'https://api.github.com/repos/Devollox/void-updates/releases?per_page=100'
 	)
 
 	if (!res.ok) {

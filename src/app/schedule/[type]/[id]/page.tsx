@@ -6,7 +6,7 @@ import { Suspense } from 'react'
 import ReleaseListSkeleton from '../../release-list-skeleton'
 import { ReleaseDetailsContent } from './release-details-content'
 
-type ReleaseType = 'application' | 'installer'
+type ReleaseType = 'application' | 'installer' | 'updates'
 
 interface ReleaseDetailsPageProps {
 	params: Promise<{ type: ReleaseType; id: string }>
@@ -17,7 +17,11 @@ export async function generateMetadata(props: ReleaseDetailsPageProps): Promise<
 	const { type, id } = await props.params
 
 	const isApplication = type === 'application'
-	const productLabel = isApplication ? 'Application' : 'Installer'
+	const isInstaller = type === 'installer'
+	const isUpdates = type === 'updates'
+
+	const productLabel = isUpdates ? 'Updates' : isApplication ? 'Application' : 'Installer'
+
 	const baseTitle = id ? `Void Presence ${id}` : 'Void Presence Release'
 
 	return {
@@ -35,17 +39,21 @@ export default async function ReleaseDetailsPage(props: ReleaseDetailsPageProps)
 	const { type, id } = await props.params
 
 	const isApplication = type === 'application'
-	const productLabel = isApplication ? 'Application' : 'Installer'
+	const isInstaller = type === 'installer'
+	const isUpdates = type === 'updates'
+
+	const productLabel = isUpdates ? 'Updates' : isApplication ? 'Application' : 'Installer'
+
 	const title = id ? `Void Presence ${id}` : `Void Presence ${productLabel} Release`
+
+	const subtitleBase =
+		isUpdates || isInstaller
+			? `Release details for the Void Presence ${productLabel.toLowerCase()} loaded from GitHub release data.`
+			: `Release details for the Void Presence ${productLabel.toLowerCase()} loaded from GitHub release data and package.json tag.`
 
 	return (
 		<Page>
-			<PageHeader
-				title={title}
-				subtitle={`Release details for the Void Presence ${productLabel.toLowerCase()} loaded from GitHub release data${
-					isApplication ? ' and package.json tag.' : '.'
-				}`}
-			/>
+			<PageHeader title={title} subtitle={subtitleBase} />
 			<Suspense fallback={<ReleaseListSkeleton countSkeleton={1} backBtn={true} list={true} />}>
 				<ReleaseDetailsContent type={type} id={id} />
 			</Suspense>

@@ -3,6 +3,7 @@ import {
 	extractPackageMeta,
 	getApplicationPackageJsonByTag,
 	getInstallerPackageJsonByTag,
+	getUpdatesPackageJsonByTag,
 } from '@/lib/package-meta'
 import { getElectronMetadata, parseElectronVersionFromNotes } from '@/lib/parse-version'
 import { normalizeReleaseNotes } from '@/lib/release-notes'
@@ -11,15 +12,16 @@ import {
 	getInstallerReleases,
 	type ReleaseInfo as InstallerReleaseInfo,
 } from '@/lib/releases-installer'
+import { getUpdatesReleases, type ReleaseInfo as UpdatesReleaseInfo } from '@/lib/releases-updates'
 import { PanelLayout } from '@components/panel-layout'
 import layoutStyles from '@components/panel-layout/layout-panels.module.scss'
 import { InfoBox } from '@components/status-info/info-box'
 import ChangelogClient from '../../../download/changelog-client'
 import styles from '../../release-schedule.module.scss'
 
-type ReleaseType = 'application' | 'installer'
+type ReleaseType = 'application' | 'installer' | 'updates'
 
-type CommonReleaseInfo = AppReleaseInfo | InstallerReleaseInfo
+type CommonReleaseInfo = AppReleaseInfo | InstallerReleaseInfo | UpdatesReleaseInfo
 
 interface ReleaseDetailsContentProps {
 	type: ReleaseType
@@ -28,11 +30,21 @@ interface ReleaseDetailsContentProps {
 
 export async function ReleaseDetailsContent({ type, id }: ReleaseDetailsContentProps) {
 	const isApplication = type === 'application'
+	const isInstaller = type === 'installer'
+	const isUpdates = type === 'updates'
 
-	const [{ releases, githubLatestRelease, error }, pkg] = await Promise.all([
-		isApplication ? getReleases() : getInstallerReleases(),
-		isApplication ? getApplicationPackageJsonByTag(id) : getInstallerPackageJsonByTag(id),
+	const [releaseData, pkg] = await Promise.all([
+		isApplication ? getReleases() : isInstaller ? getInstallerReleases() : getUpdatesReleases(),
+		isApplication
+			? getApplicationPackageJsonByTag(id)
+			: isInstaller
+				? getInstallerPackageJsonByTag(id)
+				: isUpdates
+					? getUpdatesPackageJsonByTag(id)
+					: null,
 	])
+
+	const { releases, githubLatestRelease, error } = releaseData
 
 	const stableRelease = githubLatestRelease ?? releases[0] ?? null
 
@@ -70,8 +82,11 @@ export async function ReleaseDetailsContent({ type, id }: ReleaseDetailsContentP
 	const nodeJsMain = electronMeta?.node
 	const v8Main = electronMeta?.v8
 
-	const installerWails = !isApplication && (release as InstallerReleaseInfo | null)?.wailsVersion
-	const installerGo = !isApplication && (release as InstallerReleaseInfo | null)?.goVersion
+	const installerWails = isInstaller && (release as InstallerReleaseInfo | null)?.wailsVersion
+	const installerGo = isInstaller && (release as InstallerReleaseInfo | null)?.goVersion
+
+	const updatesWails = isUpdates && (release as InstallerReleaseInfo | null)?.wailsVersion
+	const updatesGo = isUpdates && (release as InstallerReleaseInfo | null)?.goVersion
 
 	const left = (
 		<>
@@ -93,18 +108,24 @@ export async function ReleaseDetailsContent({ type, id }: ReleaseDetailsContentP
 							</div>
 						)}
 
-						{!isApplication && (
+						{(installerGo || isUpdates) && (
 							<>
-								{installerWails && (
+								{(installerGo || isUpdates) && (
 									<div className={styles.release_row}>
 										<span className={styles.release_label}>Wails</span>
-										<span className={styles.release_value}>v{installerWails}</span>
+										<span className={styles.release_value}>
+											v{installerWails}
+											{updatesWails}
+										</span>
 									</div>
 								)}
-								{installerGo && (
+								{(installerGo || isUpdates) && (
 									<div className={styles.release_row}>
 										<span className={styles.release_label}>Go</span>
-										<span className={styles.release_value}>v{installerGo}</span>
+										<span className={styles.release_value}>
+											v{installerGo}
+											{updatesGo}
+										</span>
 									</div>
 								)}
 								{pkgMeta && (
@@ -195,7 +216,7 @@ export async function ReleaseDetailsContent({ type, id }: ReleaseDetailsContentP
 				/>
 			)}
 
-			{!pkg && (
+			{!pkg && isApplication && (
 				<InfoBox
 					variant='muted'
 					lines={[
@@ -304,7 +325,7 @@ export async function ReleaseDetailsContent({ type, id }: ReleaseDetailsContentP
 											</div>
 										)}
 
-										{!isApplication &&
+										{isInstaller &&
 											((installerWails as string | undefined) ||
 												(installerGo as string | undefined)) && (
 												<div className={styles.electron_row}>

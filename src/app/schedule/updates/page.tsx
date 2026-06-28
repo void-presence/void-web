@@ -7,7 +7,7 @@ import ReleaseListSkeleton from '../release-list-skeleton'
 import ReleasesSection from './releases-section'
 
 export const metadata: Metadata = {
-	title: 'Updates',
+	title: 'Release Updates',
 	description:
 		'Release history for Void Presence updates with version timeline and GitHub release data.',
 	openGraph: {
@@ -21,7 +21,7 @@ export default function UpdatesPage() {
 	return (
 		<Page>
 			<PageHeader
-				title='Void Presence Updates'
+				title='Void Presence Updates Release'
 				subtitle='Track current and past updates and published builds.'
 			/>
 			<Suspense

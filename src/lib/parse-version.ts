@@ -230,14 +230,14 @@ export async function getWailsMetadata(tag: string, name: string): Promise<Wails
 	for (const line of lines) {
 		const trimmed = line.trim()
 
-		if (trimmed.startsWith('go ')) {
+		if (!goVersion && trimmed.startsWith('go ')) {
 			const parts = trimmed.split(/\s+/)
 			if (parts[1]) {
 				goVersion = parts[1]
 			}
 		}
 
-		if (trimmed.startsWith('require github.com/wailsapp/wails/v2')) {
+		if (!wailsVersion && trimmed.includes('github.com/wailsapp/wails/v2')) {
 			const match = trimmed.match(/v([0-9]+(?:\.[0-9]+){1,2})/)
 			if (match?.[1]) {
 				wailsVersion = match[1]
