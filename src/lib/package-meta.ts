@@ -143,3 +143,22 @@ export async function getInstallerPackageJsonByTag(tag: string): Promise<Package
 		return null
 	}
 }
+
+export async function getUpdatesPackageJsonByTag(tag: string): Promise<PackageJson | null> {
+	const url = `https://raw.githubusercontent.com/Devollox/void-updates/${encodeURIComponent(
+		tag
+	)}/frontend/package.json`
+
+	const res = await fetch(url, {
+		cache: 'force-cache',
+		next: { revalidate: 300 },
+		headers: githubHeaders(),
+	})
+
+	if (!res.ok) return null
+	try {
+		return (await res.json()) as PackageJson
+	} catch {
+		return null
+	}
+}

@@ -1,3 +1,5 @@
+import { extractPackageMeta, getUpdatesPackageJsonByTag } from '@/lib/package-meta'
+import { getWailsMetadata } from '@/lib/parse-version'
 import { getUpdatesReleases } from '@/lib/releases-updates'
 import { InfoBox } from '@components/status-info/info-box'
 import type { Metadata } from 'next'
@@ -23,6 +25,16 @@ export default async function ReleasesSection() {
 
 	const stableRelease = githubLatestRelease ?? releases[0] ?? null
 
+	const pkg =
+		stableRelease && stableRelease.version
+			? await getUpdatesPackageJsonByTag(stableRelease.version)
+			: null
+
+	const pkgMeta = pkg ? extractPackageMeta(pkg) : null
+
+	const wailsMeta =
+		stableRelease && stableRelease.version ? await getWailsMetadata(stableRelease.version) : null
+
 	const left = (
 		<>
 			{error ? (
@@ -40,11 +52,56 @@ export default async function ReleasesSection() {
 							<span className={styles.release_label}>Release date</span>
 							<span className={styles.release_value}>{stableRelease.date}</span>
 						</div>
+						{wailsMeta?.wails && (
+							<div className={styles.release_row}>
+								<span className={styles.release_label}>Wails</span>
+								<span className={styles.release_value}>v{wailsMeta.wails}</span>
+							</div>
+						)}
+						{wailsMeta?.go && (
+							<div className={styles.release_row}>
+								<span className={styles.release_label}>Go</span>
+								<span className={styles.release_value}>v{wailsMeta.go}</span>
+							</div>
+						)}
+						<div className={styles.release_row}>
+							<span className={styles.release_label}>React</span>
+							<span className={styles.release_value}>
+								{(() => {
+									const raw = pkgMeta?.dependencies.find(dep => dep.key === 'react')?.value
+									if (!raw) return 'unknown'
+									const cleaned = raw.replace(/^[~^]/, '')
+									return `v${cleaned}`
+								})()}
+							</span>
+						</div>
+						<div className={styles.release_row}>
+							<span className={styles.release_label}>Vite</span>
+							<span className={styles.release_value}>
+								{(() => {
+									const raw = pkgMeta?.dependencies.find(dep => dep.key === 'vite')?.value
+									if (!raw) return 'unknown'
+									const cleaned = raw.replace(/^[~^]/, '')
+									return `v${cleaned}`
+								})()}
+							</span>
+						</div>
 					</div>
 				</>
 			) : (
-				<InfoBox lines={['No stable release available.']} />
+				<InfoBox lines={['No stable installer release available.']} />
 			)}
+
+			<InfoBox
+				variant='secondary'
+				title='Installer info'
+				lines={[
+					'Latest GitHub installer release appears at the top.',
+					'Prereleases and testing builds are ordered by release date.',
+				]}
+				linkHref='/schedule/installer/downloads'
+				linkLabel='View downloads analytics'
+			/>
 
 			<InfoBox
 				variant='secondary'
