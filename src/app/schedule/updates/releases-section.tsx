@@ -7,11 +7,11 @@ import { ReleasesSectionBase } from '../releases-section-base'
 
 export async function generateMetadata(): Promise<Metadata> {
 	return {
-		title: 'Updates',
+		title: 'Release Updates',
 		description:
 			'Updates and history for Void Presence with version timeline and GitHub release data.',
 		openGraph: {
-			title: 'Void Presence Updates',
+			title: 'Void Presence Updates Release',
 			description: 'Track Void Presence updates, prereleases, and changelog history in one place.',
 			url: '/schedule/updates',
 		},
