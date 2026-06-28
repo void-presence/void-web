@@ -64,5 +64,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			changeFrequency: 'monthly',
 			priority: 0.4,
 		},
+		{
+			url: `${siteUrl}/schedule/updates`,
+			lastModified: new Date(),
+			changeFrequency: 'monthly',
+			priority: 0.4,
+		},
 	]
 }
