@@ -4,7 +4,7 @@ import PageHeader from '@/components/page-header'
 import { Metadata } from 'next'
 import { Suspense } from 'react'
 import ReleaseListSkeleton from '../../release-list-skeleton'
-import ReleasesSection from '../releases-section'
+import { DownloadsContent } from './downloads-content'
 
 export const metadata: Metadata = {
 	title: 'Updates Downloads',
@@ -30,7 +30,7 @@ export default function PageComponent() {
 					<ReleaseListSkeleton countSkeleton={5} backBtn={false} analytics={false} list={true} />
 				}
 			>
-				<ReleasesSection />
+				<DownloadsContent />
 			</Suspense>
 			<Footer />
 		</Page>
