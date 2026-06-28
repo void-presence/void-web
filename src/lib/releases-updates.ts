@@ -130,7 +130,7 @@ export async function getUpdatesReleases(): Promise<{
 					const classification = classifyRelease(item, rawBody)
 
 					const tag = item.tag_name || 'unknown'
-					const wailsMeta = tag && tag !== 'unknown' ? await getWailsMetadata(tag) : null
+					const wailsMeta = tag && tag !== 'unknown' ? await getWailsMetadata(tag, 'updates') : null
 
 					return {
 						version: tag,

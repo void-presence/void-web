@@ -213,8 +213,8 @@ export interface WailsMetadata {
 	wails: string
 }
 
-export async function getWailsMetadata(tag: string): Promise<WailsMetadata | null> {
-	const url = `https://raw.githubusercontent.com/Devollox/void-installer/${encodeURIComponent(
+export async function getWailsMetadata(tag: string, name: string): Promise<WailsMetadata | null> {
+	const url = `https://raw.githubusercontent.com/Devollox/void-${name}/${encodeURIComponent(
 		tag
 	)}/go.mod`
 

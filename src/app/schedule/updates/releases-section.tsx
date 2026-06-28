@@ -33,7 +33,9 @@ export default async function ReleasesSection() {
 	const pkgMeta = pkg ? extractPackageMeta(pkg) : null
 
 	const wailsMeta =
-		stableRelease && stableRelease.version ? await getWailsMetadata(stableRelease.version) : null
+		stableRelease && stableRelease.version
+			? await getWailsMetadata(stableRelease.version, 'updates')
+			: null
 
 	const left = (
 		<>

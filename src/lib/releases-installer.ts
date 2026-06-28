@@ -130,7 +130,8 @@ export async function getInstallerReleases(): Promise<{
 					const classification = classifyRelease(item, rawBody)
 
 					const tag = item.tag_name || 'unknown'
-					const wailsMeta = tag && tag !== 'unknown' ? await getWailsMetadata(tag) : null
+					const wailsMeta =
+						tag && tag !== 'unknown' ? await getWailsMetadata(tag, 'installer') : null
 
 					return {
 						version: tag,
