@@ -96,13 +96,13 @@ export default async function ReleasesSection() {
 
 			<InfoBox
 				variant='secondary'
-				title='Installer info'
+				title='Updates info'
 				lines={[
-					'Latest GitHub installer release appears at the top.',
-					'Prereleases and testing builds are ordered by release date.',
+					'Latest GitHub updates release appears at the top.',
+					'Prereleases and nightly update builds are ordered by release date.',
 				]}
-				linkHref='/schedule/installer/downloads'
-				linkLabel='View downloads analytics'
+				linkHref='/schedule/updates/downloads'
+				linkLabel='View updates downloads analytics'
 			/>
 
 			<InfoBox
