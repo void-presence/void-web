@@ -100,6 +100,29 @@ export function DownloadsContentBase({
 						</>
 					)}
 
+					{context === 'updates' && (
+						<>
+							<InfoBox
+								variant='secondary'
+								title='Looking for update history?'
+								lines={[
+									'Browse the full updates schedule to see all releases, including prereleases and nightly builds.',
+								]}
+								linkHref='/schedule/updates'
+								linkLabel='Open updates schedule'
+							/>
+							<InfoBox
+								variant='secondary'
+								title='Need update details?'
+								lines={[
+									'Use the updates downloads analytics page to compare adoption and download counts across releases.',
+								]}
+								linkHref='/schedule/updates/downloads'
+								linkLabel='View updates analytics'
+							/>
+						</>
+					)}
+
 					<InfoBox
 						variant='muted'
 						lines={[
