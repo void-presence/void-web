@@ -42,10 +42,10 @@ export default function DownloadButtons({ assets }: Props) {
 		const base = filename.slice(0, lastDotIndex)
 		const ext = filename.slice(lastDotIndex)
 
-		const withoutPlatformOrSetup = base
-			.replace(/-win32-x64-[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?$/i, '')
-			.replace(/.Portable.[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?$/i, '')
-			.replace(/\.Setup\.[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?$/i, '')
+		const withoutPlatformOrSetup = base.replace(
+			/-win32-x64-[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?$/i,
+			''
+		)
 
 		const cleanedBase = withoutPlatformOrSetup.replace(
 			/\.[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?$/i,
