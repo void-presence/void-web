@@ -1,10 +1,9 @@
-import type { Metadata } from 'next'
-import { Suspense } from 'react'
-
 import Footer from '@components/footer'
 import Page from '@components/page'
 import PageHeader from '@components/page-header'
-import ReleaseListSkeleton from '../../application/release-list-skeleton'
+import type { Metadata } from 'next'
+import { Suspense } from 'react'
+import ReleaseListSkeleton from '../../release-list-skeleton'
 import { ReleaseDetailsContent } from './release-details-content'
 
 type ReleaseType = 'application' | 'installer'
