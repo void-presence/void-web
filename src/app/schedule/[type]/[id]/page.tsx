@@ -13,23 +13,32 @@ interface ReleaseDetailsPageProps {
 	searchParams: Record<string, string | string[] | undefined>
 }
 
+function getProductLabel(type: ReleaseType) {
+	if (type === 'application') return 'Application'
+	if (type === 'installer') return 'Installer'
+	return 'Updates'
+}
+
+function getProductPrefix(type: ReleaseType) {
+	if (type === 'application') return 'Void Application'
+	if (type === 'installer') return 'Void Installer'
+	return 'Void Updates'
+}
+
 export async function generateMetadata(props: ReleaseDetailsPageProps): Promise<Metadata> {
 	const { type, id } = await props.params
 
-	const isApplication = type === 'application'
-	const isInstaller = type === 'installer'
-	const isUpdates = type === 'updates'
+	const productLabel = getProductLabel(type)
+	const productPrefix = getProductPrefix(type)
 
-	const productLabel = isUpdates ? 'Updates' : isApplication ? 'Application' : 'Installer'
-
-	const baseTitle = id ? `Void Presence ${id}` : 'Void Presence Release'
+	const baseTitle = id ? `${productPrefix} ${id}` : `${productPrefix} Release`
 
 	return {
 		title: `${baseTitle} · ${productLabel} Release Details`,
-		description: `Detailed information about this Void Presence ${productLabel.toLowerCase()} release, including changelog and build metadata.`,
+		description: `Detailed information about this ${productPrefix} ${productLabel.toLowerCase()} release, including changelog and build metadata.`,
 		openGraph: {
 			title: `${baseTitle} · ${productLabel} Release Details`,
-			description: `View full details for this Void Presence ${productLabel.toLowerCase()} release, including changelog and downloadable assets.`,
+			description: `View full details for this ${productPrefix} ${productLabel.toLowerCase()} release, including changelog and downloadable assets.`,
 			url: `/schedule/${type}/${id}`,
 		},
 	}
@@ -38,18 +47,15 @@ export async function generateMetadata(props: ReleaseDetailsPageProps): Promise<
 export default async function ReleaseDetailsPage(props: ReleaseDetailsPageProps) {
 	const { type, id } = await props.params
 
-	const isApplication = type === 'application'
-	const isInstaller = type === 'installer'
-	const isUpdates = type === 'updates'
+	const productLabel = getProductLabel(type)
+	const productPrefix = getProductPrefix(type)
 
-	const productLabel = isUpdates ? 'Updates' : isApplication ? 'Application' : 'Installer'
-
-	const title = id ? `Void Presence ${id}` : `Void Presence ${productLabel} Release`
+	const title = id ? `${productPrefix} ${id}` : `${productPrefix} ${productLabel} Release`
 
 	const subtitleBase =
-		isUpdates || isInstaller
-			? `Release details for the Void Presence ${productLabel.toLowerCase()} loaded from GitHub release data.`
-			: `Release details for the Void Presence ${productLabel.toLowerCase()} loaded from GitHub release data and package.json tag.`
+		type === 'updates' || type === 'installer'
+			? `Release details for the ${productPrefix.toLowerCase()} ${productLabel.toLowerCase()} loaded from GitHub release data.`
+			: `Release details for the ${productPrefix.toLowerCase()} ${productLabel.toLowerCase()} loaded from GitHub release data and package.json tag.`
 
 	return (
 		<Page>
