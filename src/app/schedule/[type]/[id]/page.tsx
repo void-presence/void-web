@@ -20,9 +20,9 @@ function getProductLabel(type: ReleaseType) {
 }
 
 function getProductPrefix(type: ReleaseType) {
-	if (type === 'application') return 'Void Application'
-	if (type === 'installer') return 'Void Installer'
-	return 'Void Updates'
+	if (type === 'application') return 'Void Presence Application'
+	if (type === 'installer') return 'Void Presence Installer'
+	return 'Void Presence Updates'
 }
 
 export async function generateMetadata(props: ReleaseDetailsPageProps): Promise<Metadata> {
