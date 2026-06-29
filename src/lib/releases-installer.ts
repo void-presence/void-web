@@ -77,7 +77,7 @@ export async function getInstallerReleases(): Promise<{
 }> {
 	try {
 		const [listRes, latestRes] = await Promise.all([
-			fetch('https://api.github.com/repos/Devollox/void-installer/releases?per_page=100', {
+			fetch('https://api.github.com/repos/Devollox/void-installer/releases?per_page=400', {
 				cache: 'force-cache',
 				next: { revalidate: 300 },
 				headers: githubHeaders(),
@@ -238,7 +238,7 @@ export interface ReleaseDownloadsResult {
 
 export async function getInstallerReleaseDownloads(): Promise<ReleaseDownloadsResult> {
 	const res = await fetch(
-		'https://api.github.com/repos/Devollox/void-installer/releases?per_page=100',
+		'https://api.github.com/repos/Devollox/void-installer/releases?per_page=400',
 		{
 			cache: 'force-cache',
 			next: { revalidate: 300 },
