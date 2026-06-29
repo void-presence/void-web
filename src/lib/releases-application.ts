@@ -1,5 +1,16 @@
 import { githubHeaders } from '@/lib/github-headers'
 import {
+	applyBuildTagPriority,
+	compareVersionsDesc,
+	fetchAllReleases,
+	formatDate,
+	getSortDate,
+	mapReleaseAssets,
+	ReleaseAsset,
+	ReleaseDownloadsItem,
+	ReleaseType,
+} from '@/lib/github-releases-common'
+import {
 	parseChromiumVersionFromNotes,
 	parseElectronVersionFromNotes,
 	parseNodeJsVersionFromNotes,
@@ -7,21 +18,7 @@ import {
 } from '@/lib/parse-version'
 import { normalizeReleaseNotes } from '@/lib/release-notes'
 import { classifyRelease } from '@/lib/release-tags'
-import { PackageJson, extractPackageMeta } from './package-meta'
-
-export interface ReleaseAsset {
-	name: string
-	size: number
-	downloadUrl: string
-}
-
-export interface ReleaseDownloadsItem {
-	tag: string
-	name: string | null
-	totalDownloads: number
-}
-
-export type ReleaseType = 'stable' | 'pre-release' | 'nightly' | 'end of life' | 'broken'
+import { extractPackageMeta, PackageJson } from './package-meta'
 
 export interface ReleaseInfo {
 	version: string
@@ -41,43 +38,6 @@ export interface ReleaseInfo {
 	buildTag?: string
 }
 
-function formatDate(input: string) {
-	if (!input) return 'Unknown'
-	const date = new Date(input)
-	if (Number.isNaN(date.getTime())) return input
-	return date.toISOString().slice(0, 10)
-}
-
-function getSortDate(release: ReleaseInfo): Date {
-	if (release.publishedAt) {
-		const d = new Date(release.publishedAt)
-		if (!Number.isNaN(d.getTime())) return d
-	}
-	if (release.date !== 'Unknown') {
-		const d = new Date(release.date)
-		if (!Number.isNaN(d.getTime())) return d
-	}
-	return new Date(0)
-}
-
-function compareVersionsDesc(a: string, b: string): number {
-	return b.localeCompare(a, undefined, { numeric: true, sensitivity: 'base' })
-}
-
-function applyBuildTagPriority(releases: ReleaseInfo[]): ReleaseInfo[] {
-	return releases.map(release => {
-		const tag = release.buildTag
-		let type: ReleaseType | null = null
-
-		if (tag === 'nightly') type = 'nightly'
-		else if (tag === 'stable') type = 'stable'
-		else if (tag === 'pre-release' || tag === 'prerelease') type = 'pre-release'
-
-		if (!type) return release
-		return { ...release, type }
-	})
-}
-
 export async function getReleases(): Promise<{
 	releases: ReleaseInfo[]
 	githubLatestRelease: ReleaseInfo | null
@@ -85,11 +45,7 @@ export async function getReleases(): Promise<{
 }> {
 	try {
 		const [listRes, latestRes] = await Promise.all([
-			fetch('https://api.github.com/repos/Devollox/void-presence/releases?per_page=400', {
-				cache: 'force-cache',
-				next: { revalidate: 300 },
-				headers: githubHeaders(),
-			}),
+			fetchAllReleases('void-presence'),
 			fetch('https://api.github.com/repos/Devollox/void-presence/releases/latest', {
 				cache: 'force-cache',
 				next: { revalidate: 300 },
@@ -97,40 +53,25 @@ export async function getReleases(): Promise<{
 			}),
 		])
 
-		if (!listRes.ok) {
+		if (listRes.error !== null || !listRes.data) {
 			return {
 				releases: [],
 				githubLatestRelease: null,
 				error:
-					listRes.status === 403
+					listRes.error === 403
 						? 'GitHub API rate limit exceeded. Please try again in a few minutes or open the GitHub releases page.'
 						: 'Failed to load release schedule. Please try again later.',
 			}
 		}
 
-		const data = await listRes.json()
-		const rawReleases = Array.isArray(data) ? data : []
+		const rawReleases = listRes.data
 
 		let releases: ReleaseInfo[] = rawReleases
 			.filter((item: any) => item && !item.draft)
 			.map((item: any) => {
 				const rawAssets = Array.isArray(item.assets) ? item.assets : []
 
-				const assets: ReleaseAsset[] = rawAssets
-					.map((asset: any) => ({
-						name: asset.name,
-						size: asset.size / (1024 * 1024),
-						downloadUrl: asset.browser_download_url,
-					}))
-					.sort((a: ReleaseAsset, b: ReleaseAsset) => {
-						const aIsExe = a.name.toLowerCase().endsWith('.exe')
-						const bIsExe = b.name.toLowerCase().endsWith('.exe')
-
-						if (aIsExe && !bIsExe) return -1
-						if (bIsExe && !aIsExe) return 1
-
-						return 0
-					})
+				const assets: ReleaseAsset[] = mapReleaseAssets(rawAssets)
 
 				const rawBody = item.body || ''
 				const notes = normalizeReleaseNotes(rawBody)
@@ -160,18 +101,10 @@ export async function getReleases(): Promise<{
 			})
 
 		releases = releases.sort((a, b) => {
-			return getSortDate(b).getTime() - getSortDate(a).getTime()
+			return getSortDate(a).getTime() - getSortDate(b).getTime()
 		})
 
 		releases = applyBuildTagPriority(releases)
-
-		const normalSorted = [...releases].filter(
-			r => r.type !== 'nightly' && r.type !== 'pre-release' && r.type !== 'broken'
-		)
-
-		normalSorted.sort((a, b) => {
-			return getSortDate(b).getTime() - getSortDate(a).getTime()
-		})
 
 		const stableTagVersions = new Set(
 			releases.filter(r => r.buildTag?.toLowerCase() === 'stable').map(r => r.version)
@@ -232,21 +165,7 @@ export async function getReleases(): Promise<{
 			const latestData = await latestRes.json()
 			const rawAssets = Array.isArray(latestData.assets) ? latestData.assets : []
 
-			const assets: ReleaseAsset[] = rawAssets
-				.map((asset: any) => ({
-					name: asset.name,
-					size: asset.size / (1024 * 1024),
-					downloadUrl: asset.browser_download_url,
-				}))
-				.sort((a: ReleaseAsset, b: ReleaseAsset) => {
-					const aIsExe = a.name.toLowerCase().endsWith('.exe')
-					const bIsExe = b.name.toLowerCase().endsWith('.exe')
-
-					if (aIsExe && !bIsExe) return -1
-					if (bIsExe && !aIsExe) return 1
-
-					return 0
-				})
+			const assets: ReleaseAsset[] = mapReleaseAssets(rawAssets)
 
 			const rawBody = latestData.body || ''
 			const notes = normalizeReleaseNotes(rawBody)
@@ -291,26 +210,19 @@ export interface ReleaseDownloadsResult {
 }
 
 export async function getReleaseDownloads(): Promise<ReleaseDownloadsResult> {
-	const res = await fetch(
-		'https://api.github.com/repos/Devollox/void-presence/releases?per_page=400',
-		{
-			cache: 'force-cache',
-			next: { revalidate: 300 },
-			headers: githubHeaders(),
-		}
-	)
+	const res = await fetchAllReleases('void-presence')
 
-	if (!res.ok) {
+	if (res.error !== null || !res.data) {
 		return {
 			items: [],
 			error:
-				res.status === 403
+				res.error === 403
 					? 'GitHub API rate limit exceeded. Please try again in a few minutes or open the GitHub releases page.'
 					: 'Failed to load release schedule. Please try again later.',
 		}
 	}
 
-	const data = await res.json()
+	const data = res.data
 	const rawReleases = Array.isArray(data) ? data : []
 
 	const items: ReleaseDownloadsItem[] = rawReleases
@@ -396,21 +308,7 @@ export async function getLatestRelease(): Promise<{
 		const data = await res.json()
 		const rawAssets = Array.isArray(data.assets) ? data.assets : []
 
-		const assets: ReleaseAsset[] = rawAssets
-			.map((asset: any) => ({
-				name: asset.name,
-				size: asset.size / (1024 * 1024),
-				downloadUrl: asset.browser_download_url,
-			}))
-			.sort((a: ReleaseAsset, b: ReleaseAsset) => {
-				const aIsExe = a.name.toLowerCase().endsWith('.exe')
-				const bIsExe = b.name.toLowerCase().endsWith('.exe')
-
-				if (aIsExe && !bIsExe) return -1
-				if (bIsExe && !aIsExe) return 1
-
-				return 0
-			})
+		const assets: ReleaseAsset[] = mapReleaseAssets(rawAssets)
 
 		const notes = normalizeReleaseNotes(data.body || '')
 		const electronVersion = parseElectronVersionFromNotes(notes)
