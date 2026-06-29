@@ -19,12 +19,10 @@ export const metadata: Metadata = {
 }
 
 export default function DownloadsPage() {
-	const title = 'Void Presence Application Downloads'
-
 	return (
 		<Page>
 			<PageHeader
-				title={title}
+				title='Void Presence Application Downloads'
 				subtitle='Downloads analytics for all application releases, loaded from GitHub release assets.'
 			/>
 			<Suspense
