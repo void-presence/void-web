@@ -106,12 +106,12 @@ export default async function ReleasesSection() {
 			/>
 
 			<InfoBox
-				variant='secondary'
-				title='Updates info'
+				variant='muted'
 				lines={[
-					'Latest GitHub release appears at the top.',
-					'Prereleases and nightly builds are ordered by release date.',
+					'If your Rich Presence buttons are not visible in Discord, see the status page for details.',
 				]}
+				linkHref='/status'
+				linkLabel='Read setup & troubleshooting'
 			/>
 		</>
 	)
