@@ -4,7 +4,13 @@ import { NextResponse } from 'next/server'
 export function middleware(req: NextRequest) {
 	const url = req.nextUrl
 	const hostname = req.headers.get('host') || ''
-	const origin = req.headers.get('origin') || ''
+	let origin = req.headers.get('origin') || ''
+
+	const isDev = hostname.includes('localhost')
+
+	if (!origin && isDev) {
+		origin = 'http://localhost:3000'
+	}
 
 	const allowedOrigins = ['https://voidpresence.site', 'http://localhost:3000']
 	const isAllowedOrigin = allowedOrigins.includes(origin)
@@ -16,12 +22,11 @@ export function middleware(req: NextRequest) {
 			if (isAllowedOrigin) {
 				response.headers.set('Access-Control-Allow-Origin', origin)
 				response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-				response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-				response.headers.set('Access-Control-Allow-Credentials', 'true')
 				response.headers.set(
 					'Access-Control-Allow-Headers',
 					'Content-Type, Authorization, Cookie, Origin, X-Requested-With'
 				)
+				response.headers.set('Access-Control-Allow-Credentials', 'true')
 			}
 			return response
 		}
@@ -32,12 +37,11 @@ export function middleware(req: NextRequest) {
 		if (isAllowedOrigin) {
 			response.headers.set('Access-Control-Allow-Origin', origin)
 			response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-			response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-			response.headers.set('Access-Control-Allow-Credentials', 'true')
 			response.headers.set(
 				'Access-Control-Allow-Headers',
 				'Content-Type, Authorization, Cookie, Origin, X-Requested-With'
 			)
+			response.headers.set('Access-Control-Allow-Credentials', 'true')
 		}
 		return response
 	}
@@ -47,7 +51,6 @@ export function middleware(req: NextRequest) {
 		const cleanPath = url.pathname.replace(/^\/api/, '')
 		const searchParams = url.search
 
-		const isDev = hostname.includes('localhost')
 		const targetHost = isDev ? 'api.localhost:3000' : 'api.voidpresence.site'
 		const protocol = isDev ? 'http' : 'https'
 
