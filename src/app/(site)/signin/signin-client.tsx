@@ -10,14 +10,7 @@ import { signIn } from 'next-auth/react'
 import styles from './signin.module.scss'
 
 export function SignInPageClient() {
-	const isProd = process.env.NODE_ENV === 'production'
-	const apiBase = isProd ? 'https://api.voidpresence.site' : 'http://localhost:3000'
-	const callbackUrl = isProd ? 'https://voidpresence.site/profile' : 'http://localhost:3000/profile'
-
-	const options = {
-		callbackUrl,
-		action: `${apiBase}/auth`,
-	}
+	const callbackUrl = '/profile'
 
 	const left = (
 		<>
@@ -53,7 +46,7 @@ export function SignInPageClient() {
 						<button
 							type='button'
 							className={styles.signin_btn_primary}
-							onClick={() => signIn('google', options)}
+							onClick={() => signIn('google', { callbackUrl })}
 						>
 							<span className={styles.asset_info}>
 								<span className={styles.asset_name}>Sign in with Google</span>
@@ -64,7 +57,7 @@ export function SignInPageClient() {
 						<button
 							type='button'
 							className={styles.signin_btn_primary}
-							onClick={() => signIn('discord', options)}
+							onClick={() => signIn('discord', { callbackUrl })}
 						>
 							<span className={styles.asset_info}>
 								<span className={styles.asset_name}>Sign in with Discord</span>
@@ -75,7 +68,7 @@ export function SignInPageClient() {
 						<button
 							type='button'
 							className={styles.signin_btn_primary}
-							onClick={() => signIn('steam', options)}
+							onClick={() => signIn('steam', { callbackUrl })}
 						>
 							<span className={styles.asset_info}>
 								<span className={styles.asset_name}>Sign in with Steam</span>
@@ -86,7 +79,7 @@ export function SignInPageClient() {
 						<button
 							type='button'
 							className={styles.signin_btn_primary}
-							onClick={() => signIn('github', options)}
+							onClick={() => signIn('github', { callbackUrl })}
 						>
 							<span className={styles.asset_info}>
 								<span className={styles.asset_name}>Sign in with GitHub</span>

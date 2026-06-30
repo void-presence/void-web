@@ -6,28 +6,11 @@ import Google from 'next-auth/providers/google'
 import SteamProvider from 'steam-next-auth'
 
 export const { handlers, auth, signIn, signOut } = NextAuth(req => {
-	const host = req?.headers.get('host') || 'api.voidpresence.site'
+	const host = req?.headers.get('host') || 'voidpresence.site'
 	const protocol = host.includes('localhost') ? 'http://' : 'https://'
 	const steamReq = req ?? new Request(`${protocol}${host}`)
-	const baseUrl = `${protocol}${host}`
-
-	const isProd = process.env.NODE_ENV === 'production'
-	const useSecureCookies = isProd
 
 	return {
-		basePath: '/auth',
-		cookies: {
-			sessionToken: {
-				name: `${useSecureCookies ? '__Secure-' : ''}next-auth.session-token`,
-				options: {
-					httpOnly: true,
-					sameSite: 'lax',
-					path: '/',
-					domain: isProd ? '.voidpresence.site' : '.localhost',
-					secure: useSecureCookies,
-				},
-			},
-		},
 		providers: [
 			GitHub({
 				clientId: process.env.GITHUB_ID!,
@@ -58,9 +41,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth(req => {
 					},
 				},
 			}),
-			SteamProvider(steamReq as any, {
+			SteamProvider(steamReq, {
 				clientSecret: process.env.NEXTAUTH_STEAM_SECRET!,
-				callbackUrl: `${baseUrl}/auth/callback`,
+				callbackUrl: `${process.env.NEXTAUTH_URL}/api/auth/fuckoffnextauth`,
 			}),
 		],
 		session: {

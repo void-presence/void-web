@@ -4,26 +4,29 @@ import { NextResponse } from 'next/server'
 export function middleware(req: NextRequest) {
 	const url = req.nextUrl
 	const hostname = req.headers.get('host') || ''
+	const pathname = url.pathname
+	const search = url.search
 
 	const isApiSubdomain = hostname.startsWith('api.')
+	const isMainDomainApiCall = pathname.startsWith('/api')
+
+	if (!isApiSubdomain && isMainDomainApiCall) {
+		const cleanPath = pathname.replace(/^\/api/, '') || '/'
+		const apiSubdomainUrl = `https://api.voidpresence.site${cleanPath}${search}`
+		return NextResponse.redirect(apiSubdomainUrl)
+	}
 
 	if (isApiSubdomain) {
-		const path = url.pathname
-		return NextResponse.rewrite(new URL(`/api${path}`, req.url))
+		if (pathname.startsWith('/api')) {
+			return NextResponse.next()
+		}
+
+		const rewrittenPath = `/api${pathname}`
+		const rewrittenUrl = new URL(rewrittenPath + search, req.url)
+		return NextResponse.rewrite(rewrittenUrl)
 	}
 
-	const isMainDomainApiCall = url.pathname.startsWith('/api')
-	if (isMainDomainApiCall) {
-		const cleanPath = url.pathname.replace(/^\/api/, '')
-		const searchParams = url.search
-
-		const apiSubdomainUrl = `https://api.voidpresence.site${cleanPath}${searchParams}`
-
-		return NextResponse.redirect(new URL(apiSubdomainUrl, req.url))
-	}
-
-	const isProfile = url.pathname.startsWith('/profile')
-	if (isProfile) {
+	if (pathname.startsWith('/profile')) {
 		return NextResponse.next()
 	}
 
