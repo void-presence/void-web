@@ -6,11 +6,13 @@ import Google from 'next-auth/providers/google'
 import SteamProvider from 'steam-next-auth'
 
 export const { handlers, auth, signIn, signOut } = NextAuth(req => {
-	const host = req?.headers.get('host') || 'voidpresence.site'
+	const host = req?.headers.get('host') || 'api.voidpresence.site'
 	const protocol = host.includes('localhost') ? 'http://' : 'https://'
 	const steamReq = req ?? new Request(`${protocol}${host}`)
+	const baseUrl = `${protocol}${host}`
 
 	return {
+		basePath: '/auth',
 		providers: [
 			GitHub({
 				clientId: process.env.GITHUB_ID!,
@@ -41,9 +43,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth(req => {
 					},
 				},
 			}),
-			SteamProvider(steamReq, {
+			SteamProvider(steamReq as any, {
 				clientSecret: process.env.NEXTAUTH_STEAM_SECRET!,
-				callbackUrl: `${process.env.NEXTAUTH_URL}/api/auth/fuckoffnextauth`,
+				callbackUrl: `${baseUrl}/auth/callback`,
 			}),
 		],
 		session: {
