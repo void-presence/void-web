@@ -53,26 +53,26 @@ export function ApiSectionBase({
 
 							<ul className={apiStyles.api_list}>
 								{endpoints.map(endpoint => {
-									const bgClass =
-										endpoint.method === 'POST'
+									/* const bgClass =
+										 endpoint.method === 'POST'
 											? apiStyles.bg_release_stable
 											: endpoint.method === 'GET'
 												? apiStyles.bg_release_nightly
 												: endpoint.method === 'DELETE'
 													? apiStyles.bg_release_broken
-													: apiStyles.bg_release_eol
+													: apiStyles.bg_release_eol */
 
 									const dotClass =
 										endpoint.method === 'POST'
 											? apiStyles.dot_stable
 											: endpoint.method === 'GET'
-												? apiStyles.dot_nightly
+												? apiStyles.dot_prerelease
 												: endpoint.method === 'DELETE'
 													? apiStyles.dot_broken
 													: apiStyles.dot_eol
 
 									return (
-										<li key={endpoint.id} className={`${bgClass} ${apiStyles.api_item} `}>
+										<li key={endpoint.id} className={`${apiStyles.api_item} `}>
 											<a className={apiStyles.api_card}>
 												<div className={apiStyles.api_card_top}>
 													<div className={apiStyles.api_card_left}>
