@@ -5,8 +5,7 @@ type Params = {
 	id: string
 }
 
-export async function POST(_req: Request, ctx: { params: Promise<Params> | Params }) {
-	const { id } = await ctx.params
+async function handleCopyStatus(id: string) {
 	const config = await getStatusById(id)
 
 	await incrementDownloadsStatuses(id)
@@ -16,4 +15,14 @@ export async function POST(_req: Request, ctx: { params: Promise<Params> | Param
 	}
 
 	return NextResponse.json(config, { status: 200 })
+}
+
+export async function POST(_req: Request, ctx: { params: Promise<Params> | Params }) {
+	const { id } = await ctx.params
+	return handleCopyStatus(id)
+}
+
+export async function GET(_req: Request, ctx: { params: Promise<Params> | Params }) {
+	const { id } = await ctx.params
+	return handleCopyStatus(id)
 }

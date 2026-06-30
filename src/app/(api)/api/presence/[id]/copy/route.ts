@@ -5,8 +5,7 @@ type Params = {
 	id: string
 }
 
-export async function POST(_req: Request, ctx: { params: Promise<Params> | Params }) {
-	const { id } = await ctx.params
+async function handleCopyConfig(id: string) {
 	const config = await getConfigById(id)
 
 	await incrementDownloadsConfigs(id)
@@ -16,4 +15,14 @@ export async function POST(_req: Request, ctx: { params: Promise<Params> | Param
 	}
 
 	return NextResponse.json(config, { status: 200 })
+}
+
+export async function POST(_req: Request, ctx: { params: Promise<Params> | Params }) {
+	const { id } = await ctx.params
+	return handleCopyConfig(id)
+}
+
+export async function GET(_req: Request, ctx: { params: Promise<Params> | Params }) {
+	const { id } = await ctx.params
+	return handleCopyConfig(id)
 }
