@@ -4,8 +4,8 @@ import PageHeader from '@components/page-header'
 import { PanelLayout } from '@components/panel-layout'
 import { fetchAuthorByName } from '@service/firebase'
 import { Metadata } from 'next'
+import { leftNotFound, rightNotFound } from '../../../not-found'
 import { default as styles } from '../../download/download.module.scss'
-import { leftNotFound, rightNotFound } from '../../not-found'
 import { ProfileClient } from './profile-client'
 
 type Params = {

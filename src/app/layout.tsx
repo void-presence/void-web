@@ -2,7 +2,7 @@ import '@styles/globals.scss'
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
-import { NextAuthProvider } from './providers/session-provider'
+import { NextAuthProvider } from './(site)/providers/session-provider'
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',

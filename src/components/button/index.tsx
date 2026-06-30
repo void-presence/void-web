@@ -72,7 +72,7 @@ export default function Button() {
 				<span>{loading || isRedirecting ? 'Install Now' : 'Install Now'}</span>
 			</button>
 
-			<a href='/configs'>
+			<a href='/presence'>
 				<button className={`${styles.btn} ${styles.btn_secondary}`} id='hero-community-button'>
 					<Book size={18} />
 					<span>Configs</span>
