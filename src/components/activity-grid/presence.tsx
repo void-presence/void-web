@@ -55,6 +55,7 @@ export function PresenceGrid({ configs, loading, allowDelete }: PresenceGridProp
 	const [animateColors, setAnimateColors] = useState(false)
 	const [localConfigs, setLocalConfigs] = useState<Config[]>(configs)
 	const [deletingId, setDeletingId] = useState<string | null>(null)
+	const [showEmpty, setShowEmpty] = useState(false)
 
 	useEffect(() => {
 		setMounted(true)
@@ -72,6 +73,19 @@ export function PresenceGrid({ configs, loading, allowDelete }: PresenceGridProp
 			clearInterval(i)
 		}
 	}, [])
+
+	useEffect(() => {
+		if (loading) {
+			setShowEmpty(false)
+			return
+		}
+		if (localConfigs.length > 0) {
+			setShowEmpty(false)
+			return
+		}
+		const timer = setTimeout(() => setShowEmpty(true), 1000)
+		return () => clearTimeout(timer)
+	}, [loading, localConfigs.length])
 
 	const showSkeleton = loading && !localConfigs.length
 
@@ -108,7 +122,7 @@ export function PresenceGrid({ configs, loading, allowDelete }: PresenceGridProp
 					<SkeletonCard height='presence' />
 					<SkeletonCard height='presence' />
 				</div>
-			) : localConfigs.length === 0 ? (
+			) : showEmpty ? (
 				<div className={styles.empty_state}>
 					<p>No presence found.</p>
 				</div>

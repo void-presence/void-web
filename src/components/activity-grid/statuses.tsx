@@ -48,6 +48,7 @@ export function StatusesGrid({ configs, loading, allowDelete }: StatusesGridProp
 	const [animateColors, setAnimateColors] = useState(false)
 	const [localStatuses, setLocalStatuses] = useState<Status[]>(configs)
 	const [deletingId, setDeletingId] = useState<string | null>(null)
+	const [showEmpty, setShowEmpty] = useState(false)
 
 	useEffect(() => {
 		setMounted(true)
@@ -65,6 +66,19 @@ export function StatusesGrid({ configs, loading, allowDelete }: StatusesGridProp
 			clearInterval(i)
 		}
 	}, [])
+
+	useEffect(() => {
+		if (loading) {
+			setShowEmpty(false)
+			return
+		}
+		if (localStatuses.length > 0) {
+			setShowEmpty(false)
+			return
+		}
+		const timer = setTimeout(() => setShowEmpty(true), 1000)
+		return () => clearTimeout(timer)
+	}, [loading, localStatuses.length])
 
 	const showSkeleton = loading && !localStatuses.length
 
@@ -101,7 +115,7 @@ export function StatusesGrid({ configs, loading, allowDelete }: StatusesGridProp
 					<SkeletonCard height='status' />
 					<SkeletonCard height='status' />
 				</div>
-			) : localStatuses.length === 0 ? (
+			) : showEmpty ? (
 				<div className={styles.empty_state}>
 					<p>No status found.</p>
 				</div>
