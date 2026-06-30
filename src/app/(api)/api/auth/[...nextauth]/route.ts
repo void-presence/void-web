@@ -29,6 +29,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth(req => {
 					secure: useSecureCookies,
 				},
 			},
+			csrfToken: {
+				name: `${useSecureCookies ? '__Host-' : ''}next-auth.csrf-token`,
+				options: {
+					httpOnly: true,
+					sameSite: 'lax',
+					path: '/',
+					domain: isProd ? '.voidpresence.site' : '.localhost',
+					secure: useSecureCookies,
+				},
+			},
 		},
 		providers: [
 			GitHub({
