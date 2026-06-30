@@ -7,7 +7,7 @@ type PageProps = {
 	home?: boolean
 }
 
-const Page = ({ children, home = false }: PageProps) => {
+export default function Page({ children, home = false }: PageProps) {
 	return (
 		<>
 			<Header />
@@ -15,5 +15,3 @@ const Page = ({ children, home = false }: PageProps) => {
 		</>
 	)
 }
-
-export default Page

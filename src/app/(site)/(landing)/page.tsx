@@ -10,7 +10,7 @@ import FeaturesSection from './features-section'
 import HeroSection from './hero-section'
 import InstallGuide from './install-guide-section'
 
-export default function Home() {
+export default function PageHome() {
 	const [currentIndex, setCurrentIndex] = useState<number>(0)
 	const [activeTab, setActiveTab] = useState<'MAIN' | 'LOGS' | 'CONFIG'>('CONFIG')
 
