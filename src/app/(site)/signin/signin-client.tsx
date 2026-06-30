@@ -11,8 +11,8 @@ import styles from './signin.module.scss'
 
 export function SignInPageClient() {
 	const isProd = process.env.NODE_ENV === 'production'
-	const apiBase = isProd ? 'https://api.voidpresence.site' : 'http://api.localhost:3000'
-	const callbackUrl = isProd ? 'https://api.voidpresence.site' : 'http://localhost:3000/profile'
+	const apiBase = isProd ? 'https://api.voidpresence.site' : 'http://localhost:3000'
+	const callbackUrl = isProd ? 'https://voidpresence.site/profile' : 'http://localhost:3000/profile'
 
 	const options = {
 		callbackUrl,
