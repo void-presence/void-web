@@ -5,7 +5,8 @@ import { deleteStatus } from '@/service/firebase'
 import { Download, Trash } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import StatusPreview from '../statuses-preview/status-user'
-import styles from './statuses-grid.module.scss'
+import styles from './activity-grid.module.scss'
+import { SkeletonCard } from './skeleton-card'
 
 type CustomStatusPreviewProps = {
 	config: Status
@@ -15,11 +16,9 @@ type CustomStatusPreviewProps = {
 function CustomStatusPreview({ config, previewIndex }: CustomStatusPreviewProps) {
 	const configData: any = config.configData || {}
 	const cycles = configData.statusCycles ?? []
-
 	const maxLen = cycles.length || 1
 	const localIndex = maxLen ? previewIndex % maxLen : 0
-	const cycleIndex = localIndex % maxLen
-	const cycle = cycles[cycleIndex] || { text: '' }
+	const cycle = cycles[localIndex % maxLen] || { text: '' }
 
 	return (
 		<div className={styles.rpc_card_preview}>
@@ -35,30 +34,6 @@ function CustomStatusPreview({ config, previewIndex }: CustomStatusPreviewProps)
 			</div>
 		</div>
 	)
-}
-
-function SkeletonCard() {
-	return (
-		<div className={styles.skeleton_card_wrap}>
-			<div className={styles.skeleton_card}>
-				<div className={styles.skeleton_card_header}>
-					<div className={styles.skeleton_title}></div>
-				</div>
-				<div className={styles.skeleton_rpc_preview}></div>
-				<div className={styles.skeleton_card_actions}>
-					<div className={styles.skeleton_download_tag}></div>
-					<div className={styles.skeleton_action_buttons}>
-						<div className={styles.skeleton_btn_primary}></div>
-						<div className={styles.skeleton_btn_secondary}></div>
-					</div>
-				</div>
-			</div>
-		</div>
-	)
-}
-
-function getNextTick(prev: number) {
-	return prev + 1
 }
 
 type StatusesGridProps = {
@@ -83,16 +58,11 @@ export function StatusesGrid({ configs, loading, allowDelete }: StatusesGridProp
 	}, [configs])
 
 	useEffect(() => {
-		setTimeout(() => {
-			setAnimateColors(true)
-		}, 100)
-
-		const interval = setInterval(() => {
-			setPreviewTick(prev => getNextTick(prev))
-		}, 3000)
-
+		const t = setTimeout(() => setAnimateColors(true), 100)
+		const i = setInterval(() => setPreviewTick(prev => prev + 1), 3000)
 		return () => {
-			clearInterval(interval)
+			clearTimeout(t)
+			clearInterval(i)
 		}
 	}, [])
 
@@ -104,9 +74,7 @@ export function StatusesGrid({ configs, loading, allowDelete }: StatusesGridProp
 		)}&data=${encodeURIComponent(JSON.stringify(config.configData ?? {}))}`
 
 		try {
-			await fetch(`/api/statuses/${config.id}/track-open`, {
-				method: 'POST',
-			})
+			await fetch(`/api/statuses/${config.id}/track-open`, { method: 'POST' })
 		} catch (err) {
 			console.error('Failed to track open in app', err)
 		}
@@ -129,9 +97,9 @@ export function StatusesGrid({ configs, loading, allowDelete }: StatusesGridProp
 		<section id='status-content' className={styles.page_section}>
 			{showSkeleton ? (
 				<div className={styles.theme_listings}>
-					<SkeletonCard />
-					<SkeletonCard />
-					<SkeletonCard />
+					<SkeletonCard height='status' />
+					<SkeletonCard height='status' />
+					<SkeletonCard height='status' />
 				</div>
 			) : localStatuses.length === 0 ? (
 				<div className={styles.empty_state}>

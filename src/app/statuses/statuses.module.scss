@@ -113,7 +113,6 @@
 	text-decoration: none;
 	border-radius: 16px;
 	overflow: hidden;
-	backdrop-filter: blur(20px);
 	background: rgba(26, 26, 26, 0.96);
 	border-color: rgba(91, 91, 91, 0.4);
 	--card-highlight: #5b5b5b;
@@ -302,7 +301,6 @@
 	overflow: hidden;
 	background: hsla(0, 0%, 10%, 0.9);
 	border: 1px solid hsla(255, 255%, 255%, 0.06);
-	backdrop-filter: blur(20px);
 	animation: skeletonShimmer 2s infinite;
 }
 

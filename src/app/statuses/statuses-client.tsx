@@ -1,6 +1,6 @@
 'use client'
 
-import { StatusesGrid } from '@/components/statuses-grid'
+import { StatusesGrid } from '@/components/activity-grid/statuses'
 import type { Status } from '@service/firebase'
 import { onStatusesChange } from '@service/firebase'
 import { Search, X } from 'lucide-react'

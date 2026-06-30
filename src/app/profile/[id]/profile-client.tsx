@@ -1,10 +1,9 @@
 'use client'
 
-import { PresenceGrid } from '@/components/presence-grid'
+import { PresenceGrid } from '@/components/activity-grid/presence'
+import { StatusesGrid } from '@/components/activity-grid/statuses'
 import { Search, X } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
-
-import { StatusesGrid } from '@/components/statuses-grid'
 import type { Config, Status } from '../../../service/firebase'
 import { getConfigsByAuthor, getStatusesByAuthor } from '../../../service/firebase'
 import styles from './profile.module.scss'

@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 import styles from './rpc-preview.module.scss'
 
 interface Cycle {
@@ -38,6 +39,9 @@ interface RpcPreviewProps {
 	avatarSrc?: string
 }
 
+const FALLBACK_AVATAR = '/logo.png'
+const FALLBACK_ART = '/placeholder.jpg'
+
 const RpcUser = ({
 	username = 'Devollox',
 	discriminator = '#0001',
@@ -46,38 +50,62 @@ const RpcUser = ({
 	username?: string
 	discriminator?: string
 	avatarSrc?: string
-}) => (
-	<div className={styles.rpc_user}>
-		<div className={styles.rpc_avatar}>
-			<div className={styles.avatar_placeholder}>
-				<Image src={avatarSrc || '/logo.png'} alt='Avatar' width={48} height={48} unoptimized />
+}) => {
+	const [imgSrc, setImgSrc] = useState(avatarSrc || FALLBACK_AVATAR)
+
+	useEffect(() => {
+		setImgSrc(avatarSrc || FALLBACK_AVATAR)
+	}, [avatarSrc])
+
+	return (
+		<div className={styles.rpc_user}>
+			<div className={styles.rpc_avatar}>
+				<div className={styles.avatar_placeholder}>
+					<Image
+						src={imgSrc}
+						alt='Avatar'
+						width={48}
+						height={48}
+						unoptimized
+						onError={() => setImgSrc(FALLBACK_AVATAR)}
+					/>
+				</div>
+				<div className={styles.status_indicator} />
 			</div>
-			<div className={styles.status_indicator} />
+			<div>
+				<div className={styles.username}>{username}</div>
+				<div className={styles.discriminator}>{discriminator}</div>
+			</div>
 		</div>
-		<div>
-			<div className={styles.username}>{username}</div>
-			<div className={styles.discriminator}>{discriminator}</div>
-		</div>
-	</div>
-)
+	)
+}
 
 const RpcActivityArt = ({
-	currentImage = { largeImage: '/placeholder.jpg' },
+	currentImage = { largeImage: FALLBACK_ART },
 }: {
 	currentImage?: ImageCycle
-}) => (
-	<div className={styles.activity_art}>
-		<Image
-			width={64}
-			height={64}
-			src={currentImage.largeImage}
-			alt='Activity art'
-			className={styles.large_art}
-			unoptimized
-		/>
-		<div className={styles.art_overlay} />
-	</div>
-)
+}) => {
+	const [imgSrc, setImgSrc] = useState(currentImage.largeImage || FALLBACK_ART)
+
+	useEffect(() => {
+		setImgSrc(currentImage.largeImage || FALLBACK_ART)
+	}, [currentImage.largeImage])
+
+	return (
+		<div className={styles.activity_art}>
+			<Image
+				width={64}
+				height={64}
+				src={imgSrc}
+				alt='Activity art'
+				className={styles.large_art}
+				unoptimized
+				onError={() => setImgSrc(FALLBACK_ART)}
+			/>
+			<div className={styles.art_overlay} />
+		</div>
+	)
+}
 
 const RpcActivityDetails = ({
 	currentCycle = { details: 'No details', state: 'No state' },
@@ -91,9 +119,7 @@ const RpcActivityDetails = ({
 	const cycles = config?.cycles ?? []
 	const images = config?.imageCycles ?? []
 	const buttonPairs = config?.buttonPairs ?? []
-
 	const maxLen = Math.max(cycles.length || 1, images.length || 1, buttonPairs.length || 1)
-
 	const clampedIndex = (((currentIndex ?? 0) % maxLen) + maxLen) % maxLen
 	const progress = maxLen > 0 ? Math.round(((clampedIndex + 1) / maxLen) * 100) : 100
 
@@ -171,6 +197,7 @@ export default function RpcPreview({
 		<div className={styles.rpc_preview}>
 			<RpcUser username={username} discriminator={discriminator} avatarSrc={avatarSrc} />
 			<RpcActivity
+				activityType={activityType}
 				currentCycle={currentCycle}
 				currentImage={currentImage}
 				currentIndex={currentIndex}

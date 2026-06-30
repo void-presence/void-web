@@ -8,6 +8,7 @@ const nextConfig = {
 			{ protocol: 'https', hostname: '**.co' },
 			{ protocol: 'https', hostname: '**.ru' },
 			{ protocol: 'http', hostname: 'localhost' },
+			{ protocol: 'https', hostname: 'cdn.discordapp.com' },
 		],
 	},
 }

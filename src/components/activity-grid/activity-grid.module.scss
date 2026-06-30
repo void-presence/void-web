@@ -96,7 +96,6 @@
 }
 
 .rpc_card_preview {
-	height: 288px;
 	position: static;
 	display: flex;
 	justify-content: center;
@@ -112,11 +111,13 @@
 	justify-content: space-between;
 	align-items: center;
 }
+
 @media (max-width: 440px) {
 	.card_actions {
 		display: block;
 	}
 }
+
 .download_tag {
 	-webkit-backdrop-filter: blur(10px);
 	backdrop-filter: blur(10px);
@@ -195,7 +196,6 @@
 }
 
 .skeleton_card_wrap {
-	height: 433px;
 	display: block;
 	position: relative;
 	border-radius: 16px;
@@ -204,6 +204,14 @@
 	border: 1px solid hsla(255, 255%, 255%, 0.06);
 	backdrop-filter: blur(20px);
 	animation: skeletonShimmer 2s infinite;
+}
+
+.skeleton_card_wrap_presence {
+	height: 433px;
+}
+
+.skeleton_card_wrap_status {
+	height: 333px;
 }
 
 .skeleton_card {
@@ -250,8 +258,15 @@
 }
 
 .skeleton_rpc_preview {
-	height: 288px;
 	border-radius: 12px;
+}
+
+.skeleton_rpc_preview_presence {
+	height: 288px;
+}
+
+.skeleton_rpc_preview_status {
+	height: 200px;
 }
 
 .skeleton_card_actions {
@@ -292,6 +307,7 @@
 		margin-left: auto;
 		margin-right: auto;
 	}
+
 	.card_buttons {
 		flex-direction: column;
 		margin-top: 12px;
@@ -308,7 +324,6 @@
 
 	.rpc_card_preview {
 		justify-content: center;
-		height: 400px;
 		position: static;
 	}
 

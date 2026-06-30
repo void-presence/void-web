@@ -5,7 +5,8 @@ import { deleteConfig } from '@service/firebase'
 import { Download, Trash } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import RpcPreview from '../rpc-preview/rpc-user'
-import styles from './presence-grid.module.scss'
+import styles from './activity-grid.module.scss'
+import { SkeletonCard } from './skeleton-card'
 
 type CustomRpcPreviewProps = {
 	config: Config
@@ -18,20 +19,11 @@ function CustomRpcPreview({ config, previewIndex, avatarSrc }: CustomRpcPreviewP
 	const cycles = configData.cycles ?? []
 	const images = configData.imageCycles ?? []
 	const buttonPairs = configData.buttonPairs ?? []
-
 	const maxLen = Math.max(cycles.length || 1, images.length || 1, buttonPairs.length || 1)
 	const localIndex = maxLen ? previewIndex % maxLen : 0
-
-	const cycleIndex = localIndex % (cycles.length || 1)
-	const imageIndex = localIndex % (images.length || 1)
-	const buttonIndex = localIndex % (buttonPairs.length || 1)
-
-	const cycle = cycles[cycleIndex] || { details: '', state: '' }
-	const image = images[imageIndex] || { largeImage: '' }
-	const buttons = buttonPairs[buttonIndex] ?? {
-		label1: '',
-		url1: '',
-	}
+	const cycle = cycles[localIndex % (cycles.length || 1)] || { details: '', state: '' }
+	const image = images[localIndex % (images.length || 1)] || { largeImage: '' }
+	const buttons = buttonPairs[localIndex % (buttonPairs.length || 1)] ?? { label1: '', url1: '' }
 
 	return (
 		<div className={styles.rpc_card_preview}>
@@ -49,30 +41,6 @@ function CustomRpcPreview({ config, previewIndex, avatarSrc }: CustomRpcPreviewP
 			</div>
 		</div>
 	)
-}
-
-function SkeletonCard() {
-	return (
-		<div className={styles.skeleton_card_wrap}>
-			<div className={styles.skeleton_card}>
-				<div className={styles.skeleton_card_header}>
-					<div className={styles.skeleton_title}></div>
-				</div>
-				<div className={styles.skeleton_rpc_preview}></div>
-				<div className={styles.skeleton_card_actions}>
-					<div className={styles.skeleton_download_tag}></div>
-					<div className={styles.skeleton_action_buttons}>
-						<div className={styles.skeleton_btn_primary}></div>
-						<div className={styles.skeleton_btn_secondary}></div>
-					</div>
-				</div>
-			</div>
-		</div>
-	)
-}
-
-function getNextTick(prev: number) {
-	return prev + 1
 }
 
 type PresenceGridProps = {
@@ -97,16 +65,11 @@ export function PresenceGrid({ configs, loading, allowDelete }: PresenceGridProp
 	}, [configs])
 
 	useEffect(() => {
-		setTimeout(() => {
-			setAnimateColors(true)
-		}, 100)
-
-		const interval = setInterval(() => {
-			setPreviewTick(prev => getNextTick(prev))
-		}, 3000)
-
+		const t = setTimeout(() => setAnimateColors(true), 100)
+		const i = setInterval(() => setPreviewTick(prev => prev + 1), 3000)
 		return () => {
-			clearInterval(interval)
+			clearTimeout(t)
+			clearInterval(i)
 		}
 	}, [])
 
@@ -118,9 +81,7 @@ export function PresenceGrid({ configs, loading, allowDelete }: PresenceGridProp
 		)}&data=${encodeURIComponent(JSON.stringify(config.configData))}`
 
 		try {
-			await fetch(`/api/presence/${config.id}/track-open`, {
-				method: 'POST',
-			})
+			await fetch(`/api/presence/${config.id}/track-open`, { method: 'POST' })
 		} catch (err) {
 			console.error('Failed to track open in app', err)
 		}
@@ -143,9 +104,9 @@ export function PresenceGrid({ configs, loading, allowDelete }: PresenceGridProp
 		<section id='configs-content' className={styles.page_section}>
 			{showSkeleton ? (
 				<div className={styles.theme_listings}>
-					<SkeletonCard />
-					<SkeletonCard />
-					<SkeletonCard />
+					<SkeletonCard height='presence' />
+					<SkeletonCard height='presence' />
+					<SkeletonCard height='presence' />
 				</div>
 			) : localConfigs.length === 0 ? (
 				<div className={styles.empty_state}>
@@ -158,7 +119,6 @@ export function PresenceGrid({ configs, loading, allowDelete }: PresenceGridProp
 						const hasColor = animateColors && Boolean(config.averageColor)
 						const baseIndex = mounted ? previewTick + index : 0
 						const borderColor = `${highlight}66`
-						const baseBg = 'rgba(26, 26, 26, 0.96)'
 						const avatarSrc = config.authorAvatar || '/logo.png'
 
 						return (
@@ -166,7 +126,7 @@ export function PresenceGrid({ configs, loading, allowDelete }: PresenceGridProp
 								key={config.id}
 								className={`${styles.card_wrap} ${hasColor ? styles.card_wrap_hasColor : ''}`}
 								style={{
-									background: baseBg,
+									background: 'rgba(26, 26, 26, 0.96)',
 									borderColor,
 									['--card-highlight' as any]: highlight,
 								}}

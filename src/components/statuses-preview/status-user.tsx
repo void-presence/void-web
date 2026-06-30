@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 import styles from '../rpc-preview/rpc-preview.module.scss'
 
 interface StatusCycle {
@@ -21,6 +22,8 @@ interface StatusPreviewProps {
 	avatarSrc?: string
 }
 
+const FALLBACK_AVATAR = '/logo.png'
+
 const StatusUser = ({
 	username = 'Devollox',
 	discriminator = '#0001',
@@ -29,20 +32,35 @@ const StatusUser = ({
 	username?: string
 	discriminator?: string
 	avatarSrc?: string
-}) => (
-	<div className={styles.rpc_user}>
-		<div className={styles.rpc_avatar}>
-			<div className={styles.avatar_placeholder}>
-				<Image src={avatarSrc || '/logo.png'} alt='Avatar' width={48} height={48} unoptimized />
+}) => {
+	const [imgSrc, setImgSrc] = useState(avatarSrc || FALLBACK_AVATAR)
+
+	useEffect(() => {
+		setImgSrc(avatarSrc || FALLBACK_AVATAR)
+	}, [avatarSrc])
+
+	return (
+		<div className={styles.rpc_user}>
+			<div className={styles.rpc_avatar}>
+				<div className={styles.avatar_placeholder}>
+					<Image
+						src={imgSrc}
+						alt='Avatar'
+						width={48}
+						height={48}
+						unoptimized
+						onError={() => setImgSrc(FALLBACK_AVATAR)}
+					/>
+				</div>
+				<div className={styles.status_indicator} />
 			</div>
-			<div className={styles.status_indicator} />
+			<div>
+				<div className={styles.username}>{username}</div>
+				<div className={styles.discriminator}>{discriminator}</div>
+			</div>
 		</div>
-		<div>
-			<div className={styles.username}>{username}</div>
-			<div className={styles.discriminator}>{discriminator}</div>
-		</div>
-	</div>
-)
+	)
+}
 
 const StatusDetails = ({
 	currentStatus = { text: 'No status' },
@@ -102,7 +120,12 @@ export default function StatusPreview({
 	return (
 		<div className={styles.rpc_preview}>
 			<StatusUser username={username} discriminator={discriminator} avatarSrc={avatarSrc} />
-			<StatusActivity currentStatus={currentStatus} currentIndex={currentIndex} config={config} />
+			<StatusActivity
+				activityType={activityType}
+				currentStatus={currentStatus}
+				currentIndex={currentIndex}
+				config={config}
+			/>
 		</div>
 	)
 }

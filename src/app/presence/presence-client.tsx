@@ -1,6 +1,6 @@
 'use client'
 
-import { PresenceGrid } from '@/components/presence-grid'
+import { PresenceGrid } from '@/components/activity-grid/presence'
 import { onConfigsChange } from '@/service/firebase'
 import { Search, X } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
