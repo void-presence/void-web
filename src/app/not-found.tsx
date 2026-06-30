@@ -3,7 +3,10 @@ import Page from '@components/page'
 import PageHeader from '@components/page-header'
 import { PanelLayout } from '@components/panel-layout'
 import type { Metadata } from 'next'
-import { default as downloadStyles, default as styles } from './download/download.module.scss'
+import {
+	default as downloadStyles,
+	default as styles,
+} from './(site)/download/download.module.scss'
 
 export const metadata: Metadata = {
 	title: 'Page not found',
