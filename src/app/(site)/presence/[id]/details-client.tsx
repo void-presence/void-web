@@ -126,7 +126,7 @@ export function ConfigDetailsClient({ configId, initialPreviewTick }: Props) {
 		)}&data=${encodeURIComponent(JSON.stringify(config.configData))}`
 
 		try {
-			await fetch(`/api/presence/${config.id}/track-open`, {
+			await fetch(`/v1/api/presence/${config.id}/track-open`, {
 				method: 'POST',
 			})
 		} catch (err) {
@@ -195,7 +195,7 @@ export function ConfigDetailsClient({ configId, initialPreviewTick }: Props) {
 										<span className={styles.action_btn_hint}>import .json</span>
 									</a>
 									<a
-										href={`/api/presence/${config.id}/download`}
+										href={`/v1/api/presence/${config.id}/download`}
 										className={styles.action_btn_primary}
 									>
 										<span>Download JSON</span>

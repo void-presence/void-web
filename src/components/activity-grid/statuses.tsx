@@ -88,7 +88,7 @@ export function StatusesGrid({ configs, loading, allowDelete }: StatusesGridProp
 		)}&data=${encodeURIComponent(JSON.stringify(config.configData ?? {}))}`
 
 		try {
-			await fetch(`/api/statuses/${config.id}/track-open`, { method: 'POST' })
+			await fetch(`/v1/api/statuses/${config.id}/track-open`, { method: 'POST' })
 		} catch (err) {
 			console.error('Failed to track open in app', err)
 		}

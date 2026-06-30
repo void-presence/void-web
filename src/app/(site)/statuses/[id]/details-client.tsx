@@ -113,7 +113,7 @@ export function StatusDetailsClient({ statusId, initialPreviewTick }: Props) {
 		)}&data=${encodeURIComponent(JSON.stringify(status.configData ?? {}))}`
 
 		try {
-			await fetch(`/api/statuses/${status.id}/track-open`, {
+			await fetch(`/v1/api/statuses/${status.id}/track-open`, {
 				method: 'POST',
 			})
 		} catch (err) {
@@ -174,7 +174,7 @@ export function StatusDetailsClient({ statusId, initialPreviewTick }: Props) {
 										<span className={styles.action_btn_hint}>import .json</span>
 									</a>
 									<a
-										href={`/api/statuses/${status.id}/download`}
+										href={`/v1/api/statuses/${status.id}/download`}
 										className={styles.action_btn_primary}
 									>
 										<span>Download JSON</span>

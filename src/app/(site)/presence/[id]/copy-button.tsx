@@ -13,7 +13,7 @@ export function CopyJsonButton({ configId }: Props) {
 	const onSubmit = async (e: FormEvent) => {
 		e.preventDefault()
 		try {
-			const res = await fetch(`/api/presence/${configId}/copy`, {
+			const res = await fetch(`/v1/api/presence/${configId}/copy`, {
 				method: 'POST',
 			})
 			if (!res.ok) {
@@ -28,7 +28,7 @@ export function CopyJsonButton({ configId }: Props) {
 			setTimeout(() => setStatus('idle'), 2000)
 		}
 		try {
-			await fetch(`/api/presence/${configId}/track-open`, {
+			await fetch(`/v1/api/presence/${configId}/track-open`, {
 				method: 'POST',
 			})
 		} catch (err) {
