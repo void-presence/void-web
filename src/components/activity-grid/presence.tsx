@@ -26,7 +26,7 @@ function CustomRpcPreview({ config, previewIndex, avatarSrc }: CustomRpcPreviewP
 	const buttons = buttonPairs[localIndex % (buttonPairs.length || 1)] ?? { label1: '', url1: '' }
 
 	return (
-		<div className={styles.rpc_card_preview}>
+		<div className={`${styles.rpc_card_preview} ${styles.rpc_card_preview}`}>
 			<div className={styles.rpc_card_preview_inner}>
 				<RpcPreview
 					discriminator={config.authorId ? `#${config.authorId.slice(0, 4)}` : '#0001'}
