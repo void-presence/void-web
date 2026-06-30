@@ -4,6 +4,8 @@ import styles from './footer.module.scss'
 
 type Link = { label: string; href: string }
 
+const MAIN_SITE_ORIGIN = 'https://voidpresence.site'
+
 const SOCIAL: Link[] = [
 	{ label: 'Discord', href: 'https://discord.gg' },
 	{ label: 'GitHub', href: 'https://github.com/Devollox/void-presence' },
@@ -17,6 +19,7 @@ const PRODUCT: Link[] = [
 const RESOURCES: Link[] = [
 	{ label: 'Docs', href: '/docs' },
 	{ label: 'Status', href: '/status' },
+	{ label: 'API', href: '/api' },
 ]
 
 const META: Link[] = [
@@ -26,6 +29,11 @@ const META: Link[] = [
 	},
 	{ label: 'Repository', href: 'https://github.com/Devollox/void-presence' },
 ]
+
+function resolveInternalHref(link: Link) {
+	if (link.href.startsWith('http')) return link.href
+	return `${MAIN_SITE_ORIGIN}${link.href}`
+}
 
 const Footer = () => {
 	const year = new Date().getFullYear()
@@ -77,7 +85,7 @@ const Footer = () => {
 							<ul className={styles.footer_links_list}>
 								{PRODUCT.map(link => (
 									<li key={link.href}>
-										<a href={link.href} className={styles.footer_link_item}>
+										<a href={resolveInternalHref(link)} className={styles.footer_link_item}>
 											{link.label}
 										</a>
 									</li>
@@ -90,7 +98,7 @@ const Footer = () => {
 							<ul className={styles.footer_links_list}>
 								{RESOURCES.map(link => (
 									<li key={link.href}>
-										<a href={link.href} className={styles.footer_link_item}>
+										<a href={resolveInternalHref(link)} className={styles.footer_link_item}>
 											{link.label}
 										</a>
 									</li>

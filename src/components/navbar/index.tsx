@@ -5,6 +5,8 @@ import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import styles from './navbar.module.scss'
 
+const MAIN_SITE_ORIGIN = 'https://voidpresence.site'
+
 export default function Navbar() {
 	const { data: session, status } = useSession()
 	const isAuth = status === 'authenticated' && !!session?.user
@@ -12,33 +14,33 @@ export default function Navbar() {
 	return (
 		<header className={styles.navbar_root}>
 			<div className={styles.navbar_shell}>
-				<Link href='/' className={styles.navbar_brand}>
+				<a href={MAIN_SITE_ORIGIN} className={styles.navbar_brand}>
 					<div className={styles.navbar_logo_mark}>vP</div>
 					<div className={styles.navbar_brand_text}>
 						<span className={styles.navbar_brand_title}>Void Presence</span>
 						<span className={styles.navbar_brand_subtitle}>Discord Rich Presence manager</span>
 					</div>
-				</Link>
+				</a>
 
 				<nav className={styles.navbar_nav}>
-					<Link className={styles.nav_link} href='/download'>
+					<a className={styles.nav_link} href={`${MAIN_SITE_ORIGIN}/download`}>
 						Download
-					</Link>
-					<Link className={styles.nav_link} href='/docs'>
+					</a>
+					<a className={styles.nav_link} href={`${MAIN_SITE_ORIGIN}/docs`}>
 						Docs
-					</Link>
+					</a>
 
 					<div className={styles.nav_configs_group}>
 						<div className={`${styles.nav_button} ${styles.nav_link} ${styles.nav_link_configs}`}>
 							Configs
 						</div>
 						<div className={styles.nav_configs_dropdown}>
-							<Link className={styles.nav_configs_item} href='/presence'>
+							<a className={styles.nav_configs_item} href={`${MAIN_SITE_ORIGIN}/presence`}>
 								Presence
-							</Link>
-							<Link className={styles.nav_configs_item} href='/statuses'>
+							</a>
+							<a className={styles.nav_configs_item} href={`${MAIN_SITE_ORIGIN}/statuses`}>
 								Statuses
-							</Link>
+							</a>
 						</div>
 					</div>
 
@@ -47,15 +49,21 @@ export default function Navbar() {
 							Schedule
 						</div>
 						<div className={styles.nav_schedule_dropdown}>
-							<Link className={styles.nav_schedule_item} href='/schedule/application'>
+							<a
+								className={styles.nav_schedule_item}
+								href={`${MAIN_SITE_ORIGIN}/schedule/application`}
+							>
 								Application
-							</Link>
-							<Link className={styles.nav_schedule_item} href='/schedule/installer'>
+							</a>
+							<a
+								className={styles.nav_schedule_item}
+								href={`${MAIN_SITE_ORIGIN}/schedule/installer`}
+							>
 								Installer
-							</Link>
-							<Link className={styles.nav_schedule_item} href='/schedule/updates'>
+							</a>
+							<a className={styles.nav_schedule_item} href={`${MAIN_SITE_ORIGIN}/schedule/updates`}>
 								Updates
-							</Link>
+							</a>
 						</div>
 					</div>
 
@@ -82,20 +90,20 @@ export default function Navbar() {
 					</Link>
 
 					{!isAuth && (
-						<Link className={styles.nav_cta_wrap} href='/signin'>
+						<a className={styles.nav_cta_wrap} href={`${MAIN_SITE_ORIGIN}/signin`}>
 							<button type='button' className={`${styles.btn} ${styles.btn_secondary}`}>
 								<UserPen size={16} />
 								<span>Sign in</span>
 							</button>
-						</Link>
+						</a>
 					)}
 					{isAuth && (
-						<Link className={styles.nav_cta_wrap} href='/profile'>
+						<a className={styles.nav_cta_wrap} href={`${MAIN_SITE_ORIGIN}/profile`}>
 							<button type='button' className={`${styles.btn} ${styles.btn_secondary}`}>
 								<UserPen size={16} />
 								<span>{session.user?.name ?? 'Profile'}</span>
 							</button>
-						</Link>
+						</a>
 					)}
 				</nav>
 			</div>
