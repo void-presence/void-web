@@ -15,10 +15,9 @@ export function middleware(req: NextRequest) {
 	const isMainDomainApiCall = url.pathname.startsWith('/api')
 	if (isMainDomainApiCall) {
 		const cleanPath = url.pathname.replace(/^\/api/, '')
-
 		const searchParams = url.search
 
-		const apiSubdomainUrl = `https://voidpresence.site${cleanPath}${searchParams}`
+		const apiSubdomainUrl = `https://api.voidpresence.site${cleanPath}${searchParams}`
 
 		return NextResponse.redirect(new URL(apiSubdomainUrl, req.url))
 	}
