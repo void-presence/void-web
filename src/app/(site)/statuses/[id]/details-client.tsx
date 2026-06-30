@@ -65,6 +65,7 @@ export function StatusDetailsClient({ statusId, initialPreviewTick }: Props) {
 								<div className={styles.skel_actions_btns}>
 									<div className={styles.skel_btn} />
 									<div className={styles.skel_btn} />
+									<div className={styles.skel_btn} />
 								</div>
 							</div>
 						</div>
