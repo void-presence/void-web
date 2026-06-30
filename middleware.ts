@@ -9,7 +9,18 @@ export function middleware(req: NextRequest) {
 
 	if (isApiSubdomain) {
 		const path = url.pathname
-		return NextResponse.rewrite(new URL(`/api-landing${path}`, req.url))
+		return NextResponse.rewrite(new URL(`/api${path}`, req.url))
+	}
+
+	const isMainDomainApiCall = url.pathname.startsWith('/api')
+	if (isMainDomainApiCall) {
+		const cleanPath = url.pathname.replace(/^\/api/, '')
+
+		const searchParams = url.search
+
+		const apiSubdomainUrl = `https://voidpresence.site${cleanPath}${searchParams}`
+
+		return NextResponse.redirect(new URL(apiSubdomainUrl, req.url))
 	}
 
 	const isProfile = url.pathname.startsWith('/profile')

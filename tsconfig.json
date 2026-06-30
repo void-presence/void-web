@@ -26,7 +26,8 @@
 			"@data/*": ["./src/data/*"],
 			"@service/*": ["./src/service/*"],
 			"@styles/*": ["./src/styles/*"],
-			"@public/*": ["./public/*"]
+			"@public/*": ["./public/*"],
+			"@api/*": ["./src/app/(api)/api/*"]
 		}
 	},
 	"include": [
