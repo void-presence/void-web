@@ -95,7 +95,7 @@ export function PresenceGrid({ configs, loading, allowDelete }: PresenceGridProp
 		)}&data=${encodeURIComponent(JSON.stringify(config.configData))}`
 
 		try {
-			await fetch(`/v1/api/presence/${config.id}/track-open`, { method: 'POST' })
+			await fetch(`/api/v1/presence/${config.id}/track-open`, { method: 'POST' })
 		} catch (err) {
 			console.error('Failed to track open in app', err)
 		}
