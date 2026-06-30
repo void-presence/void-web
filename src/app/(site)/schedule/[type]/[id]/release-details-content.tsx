@@ -14,10 +14,10 @@ import {
 	type ReleaseInfo as InstallerReleaseInfo,
 } from '@/lib/releases-installer'
 import { getUpdatesReleases, type ReleaseInfo as UpdatesReleaseInfo } from '@/lib/releases-updates'
-import styles from '@/release-schedule.module.scss'
 import { PanelLayout } from '@components/panel-layout'
 import layoutStyles from '@components/panel-layout/layout-panels.module.scss'
 import { InfoBox } from '@components/status-info/info-box'
+import styles from '../../release-schedule.module.scss'
 
 type ReleaseType = 'application' | 'installer' | 'updates'
 

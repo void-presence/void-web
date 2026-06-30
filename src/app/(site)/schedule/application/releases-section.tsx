@@ -1,9 +1,9 @@
 import { getElectronMetadata } from '@/lib/parse-version'
 import { getReleases } from '@/lib/releases-application'
-import styles from '@/release-schedule.module.scss'
 import { InfoBox } from '@components/status-info/info-box'
 import type { Metadata } from 'next'
 import DownloadButtons from '../../download/download-buttons'
+import styles from '../release-schedule.module.scss'
 import { ReleasesSectionBase } from '../releases-section-base'
 
 export const metadata: Metadata = {

@@ -1,7 +1,7 @@
-import scheduleStyles from '@/release-schedule.module.scss'
 import { PanelLayout } from '@components/panel-layout'
 import layoutStyles from '@components/panel-layout/layout-panels.module.scss'
 import skeletonStyles from '@styles/skeleton.module.scss'
+import scheduleStyles from '../release-schedule.module.scss'
 
 export default function ReleaseListSkeleton({
 	countSkeleton,

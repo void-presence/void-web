@@ -1,10 +1,10 @@
 import { extractPackageMeta, getInstallerPackageJsonByTag } from '@/lib/package-meta'
 import { getWailsMetadata } from '@/lib/parse-version'
 import { getInstallerReleases } from '@/lib/releases-installer'
-import styles from '@/release-schedule.module.scss'
 import { InfoBox } from '@components/status-info/info-box'
 import type { Metadata } from 'next'
 import DownloadButtons from '../../download/download-buttons'
+import styles from '../release-schedule.module.scss'
 import { ReleasesSectionBase } from '../releases-section-base'
 
 export const metadata: Metadata = {

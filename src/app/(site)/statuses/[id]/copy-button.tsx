@@ -1,7 +1,7 @@
 'use client'
 
-import styles from '@/presence/[id]/config-details.module.scss'
 import { FormEvent, useState } from 'react'
+import styles from '../../presence/[id]/config-details.module.scss'
 
 type Props = {
 	configId: string

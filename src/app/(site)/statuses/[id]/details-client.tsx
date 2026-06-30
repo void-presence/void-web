@@ -1,10 +1,10 @@
 'use client'
 
-import styles from '@/presence/[id]/config-details.module.scss'
 import StatusPreview from '@components/statuses-preview/status-user'
 import type { Status } from '@service/firebase'
 import { onStatusByIdChange } from '@service/firebase'
 import { useEffect, useState } from 'react'
+import styles from '../../presence/[id]/config-details.module.scss'
 import { CopyJsonButton } from './copy-button'
 import { StatusStructure } from './structure'
 
