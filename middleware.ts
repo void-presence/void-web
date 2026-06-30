@@ -46,7 +46,8 @@ export function middleware(req: NextRequest) {
 		return response
 	}
 
-	const isMainDomainApiCall = url.pathname.startsWith('/api')
+	const isMainDomainApiCall =
+		url.pathname.startsWith('/api') && !url.pathname.startsWith('/api/auth')
 	if (isMainDomainApiCall) {
 		const cleanPath = url.pathname.replace(/^\/api/, '')
 		const searchParams = url.search

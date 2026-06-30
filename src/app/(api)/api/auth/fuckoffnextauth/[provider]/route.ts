@@ -8,7 +8,7 @@ export async function GET(req: NextRequest, { params }: Params) {
 
 	searchParams.set('code', '123')
 
-	const redirectUrl = `${process.env.NEXTAUTH_URL}/auth/callback/${provider}?${searchParams.toString()}`
+	const redirectUrl = `${process.env.NEXTAUTH_URL}/api/auth/callback/${provider}?${searchParams.toString()}`
 
 	return Response.redirect(redirectUrl)
 }
