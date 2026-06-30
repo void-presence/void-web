@@ -1,9 +1,9 @@
 'use client'
 
+import { app } from '@/service/firebase'
 import { getAuth, signInWithCustomToken } from 'firebase/auth'
 import { useSession } from 'next-auth/react'
 import { useEffect } from 'react'
-import { app } from '../service/firebase'
 
 export function UseFirebaseAuth() {
 	const { data: session } = useSession()

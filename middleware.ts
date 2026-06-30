@@ -9,7 +9,7 @@ export function middleware(req: NextRequest) {
 
 	if (isApiSubdomain) {
 		const path = url.pathname
-		return NextResponse.rewrite(new URL(`/api${path}`, req.url))
+		return NextResponse.rewrite(new URL(`/api-landing${path}`, req.url))
 	}
 
 	const isProfile = url.pathname.startsWith('/profile')

@@ -1,8 +1,8 @@
 'use client'
 
+import styles from '@/rpc-preview/rpc-preview.module.scss'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import styles from '../rpc-preview/rpc-preview.module.scss'
 
 interface StatusCycle {
 	text: string
