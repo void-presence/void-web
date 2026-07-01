@@ -28,12 +28,12 @@ const endpoints: ApiEndpoint[] = [
 		hasExample: true,
 	},
 	{
-		id: 'presence-get-config-data',
+		id: 'presence-get-config',
 		method: 'GET',
 		path: '/api/v1/presence/{id}/copy',
-		title: 'View presence config-data',
+		title: 'View presence config',
 		description:
-			'Returns only the raw config-data payload of a presence config for easy browser view or clipboard copying.',
+			'Returns only the raw config payload of a presence config for easy browser view or clipboard copying.',
 		group: 'presence',
 		authRequired: false,
 		hasExample: true,
@@ -91,12 +91,12 @@ const endpoints: ApiEndpoint[] = [
 		hasExample: true,
 	},
 	{
-		id: 'statuses-get-config-data',
+		id: 'statuses-get-config',
 		method: 'GET',
 		path: '/api/v1/statuses/{id}/copy',
-		title: 'View status config-data',
+		title: 'View status config',
 		description:
-			'Returns only the raw config-data payload of a status config for easy browser view or clipboard copying.',
+			'Returns only the raw config payload of a status config for easy browser view or clipboard copying.',
 		group: 'statuses',
 		authRequired: false,
 		hasExample: true,
