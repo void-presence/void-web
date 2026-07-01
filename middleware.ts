@@ -4,22 +4,24 @@ import { NextResponse } from 'next/server'
 export function middleware(req: NextRequest) {
 	const url = req.nextUrl
 	const hostname = req.headers.get('host') || ''
-	let origin = req.headers.get('origin') || ''
+	const origin = req.headers.get('origin') || ''
+	const method = req.method
 
 	const isDev = hostname.includes('localhost')
 
-	if (!origin && isDev) {
-		origin = 'http://localhost:3000'
-	}
-
 	const allowedOrigins = ['https://voidpresence.site', 'http://localhost:3000']
-	const isAllowedOrigin = allowedOrigins.includes(origin)
+
+	const isAllowedOrigin = origin ? allowedOrigins.includes(origin) : true
 	const isApiSubdomain = hostname.startsWith('api.')
 
 	if (isApiSubdomain) {
-		if (req.method === 'OPTIONS') {
+		if (origin && !isAllowedOrigin) {
+			return new NextResponse('CORS Policy: Origin not allowed', { status: 403 })
+		}
+
+		if (method === 'OPTIONS') {
 			const response = new NextResponse(null, { status: 204 })
-			if (isAllowedOrigin) {
+			if (origin) {
 				response.headers.set('Access-Control-Allow-Origin', origin)
 				response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
 				response.headers.set(
@@ -32,9 +34,11 @@ export function middleware(req: NextRequest) {
 		}
 
 		const path = url.pathname
-		const response = NextResponse.rewrite(new URL(`/api${path}`, req.url))
 
-		if (isAllowedOrigin) {
+		url.pathname = `/api${path}`
+		const response = NextResponse.rewrite(url)
+
+		if (origin) {
 			response.headers.set('Access-Control-Allow-Origin', origin)
 			response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
 			response.headers.set(
@@ -48,6 +52,7 @@ export function middleware(req: NextRequest) {
 
 	const isMainDomainApiCall =
 		url.pathname.startsWith('/api') && !url.pathname.startsWith('/api/auth')
+
 	if (isMainDomainApiCall) {
 		const cleanPath = url.pathname.replace(/^\/api/, '')
 		const searchParams = url.search
@@ -58,16 +63,11 @@ export function middleware(req: NextRequest) {
 		const apiSubdomainUrl = `${protocol}://${targetHost}${cleanPath}${searchParams}`
 		const response = NextResponse.redirect(new URL(apiSubdomainUrl, req.url))
 
-		if (isAllowedOrigin) {
+		if (origin && isAllowedOrigin) {
 			response.headers.set('Access-Control-Allow-Origin', origin)
 			response.headers.set('Access-Control-Allow-Credentials', 'true')
 		}
 		return response
-	}
-
-	const isProfile = url.pathname.startsWith('/profile')
-	if (isProfile) {
-		return NextResponse.next()
 	}
 
 	return NextResponse.next()

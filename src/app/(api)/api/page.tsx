@@ -28,6 +28,17 @@ const endpoints: ApiEndpoint[] = [
 		hasExample: true,
 	},
 	{
+		id: 'presence-copy',
+		method: 'POST',
+		path: '/api/v1/presence/{id}/copy',
+		title: 'Copy presence config',
+		description:
+			'Creates a duplicate of the given presence config with a new ID while preserving metadata and configData.',
+		group: 'presence',
+		authRequired: true,
+		hasExample: true,
+	},
+	{
 		id: 'presence-download-json',
 		method: 'GET',
 		path: '/api/v1/presence/{id}/download',
@@ -66,6 +77,17 @@ const endpoints: ApiEndpoint[] = [
 		description:
 			'Returns the full status config document, including metadata and configData, by Firebase ID.',
 		group: 'statuses',
+		hasExample: true,
+	},
+	{
+		id: 'statuses-copy',
+		method: 'POST',
+		path: '/api/v1/statuses/{id}/copy',
+		title: 'Copy status config',
+		description:
+			'Creates a duplicate of the given status config with a new ID while preserving metadata and configData.',
+		group: 'statuses',
+		authRequired: true,
 		hasExample: true,
 	},
 	{
