@@ -165,7 +165,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'auth-session',
 		method: 'GET',
-		path: '/auth/session',
+		path: '/api/auth/session',
 		title: 'Get current session',
 		description:
 			'Returns the current next-auth session including provider, accessToken and Firebase custom token.',
@@ -176,7 +176,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'auth-signin-provider',
 		method: 'GET',
-		path: '/auth/signin/{provider}',
+		path: '/api/auth/signin/{provider}',
 		title: 'Start OAuth sign-in',
 		description:
 			'Starts OAuth sign-in for the given provider (google, discord, github, steam) and redirects to the provider.',
@@ -186,7 +186,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'auth-callback-provider',
 		method: 'GET',
-		path: '/auth/callback/{provider}',
+		path: '/api/auth/callback/{provider}',
 		title: 'Handle OAuth callback',
 		description: 'Route used by next-auth to handle OAuth callbacks for configured providers.',
 		group: 'internal',
