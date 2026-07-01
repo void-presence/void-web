@@ -18,19 +18,29 @@ export const metadata: Metadata = {
 
 const endpoints: ApiEndpoint[] = [
 	{
+		id: 'presence-get-all',
+		method: 'GET',
+		path: '/api/v1/presence',
+		title: 'Get all presence configs',
+		description:
+			'Returns a list of all presence configuration documents from the realtime database.',
+		group: 'presence',
+		hasExample: true,
+	},
+	{
 		id: 'presence-get-full',
 		method: 'POST',
 		path: '/api/v1/presence/{id}',
 		title: 'Get presence config (full)',
 		description:
-			'Returns the full presence config document, including metadata and configData, by Firebase ID.',
+			'Returns the full presence config document, including metadata and config, by Firebase ID.',
 		group: 'presence',
 		hasExample: true,
 	},
 	{
 		id: 'presence-get-config',
 		method: 'GET',
-		path: '/api/v1/presence/{id}/copy',
+		path: '/api/v1/presence/{id}',
 		title: 'View presence config',
 		description:
 			'Returns only the raw config payload of a presence config for easy browser view or clipboard copying.',
@@ -44,7 +54,7 @@ const endpoints: ApiEndpoint[] = [
 		path: '/api/v1/presence/{id}/copy',
 		title: 'Copy presence config',
 		description:
-			'Creates a duplicate of the given presence config with a new ID while preserving metadata and configData.',
+			'Creates a duplicate of the given presence config with a new ID while preserving metadata and config.',
 		group: 'presence',
 		authRequired: true,
 		hasExample: true,
@@ -55,7 +65,7 @@ const endpoints: ApiEndpoint[] = [
 		path: '/api/v1/presence/{id}/download',
 		title: 'Download presence JSON',
 		description:
-			'Returns only the configData of a presence config as a downloadable JSON file and increments download counters.',
+			'Returns only the config of a presence config as a downloadable JSON file and increments download counters.',
 		group: 'presence',
 		hasExample: true,
 	},
@@ -81,19 +91,28 @@ const endpoints: ApiEndpoint[] = [
 		hasExample: true,
 	},
 	{
+		id: 'statuses-get-all',
+		method: 'GET',
+		path: '/api/v1/statuses',
+		title: 'Get all status configs',
+		description: 'Returns a list of all status configuration documents from the realtime database.',
+		group: 'statuses',
+		hasExample: true,
+	},
+	{
 		id: 'statuses-get-full',
 		method: 'POST',
 		path: '/api/v1/statuses/{id}',
 		title: 'Get status config (full)',
 		description:
-			'Returns the full status config document, including metadata and configData, by Firebase ID.',
+			'Returns the full status config document, including metadata and config, by Firebase ID.',
 		group: 'statuses',
 		hasExample: true,
 	},
 	{
 		id: 'statuses-get-config',
 		method: 'GET',
-		path: '/api/v1/statuses/{id}/copy',
+		path: '/api/v1/statuses/{id}',
 		title: 'View status config',
 		description:
 			'Returns only the raw config payload of a status config for easy browser view or clipboard copying.',
@@ -107,7 +126,7 @@ const endpoints: ApiEndpoint[] = [
 		path: '/api/v1/statuses/{id}/copy',
 		title: 'Copy status config',
 		description:
-			'Creates a duplicate of the given status config with a new ID while preserving metadata and configData.',
+			'Creates a duplicate of the given status config with a new ID while preserving metadata and config.',
 		group: 'statuses',
 		authRequired: true,
 		hasExample: true,
@@ -118,7 +137,7 @@ const endpoints: ApiEndpoint[] = [
 		path: '/api/v1/statuses/{id}/download',
 		title: 'Download status JSON',
 		description:
-			'Returns only the configData of a status config as a downloadable JSON file and increments download counters.',
+			'Returns only the config of a status config as a downloadable JSON file and increments download counters.',
 		group: 'statuses',
 		hasExample: true,
 	},
