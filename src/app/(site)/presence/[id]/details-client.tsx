@@ -6,6 +6,7 @@ import RpcPreview from '@components/rpc-preview/rpc-user'
 import { useEffect, useState } from 'react'
 import styles from './config-details.module.scss'
 import { CopyJsonButton } from './copy-button'
+import { DownloadJsonButton } from './download-button'
 import { ConfigStructure } from './structure'
 
 type Props = {
@@ -126,7 +127,7 @@ export function ConfigDetailsClient({ configId, initialPreviewTick }: Props) {
 		)}&data=${encodeURIComponent(JSON.stringify(config.configData))}`
 
 		try {
-			await fetch(`/api/v1/presence/${config.id}/track-open`, {
+			await fetch(`/v1/api/presence/${config.id}/track-open`, {
 				method: 'POST',
 			})
 		} catch (err) {
@@ -194,13 +195,7 @@ export function ConfigDetailsClient({ configId, initialPreviewTick }: Props) {
 										Open in app
 										<span className={styles.action_btn_hint}>import .json</span>
 									</a>
-									<a
-										href={`/api/v1/presence/${config.id}/download`}
-										className={styles.action_btn_primary}
-									>
-										<span>Download JSON</span>
-										<span className={styles.action_btn_hint}>.json file</span>
-									</a>
+									<DownloadJsonButton configId={config.id} />
 									<CopyJsonButton configId={config.id} />
 								</div>
 							</div>

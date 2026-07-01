@@ -6,6 +6,7 @@ import { onStatusByIdChange } from '@service/firebase'
 import { useEffect, useState } from 'react'
 import styles from '../../presence/[id]/config-details.module.scss'
 import { CopyJsonButton } from './copy-button'
+import { DownloadJsonButton } from './download-button'
 import { StatusStructure } from './structure'
 
 type Props = {
@@ -173,13 +174,7 @@ export function StatusDetailsClient({ statusId, initialPreviewTick }: Props) {
 										Open in app
 										<span className={styles.action_btn_hint}>import .json</span>
 									</a>
-									<a
-										href={`/api/v1/statuses/${status.id}/download`}
-										className={styles.action_btn_primary}
-									>
-										<span>Download JSON</span>
-										<span className={styles.action_btn_hint}>.json file</span>
-									</a>
+									<DownloadJsonButton configId={status.id} />
 									<CopyJsonButton configId={status.id} />
 								</div>
 							</div>

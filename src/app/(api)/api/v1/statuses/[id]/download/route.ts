@@ -1,4 +1,4 @@
-import { getStatusById, incrementDownloadsStatuses } from '@/service/firebase'
+import { getStatusById } from '@/service/firebase'
 import { NextResponse } from 'next/server'
 
 type Params = {
@@ -13,8 +13,6 @@ export async function GET(_req: Request, ctx: { params: Promise<Params> | Params
 		if (!config) {
 			return NextResponse.json({ error: 'Not found' }, { status: 404 })
 		}
-
-		await incrementDownloadsStatuses(id)
 
 		const json = JSON.stringify(config.configData, null, 2)
 
