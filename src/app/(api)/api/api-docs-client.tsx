@@ -56,7 +56,7 @@ export function ApiDocsClient({ initialEndpoints }: Props) {
 					'Most public endpoints do not require authentication.',
 					'Session-related endpoints rely on your next-auth session and Firebase tokens.',
 				]}
-				linkHref='/signin'
+				linkHref='https://voidpresence.site/signin'
 				linkLabel='Check my session'
 			/>
 			<InfoBox
