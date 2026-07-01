@@ -127,7 +127,7 @@ export function ConfigDetailsClient({ configId, initialPreviewTick }: Props) {
 		)}&data=${encodeURIComponent(JSON.stringify(config.configData))}`
 
 		try {
-			await fetch(`/v1/api/presence/${config.id}/track-open`, {
+			await fetch(`/api/v1/presence/${config.id}/track-open`, {
 				method: 'POST',
 			})
 		} catch (err) {

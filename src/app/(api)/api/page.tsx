@@ -28,16 +28,6 @@ const endpoints: ApiEndpoint[] = [
 		hasExample: true,
 	},
 	{
-		id: 'presence-get-full',
-		method: 'POST',
-		path: '/v1/presence/{id}',
-		title: 'Get presence config',
-		description:
-			'Returns the full presence config document, including metadata and config, by Firebase ID.',
-		group: 'presence',
-		hasExample: true,
-	},
-	{
 		id: 'presence-get-config',
 		method: 'GET',
 		path: '/v1/presence/{id}',
@@ -50,7 +40,7 @@ const endpoints: ApiEndpoint[] = [
 	},
 	{
 		id: 'presence-copy',
-		method: 'POST',
+		method: 'GET',
 		path: '/v1/presence/{id}/copy',
 		title: 'Copy presence config',
 		description:
@@ -67,6 +57,17 @@ const endpoints: ApiEndpoint[] = [
 		description:
 			'Returns only the config of a presence config as a downloadable JSON file and increments download counters.',
 		group: 'presence',
+		hasExample: true,
+	},
+	{
+		id: 'presence-by-author-get',
+		method: 'GET',
+		path: '/v1/presence/{id}/user',
+		title: 'Get presence configs by author',
+		description:
+			'Returns all presence configs authored by the given user ID, enriched with author metadata.',
+		group: 'presence',
+		authRequired: false,
 		hasExample: true,
 	},
 	{
@@ -100,16 +101,6 @@ const endpoints: ApiEndpoint[] = [
 		hasExample: true,
 	},
 	{
-		id: 'statuses-get-full',
-		method: 'POST',
-		path: '/v1/statuses/{id}',
-		title: 'Get status config',
-		description:
-			'Returns the full status config document, including metadata and config, by Firebase ID.',
-		group: 'statuses',
-		hasExample: true,
-	},
-	{
 		id: 'statuses-get-config',
 		method: 'GET',
 		path: '/v1/statuses/{id}',
@@ -122,7 +113,7 @@ const endpoints: ApiEndpoint[] = [
 	},
 	{
 		id: 'statuses-copy',
-		method: 'POST',
+		method: 'GET',
 		path: '/v1/statuses/{id}/copy',
 		title: 'Copy status config',
 		description:
@@ -139,6 +130,17 @@ const endpoints: ApiEndpoint[] = [
 		description:
 			'Returns only the config of a status config as a downloadable JSON file and increments download counters.',
 		group: 'statuses',
+		hasExample: true,
+	},
+	{
+		id: 'statuses-by-author-get',
+		method: 'GET',
+		path: '/v1/statuses/{id}/user',
+		title: 'Get status configs by author',
+		description:
+			'Returns all status configs authored by the given user ID, enriched with author metadata.',
+		group: 'statuses',
+		authRequired: false,
 		hasExample: true,
 	},
 	{

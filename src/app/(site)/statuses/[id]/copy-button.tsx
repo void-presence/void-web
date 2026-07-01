@@ -14,7 +14,7 @@ export function CopyJsonButton({ configId }: Props) {
 		e.preventDefault()
 		try {
 			const res = await fetch(`/api/v1/statuses/${configId}/copy`, {
-				method: 'POST',
+				method: 'GET',
 			})
 			if (!res.ok) {
 				throw new Error('Request failed')

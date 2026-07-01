@@ -21,21 +21,6 @@ export async function GET(_req: Request, context: { params: Promise<Params> | Pa
 	return NextResponse.json(cleaned.configData || {}, { status: 200 })
 }
 
-export async function POST(_req: Request, context: { params: Promise<Params> | Params }) {
-	const { id } = await context.params
-
-	const cfgRef = ref(db, `presence-configs/${id}`)
-	const snap = await get(cfgRef)
-
-	if (!snap.exists()) {
-		return NextResponse.json({ error: 'Not found' }, { status: 404 })
-	}
-
-	const { authorId, ...cleaned } = snap.val()
-
-	return NextResponse.json(cleaned, { status: 200 })
-}
-
 export async function DELETE(_req: Request, context: { params: Promise<Params> | Params }) {
 	const { id } = await context.params
 
