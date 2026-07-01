@@ -217,6 +217,14 @@
 	gap: 8px;
 }
 
+@media (max-width: 1360px) {
+	.asset_action {
+		> span {
+			display: none;
+		}
+	}
+}
+
 .rpc_card_preview {
 	border-radius: 16px;
 	background-color: black;
