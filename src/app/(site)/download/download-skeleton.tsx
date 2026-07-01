@@ -64,6 +64,7 @@ export default function DownloadSkeleton() {
 					</div>
 
 					<div className={styles.skeleton_changelog} />
+					<div className={styles.skeleton_changelog_footer} />
 				</div>
 			</div>
 		</section>

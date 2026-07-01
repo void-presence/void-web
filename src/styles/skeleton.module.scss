@@ -163,10 +163,14 @@
 }
 
 .skeleton_changelog {
-	margin-top: 16px;
-	height: 120px;
+	height: 388px;
 	border-radius: 12px;
-	background: hsla(0, 0%, 10%, 0.9);
+	border: 1px solid hsla(255, 255%, 255%, 0.04);
+}
+
+.skeleton_changelog_footer {
+	height: 38px;
+	border-radius: 12px;
 	border: 1px solid hsla(255, 255%, 255%, 0.04);
 }
 
@@ -187,6 +191,7 @@
 .skeleton_rpc_preview,
 .skeleton_chart,
 .skeleton_meta_chip_changelog,
+.skeleton_changelog_footer,
 .skeleton_changelog {
 	composes: skeleton_shimmer;
 }
