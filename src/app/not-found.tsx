@@ -3,6 +3,7 @@ import Page from '@components/page'
 import PageHeader from '@components/page-header'
 import { PanelLayout } from '@components/panel-layout'
 import type { Metadata } from 'next'
+import { headers } from 'next/headers'
 import {
 	default as downloadStyles,
 	default as styles,
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
 }
 
 export const leftNotFound = ({ text, url }: { text: string; url: string }) => (
-	<a href={`${url}`} className={downloadStyles.download_btn_primary}>
+	<a href={url} className={downloadStyles.download_btn_primary}>
 		<span className={downloadStyles.asset_action_text}>{text}</span>
 	</a>
 )
@@ -97,7 +98,16 @@ export const rightNotFound = (
 	</section>
 )
 
-export default function NotFound() {
+export default async function NotFound() {
+	const headersList = await headers()
+	const host = headersList.get('x-forwarded-host') ?? headersList.get('host') ?? ''
+
+	const isApiHost = host.startsWith('api.')
+
+	const left = isApiHost
+		? leftNotFound({ text: 'Go to API page', url: '/api' })
+		: leftNotFound({ text: 'Go to download page', url: '/download' })
+
 	return (
 		<Page>
 			<PageHeader
@@ -105,11 +115,7 @@ export default function NotFound() {
 				subtitle='The page you requested does not exist or is no longer available.'
 			/>
 
-			<PanelLayout
-				left={leftNotFound({ text: 'Go to download page', url: '/download' })}
-				right={rightNotFound}
-				className={styles.not_found_panel}
-			/>
+			<PanelLayout left={left} right={rightNotFound} className={styles.not_found_panel} />
 			<Footer />
 		</Page>
 	)
