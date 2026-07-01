@@ -11,7 +11,7 @@ type Props = {
 }
 
 function filterEndpoints(list: ApiEndpoint[], term: string) {
-	const q = term.toLowerCase()
+	const q = term.toLowerCase().trim()
 	if (!q) return list
 	return list.filter(endpoint => {
 		const path = endpoint.path.toLowerCase()
@@ -25,8 +25,7 @@ function filterEndpoints(list: ApiEndpoint[], term: string) {
 export function ApiDocsClient({ initialEndpoints }: Props) {
 	const [searchTerm, setSearchTerm] = useState('')
 
-	const clonedEndpoints = structuredClone(initialEndpoints)
-	const totalEndpoints = clonedEndpoints.length
+	const totalEndpoints = initialEndpoints.length
 
 	const filteredEndpoints = useMemo(
 		() => filterEndpoints(initialEndpoints, searchTerm),
@@ -95,9 +94,11 @@ export function ApiDocsClient({ initialEndpoints }: Props) {
 					)}
 				</form>
 
-				<div className={styles.stats_summary}>
-					<span>{filteredEndpoints.length} endpoints found</span>
-				</div>
+				{searchTerm.trim() && (
+					<div className={styles.stats_summary}>
+						<span>{filteredEndpoints.length} endpoints found</span>
+					</div>
+				)}
 			</div>
 		</>
 	)
