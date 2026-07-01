@@ -31,7 +31,7 @@ const endpoints: ApiEndpoint[] = [
 		id: 'presence-get-full',
 		method: 'POST',
 		path: '/v1/presence/{id}',
-		title: 'Get presence config (full)',
+		title: 'Get presence config',
 		description:
 			'Returns the full presence config document, including metadata and config, by Firebase ID.',
 		group: 'presence',
@@ -103,7 +103,7 @@ const endpoints: ApiEndpoint[] = [
 		id: 'statuses-get-full',
 		method: 'POST',
 		path: '/v1/statuses/{id}',
-		title: 'Get status config (full)',
+		title: 'Get status config',
 		description:
 			'Returns the full status config document, including metadata and config, by Firebase ID.',
 		group: 'statuses',
