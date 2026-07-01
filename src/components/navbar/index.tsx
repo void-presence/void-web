@@ -10,6 +10,7 @@ const MAIN_SITE_ORIGIN = 'https://voidpresence.site'
 export default function Navbar() {
 	const { data: session, status } = useSession()
 	const isAuth = status === 'authenticated' && !!session?.user
+	const isApiHost = typeof window !== 'undefined' && window.location.hostname.startsWith('api.')
 
 	return (
 		<header className={styles.navbar_root}>
@@ -89,7 +90,7 @@ export default function Navbar() {
 						</svg>
 					</Link>
 
-					{!isAuth && (
+					{!isApiHost && !isAuth && (
 						<a className={styles.nav_cta_wrap} href={`${MAIN_SITE_ORIGIN}/signin`}>
 							<button type='button' className={`${styles.btn} ${styles.btn_secondary}`}>
 								<UserPen size={16} />
@@ -97,7 +98,8 @@ export default function Navbar() {
 							</button>
 						</a>
 					)}
-					{isAuth && (
+
+					{!isApiHost && isAuth && (
 						<a className={styles.nav_cta_wrap} href={`${MAIN_SITE_ORIGIN}/profile`}>
 							<button type='button' className={`${styles.btn} ${styles.btn_secondary}`}>
 								<UserPen size={16} />
