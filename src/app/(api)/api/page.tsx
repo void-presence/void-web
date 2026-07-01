@@ -20,7 +20,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'presence-get-full',
 		method: 'POST',
-		path: '/api/presence/{id}',
+		path: '/api/v1/presence/{id}',
 		title: 'Get presence config (full)',
 		description:
 			'Returns the full presence config document, including metadata and configData, by Firebase ID.',
@@ -30,7 +30,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'presence-download-json',
 		method: 'GET',
-		path: '/api/presence/{id}/download',
+		path: '/api/v1/presence/{id}/download',
 		title: 'Download presence JSON',
 		description:
 			'Returns only the configData of a presence config as a downloadable JSON file and increments download counters.',
@@ -40,7 +40,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'presence-track-open',
 		method: 'POST',
-		path: '/api/presence/{id}/track-open',
+		path: '/api/v1/presence/{id}/track-open',
 		title: 'Track presence open',
 		description:
 			'Signals that a presence config has been opened in the app and increments analytics counters.',
@@ -50,7 +50,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'presence-delete',
 		method: 'DELETE',
-		path: '/api/presence/{id}',
+		path: '/api/v1/presence/{id}',
 		title: 'Delete presence config',
 		description:
 			'Deletes a presence config by Firebase ID from the realtime database. Returns ok: true on success.',
@@ -61,7 +61,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'statuses-get-full',
 		method: 'POST',
-		path: '/api/statuses/{id}',
+		path: '/api/v1/statuses/{id}',
 		title: 'Get status config (full)',
 		description:
 			'Returns the full status config document, including metadata and configData, by Firebase ID.',
@@ -71,7 +71,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'statuses-download-json',
 		method: 'GET',
-		path: '/api/statuses/{id}/download',
+		path: '/api/v1/statuses/{id}/download',
 		title: 'Download status JSON',
 		description:
 			'Returns only the configData of a status config as a downloadable JSON file and increments download counters.',
@@ -81,7 +81,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'statuses-track-open',
 		method: 'POST',
-		path: '/api/statuses/{id}/track-open',
+		path: '/api/v1/statuses/{id}/track-open',
 		title: 'Track status open',
 		description:
 			'Signals that a status config has been opened in the app and increments analytics counters.',
@@ -91,7 +91,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'statuses-delete',
 		method: 'DELETE',
-		path: '/api/statuses/{id}',
+		path: '/api/v1/statuses/{id}',
 		title: 'Delete status config',
 		description:
 			'Deletes a status config by Firebase ID from the realtime database. Returns ok: true on success.',
