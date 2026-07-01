@@ -195,7 +195,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'auth-steam-bridge',
 		method: 'GET',
-		path: '/auth/fuckoffnextauth/{provider}',
+		path: '/api/auth/fuckoffnextauth/{provider}',
 		title: 'Steam OAuth bridge',
 		description:
 			'Custom bridge route used by the Steam provider to normalize callback parameters before passing them to next-auth.',
