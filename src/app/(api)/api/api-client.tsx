@@ -1,5 +1,6 @@
 import { PanelLayout } from '@components/panel-layout'
 import layoutStyles from '@components/panel-layout/layout-panels.module.scss'
+import { useState } from 'react'
 import styles from '../../(site)/schedule/release-schedule.module.scss'
 import apiStyles from './api.module.scss'
 
@@ -28,7 +29,7 @@ interface ApiSectionBaseProps {
 function getVersionLabel(endpoints: ApiEndpoint[]): string {
 	if (endpoints.length === 0) return 'v0'
 	const path = endpoints[0].path
-	const match = path.match(/\/v(\d+)\//)
+	const match = path.match(/^\/v(\d+)\//)
 	if (match && match[1]) {
 		return `v${match[1]}`
 	}
@@ -47,17 +48,31 @@ function getDotClass(method: ApiEndpoint['method']): string {
 					: apiStyles.dot_eol
 }
 
-function renderEndpoint(endpoint: ApiEndpoint) {
+function ApiCardItem({ endpoint }: { endpoint: ApiEndpoint }) {
+	const [copied, setCopied] = useState(false)
 	const dotClass = getDotClass(endpoint.method)
 
+	const handleCopyPath = async (e: React.MouseEvent) => {
+		e.preventDefault()
+		try {
+			await navigator.clipboard.writeText(endpoint.path)
+			setCopied(true)
+			setTimeout(() => setCopied(false), 2000)
+		} catch (err) {
+			console.error('Failed to copy path', err)
+		}
+	}
+
 	return (
-		<li key={endpoint.id} className={apiStyles.api_item}>
-			<a className={apiStyles.api_card}>
+		<li className={apiStyles.api_item}>
+			<a className={apiStyles.api_card} onClick={handleCopyPath} style={{ cursor: 'pointer' }}>
 				<div className={apiStyles.api_card_top}>
 					<div className={apiStyles.api_card_left}>
 						<div className={apiStyles.api_row}>
 							<span className={apiStyles.api_path}>{endpoint.path}</span>
-							<span className={apiStyles.api_method_badge}>{endpoint.method}</span>
+							<span className={apiStyles.api_method_badge}>
+								{copied ? 'Copied!' : endpoint.method}
+							</span>
 						</div>
 						<span className={styles.release_card_meta_item}>{endpoint.title}</span>
 					</div>
@@ -111,7 +126,11 @@ export function ApiSectionBase({ left, right, endpoints, basePath, title }: ApiS
 										</div>
 									</div>
 
-									<ul className={apiStyles.api_list}>{versionedEndpoints.map(renderEndpoint)}</ul>
+									<ul className={apiStyles.api_list}>
+										{versionedEndpoints.map(endpoint => (
+											<ApiCardItem key={endpoint.id} endpoint={endpoint} />
+										))}
+									</ul>
 								</>
 							)}
 
@@ -124,7 +143,11 @@ export function ApiSectionBase({ left, right, endpoints, basePath, title }: ApiS
 										</div>
 									</div>
 
-									<ul className={apiStyles.api_list}>{legacyEndpoints.map(renderEndpoint)}</ul>
+									<ul className={apiStyles.api_list}>
+										{legacyEndpoints.map(endpoint => (
+											<ApiCardItem key={endpoint.id} endpoint={endpoint} />
+										))}
+									</ul>
 								</>
 							)}
 

@@ -20,7 +20,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'presence-get-all',
 		method: 'GET',
-		path: '/api/v1/presence',
+		path: '/v1/presence',
 		title: 'Get all presence configs',
 		description:
 			'Returns a list of all presence configuration documents from the realtime database.',
@@ -30,7 +30,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'presence-get-full',
 		method: 'POST',
-		path: '/api/v1/presence/{id}',
+		path: '/v1/presence/{id}',
 		title: 'Get presence config (full)',
 		description:
 			'Returns the full presence config document, including metadata and config, by Firebase ID.',
@@ -40,7 +40,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'presence-get-config',
 		method: 'GET',
-		path: '/api/v1/presence/{id}',
+		path: '/v1/presence/{id}',
 		title: 'View presence config',
 		description:
 			'Returns only the raw config payload of a presence config for easy browser view or clipboard copying.',
@@ -51,7 +51,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'presence-copy',
 		method: 'POST',
-		path: '/api/v1/presence/{id}/copy',
+		path: '/v1/presence/{id}/copy',
 		title: 'Copy presence config',
 		description:
 			'Creates a duplicate of the given presence config with a new ID while preserving metadata and config.',
@@ -62,7 +62,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'presence-download-json',
 		method: 'GET',
-		path: '/api/v1/presence/{id}/download',
+		path: '/v1/presence/{id}/download',
 		title: 'Download presence JSON',
 		description:
 			'Returns only the config of a presence config as a downloadable JSON file and increments download counters.',
@@ -72,7 +72,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'presence-track-open',
 		method: 'POST',
-		path: '/api/v1/presence/{id}/track-open',
+		path: '/v1/presence/{id}/track-open',
 		title: 'Track presence open',
 		description:
 			'Signals that a presence config has been opened in the app and increments analytics counters.',
@@ -82,7 +82,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'presence-delete',
 		method: 'DELETE',
-		path: '/api/v1/presence/{id}',
+		path: '/v1/presence/{id}',
 		title: 'Delete presence config',
 		description:
 			'Deletes a presence config by Firebase ID from the realtime database. Returns ok: true on success.',
@@ -93,7 +93,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'statuses-get-all',
 		method: 'GET',
-		path: '/api/v1/statuses',
+		path: '/v1/statuses',
 		title: 'Get all status configs',
 		description: 'Returns a list of all status configuration documents from the realtime database.',
 		group: 'statuses',
@@ -102,7 +102,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'statuses-get-full',
 		method: 'POST',
-		path: '/api/v1/statuses/{id}',
+		path: '/v1/statuses/{id}',
 		title: 'Get status config (full)',
 		description:
 			'Returns the full status config document, including metadata and config, by Firebase ID.',
@@ -112,7 +112,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'statuses-get-config',
 		method: 'GET',
-		path: '/api/v1/statuses/{id}',
+		path: '/v1/statuses/{id}',
 		title: 'View status config',
 		description:
 			'Returns only the raw config payload of a status config for easy browser view or clipboard copying.',
@@ -123,7 +123,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'statuses-copy',
 		method: 'POST',
-		path: '/api/v1/statuses/{id}/copy',
+		path: '/v1/statuses/{id}/copy',
 		title: 'Copy status config',
 		description:
 			'Creates a duplicate of the given status config with a new ID while preserving metadata and config.',
@@ -134,7 +134,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'statuses-download-json',
 		method: 'GET',
-		path: '/api/v1/statuses/{id}/download',
+		path: '/v1/statuses/{id}/download',
 		title: 'Download status JSON',
 		description:
 			'Returns only the config of a status config as a downloadable JSON file and increments download counters.',
@@ -144,7 +144,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'statuses-track-open',
 		method: 'POST',
-		path: '/api/v1/statuses/{id}/track-open',
+		path: '/v1/statuses/{id}/track-open',
 		title: 'Track status open',
 		description:
 			'Signals that a status config has been opened in the app and increments analytics counters.',
@@ -154,7 +154,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'statuses-delete',
 		method: 'DELETE',
-		path: '/api/v1/statuses/{id}',
+		path: '/v1/statuses/{id}',
 		title: 'Delete status config',
 		description:
 			'Deletes a status config by Firebase ID from the realtime database. Returns ok: true on success.',
@@ -165,7 +165,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'auth-session',
 		method: 'GET',
-		path: '/api/auth/session',
+		path: '/auth/session',
 		title: 'Get current session',
 		description:
 			'Returns the current next-auth session including provider, accessToken and Firebase custom token.',
@@ -176,7 +176,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'auth-signin-provider',
 		method: 'GET',
-		path: '/api/auth/signin/{provider}',
+		path: '/auth/signin/{provider}',
 		title: 'Start OAuth sign-in',
 		description:
 			'Starts OAuth sign-in for the given provider (google, discord, github, steam) and redirects to the provider.',
@@ -186,7 +186,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'auth-callback-provider',
 		method: 'GET',
-		path: '/api/auth/callback/{provider}',
+		path: '/auth/callback/{provider}',
 		title: 'Handle OAuth callback',
 		description: 'Route used by next-auth to handle OAuth callbacks for configured providers.',
 		group: 'internal',
@@ -195,7 +195,7 @@ const endpoints: ApiEndpoint[] = [
 	{
 		id: 'auth-steam-bridge',
 		method: 'GET',
-		path: '/api/auth/fuckoffnextauth/{provider}',
+		path: '/auth/fuckoffnextauth/{provider}',
 		title: 'Steam OAuth bridge',
 		description:
 			'Custom bridge route used by the Steam provider to normalize callback parameters before passing them to next-auth.',
