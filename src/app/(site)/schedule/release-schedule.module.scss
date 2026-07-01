@@ -100,8 +100,9 @@
 
 .release_card_version {
 	font-size: 13px;
-	font-weight: 700;
+	font-weight: 600;
 	color: #f1f1f1;
+	font-feature-settings: 'tnum' 1;
 }
 
 .release_card_badge {

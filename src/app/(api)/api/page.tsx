@@ -26,7 +26,6 @@ const endpoints: ApiEndpoint[] = [
 			'Returns a list of all presence configuration documents from the realtime database.',
 		group: 'presence',
 		hasExample: true,
-		hasChangelog: true,
 		samplePayload: [
 			{
 				id: 'presence-id',
@@ -74,7 +73,6 @@ const endpoints: ApiEndpoint[] = [
 		group: 'presence',
 		authRequired: false,
 		hasExample: true,
-		hasChangelog: true,
 		samplePayload: {
 			cycles: [
 				{
@@ -110,7 +108,6 @@ const endpoints: ApiEndpoint[] = [
 		group: 'presence',
 		authRequired: false,
 		hasExample: true,
-		hasChangelog: true,
 		samplePayload: {
 			ok: true,
 			id: 'new-presence-id',
@@ -126,7 +123,6 @@ const endpoints: ApiEndpoint[] = [
 			'Returns only the config of a presence config as a downloadable JSON file and increments download counters.',
 		group: 'presence',
 		hasExample: true,
-		hasChangelog: true,
 		samplePayload: {
 			cycles: [
 				{
@@ -162,7 +158,6 @@ const endpoints: ApiEndpoint[] = [
 		group: 'presence',
 		authRequired: false,
 		hasExample: true,
-		hasChangelog: true,
 		samplePayload: {
 			configs: [
 				{
@@ -211,7 +206,6 @@ const endpoints: ApiEndpoint[] = [
 			'Signals that a presence config has been opened in the app and increments analytics counters.',
 		group: 'analytics',
 		hasExample: true,
-		hasChangelog: true,
 		samplePayload: {
 			ok: true,
 		},
@@ -226,7 +220,6 @@ const endpoints: ApiEndpoint[] = [
 		group: 'presence',
 		authRequired: true,
 		hasExample: true,
-		hasChangelog: true,
 		samplePayload: {
 			ok: true,
 		},
@@ -239,7 +232,6 @@ const endpoints: ApiEndpoint[] = [
 		description: 'Returns a list of all status configuration documents from the realtime database.',
 		group: 'statuses',
 		hasExample: true,
-		hasChangelog: true,
 		samplePayload: [
 			{
 				id: 'status-id',
@@ -265,7 +257,6 @@ const endpoints: ApiEndpoint[] = [
 		group: 'statuses',
 		authRequired: false,
 		hasExample: true,
-		hasChangelog: true,
 		samplePayload: {
 			statusCycles: [{ text: 'First status line' }, { text: 'Second status line' }],
 		},
@@ -280,7 +271,6 @@ const endpoints: ApiEndpoint[] = [
 		group: 'statuses',
 		authRequired: false,
 		hasExample: true,
-		hasChangelog: true,
 		samplePayload: {
 			ok: true,
 			id: 'new-status-id',
@@ -296,7 +286,6 @@ const endpoints: ApiEndpoint[] = [
 			'Returns only the config of a status config as a downloadable JSON file and increments download counters.',
 		group: 'statuses',
 		hasExample: true,
-		hasChangelog: true,
 		samplePayload: {
 			statusCycles: [{ text: 'First status line' }, { text: 'Second status line' }],
 		},
@@ -311,7 +300,6 @@ const endpoints: ApiEndpoint[] = [
 		group: 'statuses',
 		authRequired: false,
 		hasExample: true,
-		hasChangelog: true,
 		samplePayload: {
 			configs: [
 				{
@@ -338,7 +326,6 @@ const endpoints: ApiEndpoint[] = [
 			'Signals that a status config has been opened in the app and increments analytics counters.',
 		group: 'analytics',
 		hasExample: true,
-		hasChangelog: true,
 		samplePayload: {
 			ok: true,
 		},
@@ -353,7 +340,6 @@ const endpoints: ApiEndpoint[] = [
 		group: 'statuses',
 		authRequired: true,
 		hasExample: true,
-		hasChangelog: true,
 		samplePayload: {
 			ok: true,
 		},
@@ -367,7 +353,6 @@ const endpoints: ApiEndpoint[] = [
 		group: 'auth',
 		authRequired: true,
 		hasExample: true,
-		hasChangelog: true,
 		samplePayload: {
 			user: {
 				name: 'User name',
@@ -389,7 +374,6 @@ const endpoints: ApiEndpoint[] = [
 			'Starts OAuth sign-in for the given provider and redirects to the provider authorization page.',
 		group: 'auth',
 		hasExample: false,
-		hasChangelog: false,
 		samplePayload: {
 			redirect: true,
 			provider: 'discord',
@@ -404,7 +388,6 @@ const endpoints: ApiEndpoint[] = [
 		description: 'Route used by next-auth to handle OAuth callbacks for configured providers.',
 		group: 'internal',
 		hasExample: false,
-		hasChangelog: false,
 		samplePayload: {
 			ok: true,
 			provider: 'discord',
@@ -419,7 +402,6 @@ const endpoints: ApiEndpoint[] = [
 			'Custom bridge route used by the Steam provider to normalize callback parameters before passing them to next-auth.',
 		group: 'internal',
 		hasExample: true,
-		hasChangelog: true,
 		samplePayload: {
 			ok: true,
 			provider: 'steam',

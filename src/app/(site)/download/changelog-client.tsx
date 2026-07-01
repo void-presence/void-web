@@ -11,7 +11,7 @@ interface ReleaseAsset {
 }
 
 interface ReleaseInfo {
-	version: string
+	version: string | number | null
 	date: string
 	notes: string
 	assets: ReleaseAsset[]
@@ -30,7 +30,6 @@ export default function ChangelogClient({ release }: { release: ReleaseInfo }) {
 					<span className={styles.changelog_title}>
 						{release.versionType === 'api' ? 'Payload' : 'Changelog'}
 					</span>
-					<span className={styles.changelog_version}>{release.version}</span>
 				</div>
 				<span>{open ? '−' : '+'}</span>
 			</button>
