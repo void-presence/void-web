@@ -16,7 +16,7 @@ Void Presence Web is the web interface for **Void Presence** – a service for b
 
 - **Next.js** (App Router)
 - **TypeScript**
-- **Firebase** (config storage)
+- **Firebase** (config storage) / **Redis** (auth storage)
 - **CSS / SCSS** for custom styling
 
 ##
