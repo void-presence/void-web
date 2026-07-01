@@ -11,7 +11,7 @@ type Props = {
 }
 
 function filterEndpoints(list: ApiEndpoint[], term: string) {
-	const q = term.toLowerCase().trim()
+	const q = term.toLowerCase()
 	if (!q) return list
 	return list.filter(endpoint => {
 		const path = endpoint.path.toLowerCase()
@@ -24,8 +24,6 @@ function filterEndpoints(list: ApiEndpoint[], term: string) {
 
 export function ApiDocsClient({ initialEndpoints }: Props) {
 	const [searchTerm, setSearchTerm] = useState('')
-
-	const totalEndpoints = initialEndpoints.length
 
 	const filteredEndpoints = useMemo(
 		() => filterEndpoints(initialEndpoints, searchTerm),
@@ -94,11 +92,9 @@ export function ApiDocsClient({ initialEndpoints }: Props) {
 					)}
 				</form>
 
-				{searchTerm.trim() && (
-					<div className={styles.stats_summary}>
-						<span>{filteredEndpoints.length} endpoints found</span>
-					</div>
-				)}
+				<div className={styles.stats_summary}>
+					<span>{filteredEndpoints.length} endpoints found</span>
+				</div>
 			</div>
 		</>
 	)
@@ -112,7 +108,6 @@ export function ApiDocsClient({ initialEndpoints }: Props) {
 					title='API endpoints'
 					basePath='/api'
 					endpoints={filteredEndpoints}
-					counterLabel={() => `${totalEndpoints} total endpoints`}
 				/>
 			</div>
 		</>
