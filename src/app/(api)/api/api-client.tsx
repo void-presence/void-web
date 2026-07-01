@@ -64,12 +64,16 @@ export function ApiSectionBase({
 
 									const dotClass =
 										endpoint.method === 'POST'
-											? apiStyles.dot_stable
+											? apiStyles.dot_nightly
 											: endpoint.method === 'GET'
-												? apiStyles.dot_prerelease
+												? apiStyles.dot_stable
 												: endpoint.method === 'DELETE'
 													? apiStyles.dot_broken
-													: apiStyles.dot_eol
+													: endpoint.method === 'PUT'
+														? apiStyles.dot_prerelease
+														: endpoint.method === 'PATCH'
+															? apiStyles.dot_beta
+															: apiStyles.dot_eol
 
 									return (
 										<li key={endpoint.id} className={`${apiStyles.api_item} `}>
