@@ -1,3 +1,4 @@
+import { auth } from '@api/auth/[...nextauth]/route'
 import '@styles/globals.scss'
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata } from 'next'
@@ -192,11 +193,13 @@ export const metadata: Metadata = {
 	},
 }
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+	const session = await auth()
+
 	return (
 		<html lang='en'>
 			<body className={`${geistSans.variable} ${geistMono.variable}`}>
-				<NextAuthProvider>{children}</NextAuthProvider>
+				<NextAuthProvider session={session}>{children}</NextAuthProvider>
 				<Analytics />
 			</body>
 		</html>
