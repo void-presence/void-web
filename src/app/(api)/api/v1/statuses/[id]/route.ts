@@ -14,7 +14,15 @@ export async function GET() {
 		return NextResponse.json([], { status: 200 })
 	}
 
-	return NextResponse.json(snap.val(), { status: 200 })
+	const data = snap.val()
+	const cleaned = Object.fromEntries(
+		Object.entries(data).map(([key, value]: [string, any]) => {
+			const { authorId, ...rest } = value
+			return [key, rest]
+		})
+	)
+
+	return NextResponse.json(cleaned, { status: 200 })
 }
 
 export async function POST(_req: Request, context: { params: Promise<Params> | Params }) {
@@ -27,7 +35,9 @@ export async function POST(_req: Request, context: { params: Promise<Params> | P
 		return NextResponse.json({ error: 'Not found' }, { status: 404 })
 	}
 
-	return NextResponse.json(snap.val(), { status: 200 })
+	const { authorId, ...cleaned } = snap.val()
+
+	return NextResponse.json(cleaned, { status: 200 })
 }
 
 export async function DELETE(_req: Request, context: { params: Promise<Params> | Params }) {

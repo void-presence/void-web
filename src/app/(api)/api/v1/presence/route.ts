@@ -21,7 +21,6 @@ export async function GET() {
 			id,
 			title: data?.title || 'Unnamed',
 			author: user?.name || data?.author || 'Unknown',
-			authorId: data?.authorId ?? null,
 			authorAvatar: user?.avatar || user?.image || data?.authorAvatar || '',
 			downloads:
 				typeof data?.downloads === 'number'
