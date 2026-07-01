@@ -56,7 +56,7 @@ const endpoints: ApiEndpoint[] = [
 		description:
 			'Creates a duplicate of the given presence config with a new ID while preserving metadata and config.',
 		group: 'presence',
-		authRequired: true,
+		authRequired: false,
 		hasExample: true,
 	},
 	{
@@ -128,7 +128,7 @@ const endpoints: ApiEndpoint[] = [
 		description:
 			'Creates a duplicate of the given status config with a new ID while preserving metadata and config.',
 		group: 'statuses',
-		authRequired: true,
+		authRequired: false,
 		hasExample: true,
 	},
 	{
