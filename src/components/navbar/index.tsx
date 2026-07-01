@@ -24,49 +24,61 @@ export default function Navbar() {
 				</a>
 
 				<nav className={styles.navbar_nav}>
-					<a className={styles.nav_link} href={`${MAIN_SITE_ORIGIN}/download`}>
-						Download
-					</a>
-					<a className={styles.nav_link} href={`${MAIN_SITE_ORIGIN}/docs`}>
-						Docs
-					</a>
-
-					<div className={styles.nav_configs_group}>
-						<div className={`${styles.nav_button} ${styles.nav_link} ${styles.nav_link_configs}`}>
-							Configs
-						</div>
-						<div className={styles.nav_configs_dropdown}>
-							<a className={styles.nav_configs_item} href={`${MAIN_SITE_ORIGIN}/presence`}>
-								Presence
+					{!isApiHost && (
+						<>
+							{' '}
+							<a className={styles.nav_link} href={`${MAIN_SITE_ORIGIN}/download`}>
+								Download
 							</a>
-							<a className={styles.nav_configs_item} href={`${MAIN_SITE_ORIGIN}/statuses`}>
-								Statuses
+							<a className={styles.nav_link} href={`${MAIN_SITE_ORIGIN}/docs`}>
+								Docs
 							</a>
+						</>
+					)}
+					{!isApiHost && (
+						<div className={styles.nav_configs_group}>
+							<div className={`${styles.nav_button} ${styles.nav_link} ${styles.nav_link_configs}`}>
+								Configs
+							</div>
+							<div className={styles.nav_configs_dropdown}>
+								<a className={styles.nav_configs_item} href={`${MAIN_SITE_ORIGIN}/presence`}>
+									Presence
+								</a>
+								<a className={styles.nav_configs_item} href={`${MAIN_SITE_ORIGIN}/statuses`}>
+									Statuses
+								</a>
+							</div>
 						</div>
-					</div>
-
-					<div className={styles.nav_schedule_group}>
-						<div className={`${styles.nav_button} ${styles.nav_link} ${styles.nav_link_schedule}`}>
-							Schedule
-						</div>
-						<div className={styles.nav_schedule_dropdown}>
-							<a
-								className={styles.nav_schedule_item}
-								href={`${MAIN_SITE_ORIGIN}/schedule/application`}
+					)}
+					{!isApiHost && (
+						<div className={styles.nav_schedule_group}>
+							<div
+								className={`${styles.nav_button} ${styles.nav_link} ${styles.nav_link_schedule}`}
 							>
-								Application
-							</a>
-							<a
-								className={styles.nav_schedule_item}
-								href={`${MAIN_SITE_ORIGIN}/schedule/installer`}
-							>
-								Installer
-							</a>
-							<a className={styles.nav_schedule_item} href={`${MAIN_SITE_ORIGIN}/schedule/updates`}>
-								Updates
-							</a>
+								Schedule
+							</div>
+							<div className={styles.nav_schedule_dropdown}>
+								<a
+									className={styles.nav_schedule_item}
+									href={`${MAIN_SITE_ORIGIN}/schedule/application`}
+								>
+									Application
+								</a>
+								<a
+									className={styles.nav_schedule_item}
+									href={`${MAIN_SITE_ORIGIN}/schedule/installer`}
+								>
+									Installer
+								</a>
+								<a
+									className={styles.nav_schedule_item}
+									href={`${MAIN_SITE_ORIGIN}/schedule/updates`}
+								>
+									Updates
+								</a>
+							</div>
 						</div>
-					</div>
+					)}
 
 					<Link
 						className={`${styles.nav_link} ${styles.nav_link_github}`}
