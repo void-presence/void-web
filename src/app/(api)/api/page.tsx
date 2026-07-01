@@ -26,6 +26,43 @@ const endpoints: ApiEndpoint[] = [
 			'Returns a list of all presence configuration documents from the realtime database.',
 		group: 'presence',
 		hasExample: true,
+		hasChangelog: true,
+		samplePayload: [
+			{
+				id: 'presence-id',
+				title: 'Presence title',
+				author: 'Author name',
+				authorId: 'author-id',
+				authorAvatar: 'https://example.com/avatar.png',
+				downloads: 0,
+				description: 'Presence description',
+				averageColor: '#ffffff',
+				configData: {
+					cycles: [
+						{
+							details: 'Details line',
+							state: 'State line',
+						},
+					],
+					imageCycles: [
+						{
+							largeImage: 'https://example.com/large-image.png',
+							largeText: 'Large image text',
+							smallImage: 'https://example.com/small-image.png',
+							smallText: 'Small image text',
+						},
+					],
+					buttonPairs: [
+						{
+							label1: 'Button 1 label',
+							url1: 'https://example.com/button-1',
+							label2: 'Button 2 label',
+							url2: 'https://example.com/button-2',
+						},
+					],
+				},
+			},
+		],
 	},
 	{
 		id: 'presence-get-config',
@@ -37,6 +74,31 @@ const endpoints: ApiEndpoint[] = [
 		group: 'presence',
 		authRequired: false,
 		hasExample: true,
+		hasChangelog: true,
+		samplePayload: {
+			cycles: [
+				{
+					details: 'Details line',
+					state: 'State line',
+				},
+			],
+			imageCycles: [
+				{
+					largeImage: 'https://example.com/large-image.png',
+					largeText: 'Large image text',
+					smallImage: 'https://example.com/small-image.png',
+					smallText: 'Small image text',
+				},
+			],
+			buttonPairs: [
+				{
+					label1: 'Button 1 label',
+					url1: 'https://example.com/button-1',
+					label2: 'Button 2 label',
+					url2: 'https://example.com/button-2',
+				},
+			],
+		},
 	},
 	{
 		id: 'presence-copy',
@@ -48,6 +110,12 @@ const endpoints: ApiEndpoint[] = [
 		group: 'presence',
 		authRequired: false,
 		hasExample: true,
+		hasChangelog: true,
+		samplePayload: {
+			ok: true,
+			id: 'new-presence-id',
+			sourceId: 'original-presence-id',
+		},
 	},
 	{
 		id: 'presence-download-json',
@@ -58,6 +126,31 @@ const endpoints: ApiEndpoint[] = [
 			'Returns only the config of a presence config as a downloadable JSON file and increments download counters.',
 		group: 'presence',
 		hasExample: true,
+		hasChangelog: true,
+		samplePayload: {
+			cycles: [
+				{
+					details: 'Details line',
+					state: 'State line',
+				},
+			],
+			imageCycles: [
+				{
+					largeImage: 'https://example.com/large-image.png',
+					largeText: 'Large image text',
+					smallImage: 'https://example.com/small-image.png',
+					smallText: 'Small image text',
+				},
+			],
+			buttonPairs: [
+				{
+					label1: 'Button 1 label',
+					url1: 'https://example.com/button-1',
+					label2: 'Button 2 label',
+					url2: 'https://example.com/button-2',
+				},
+			],
+		},
 	},
 	{
 		id: 'presence-by-author-get',
@@ -69,6 +162,45 @@ const endpoints: ApiEndpoint[] = [
 		group: 'presence',
 		authRequired: false,
 		hasExample: true,
+		hasChangelog: true,
+		samplePayload: {
+			configs: [
+				{
+					id: 'presence-id',
+					title: 'Presence title',
+					author: 'Author name',
+					authorId: 'author-id',
+					authorAvatar: 'https://example.com/avatar.png',
+					downloads: 0,
+					description: 'Presence description',
+					averageColor: '#ffffff',
+					configData: {
+						cycles: [
+							{
+								details: 'Details line',
+								state: 'State line',
+							},
+						],
+						imageCycles: [
+							{
+								largeImage: 'https://example.com/large-image.png',
+								largeText: 'Large image text',
+								smallImage: 'https://example.com/small-image.png',
+								smallText: 'Small image text',
+							},
+						],
+						buttonPairs: [
+							{
+								label1: 'Button 1 label',
+								url1: 'https://example.com/button-1',
+								label2: 'Button 2 label',
+								url2: 'https://example.com/button-2',
+							},
+						],
+					},
+				},
+			],
+		},
 	},
 	{
 		id: 'presence-track-open',
@@ -79,6 +211,10 @@ const endpoints: ApiEndpoint[] = [
 			'Signals that a presence config has been opened in the app and increments analytics counters.',
 		group: 'analytics',
 		hasExample: true,
+		hasChangelog: true,
+		samplePayload: {
+			ok: true,
+		},
 	},
 	{
 		id: 'presence-delete',
@@ -90,6 +226,10 @@ const endpoints: ApiEndpoint[] = [
 		group: 'presence',
 		authRequired: true,
 		hasExample: true,
+		hasChangelog: true,
+		samplePayload: {
+			ok: true,
+		},
 	},
 	{
 		id: 'statuses-get-all',
@@ -99,6 +239,21 @@ const endpoints: ApiEndpoint[] = [
 		description: 'Returns a list of all status configuration documents from the realtime database.',
 		group: 'statuses',
 		hasExample: true,
+		hasChangelog: true,
+		samplePayload: [
+			{
+				id: 'status-id',
+				title: 'Status title',
+				author: 'Author name',
+				authorId: 'author-id',
+				authorAvatar: 'https://example.com/avatar.png',
+				downloads: 0,
+				description: 'Status description',
+				configData: {
+					statusCycles: [{ text: 'First status line' }, { text: 'Second status line' }],
+				},
+			},
+		],
 	},
 	{
 		id: 'statuses-get-config',
@@ -110,6 +265,10 @@ const endpoints: ApiEndpoint[] = [
 		group: 'statuses',
 		authRequired: false,
 		hasExample: true,
+		hasChangelog: true,
+		samplePayload: {
+			statusCycles: [{ text: 'First status line' }, { text: 'Second status line' }],
+		},
 	},
 	{
 		id: 'statuses-copy',
@@ -121,6 +280,12 @@ const endpoints: ApiEndpoint[] = [
 		group: 'statuses',
 		authRequired: false,
 		hasExample: true,
+		hasChangelog: true,
+		samplePayload: {
+			ok: true,
+			id: 'new-status-id',
+			sourceId: 'original-status-id',
+		},
 	},
 	{
 		id: 'statuses-download-json',
@@ -131,6 +296,10 @@ const endpoints: ApiEndpoint[] = [
 			'Returns only the config of a status config as a downloadable JSON file and increments download counters.',
 		group: 'statuses',
 		hasExample: true,
+		hasChangelog: true,
+		samplePayload: {
+			statusCycles: [{ text: 'First status line' }, { text: 'Second status line' }],
+		},
 	},
 	{
 		id: 'statuses-by-author-get',
@@ -142,6 +311,23 @@ const endpoints: ApiEndpoint[] = [
 		group: 'statuses',
 		authRequired: false,
 		hasExample: true,
+		hasChangelog: true,
+		samplePayload: {
+			configs: [
+				{
+					id: 'status-id',
+					title: 'Status title',
+					author: 'Author name',
+					authorId: 'author-id',
+					authorAvatar: 'https://example.com/avatar.png',
+					downloads: 0,
+					description: 'Status description',
+					configData: {
+						statusCycles: [{ text: 'First status line' }, { text: 'Second status line' }],
+					},
+				},
+			],
+		},
 	},
 	{
 		id: 'statuses-track-open',
@@ -152,6 +338,10 @@ const endpoints: ApiEndpoint[] = [
 			'Signals that a status config has been opened in the app and increments analytics counters.',
 		group: 'analytics',
 		hasExample: true,
+		hasChangelog: true,
+		samplePayload: {
+			ok: true,
+		},
 	},
 	{
 		id: 'statuses-delete',
@@ -163,17 +353,32 @@ const endpoints: ApiEndpoint[] = [
 		group: 'statuses',
 		authRequired: true,
 		hasExample: true,
+		hasChangelog: true,
+		samplePayload: {
+			ok: true,
+		},
 	},
 	{
 		id: 'auth-session',
 		method: 'GET',
 		path: '/api/auth/session',
 		title: 'Get current session',
-		description:
-			'Returns the current next-auth session including provider, accessToken and Firebase custom token.',
+		description: 'Returns the current next-auth session including provider details and tokens.',
 		group: 'auth',
 		authRequired: true,
 		hasExample: true,
+		hasChangelog: true,
+		samplePayload: {
+			user: {
+				name: 'User name',
+				email: 'user@example.com',
+				image: 'https://example.com/avatar.png',
+			},
+			expires: '2026-07-01T21:59:00.000Z',
+			provider: 'discord',
+			accessToken: 'access-token',
+			firebaseToken: 'firebase-custom-token',
+		},
 	},
 	{
 		id: 'auth-signin-provider',
@@ -181,9 +386,15 @@ const endpoints: ApiEndpoint[] = [
 		path: '/api/auth/signin/{provider}',
 		title: 'Start OAuth sign-in',
 		description:
-			'Starts OAuth sign-in for the given provider (google, discord, github, steam) and redirects to the provider.',
+			'Starts OAuth sign-in for the given provider and redirects to the provider authorization page.',
 		group: 'auth',
 		hasExample: false,
+		hasChangelog: false,
+		samplePayload: {
+			redirect: true,
+			provider: 'discord',
+			url: 'https://discord.com/oauth2/authorize?...',
+		},
 	},
 	{
 		id: 'auth-callback-provider',
@@ -193,6 +404,11 @@ const endpoints: ApiEndpoint[] = [
 		description: 'Route used by next-auth to handle OAuth callbacks for configured providers.',
 		group: 'internal',
 		hasExample: false,
+		hasChangelog: false,
+		samplePayload: {
+			ok: true,
+			provider: 'discord',
+		},
 	},
 	{
 		id: 'auth-steam-bridge',
@@ -203,6 +419,16 @@ const endpoints: ApiEndpoint[] = [
 			'Custom bridge route used by the Steam provider to normalize callback parameters before passing them to next-auth.',
 		group: 'internal',
 		hasExample: true,
+		hasChangelog: true,
+		samplePayload: {
+			ok: true,
+			provider: 'steam',
+			normalizedParams: {
+				state: 'state-value',
+				code: 'authorization-code',
+				redirectUri: 'https://example.com/callback',
+			},
+		},
 	},
 ]
 

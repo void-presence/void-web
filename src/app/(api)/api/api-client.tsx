@@ -1,3 +1,4 @@
+import ChangelogClient from '@/app/(site)/download/changelog-client'
 import { PanelLayout } from '@components/panel-layout'
 import layoutStyles from '@components/panel-layout/layout-panels.module.scss'
 import { useState } from 'react'
@@ -16,6 +17,7 @@ export interface ApiEndpoint {
 	authRequired?: boolean
 	hasExample?: boolean
 	hasChangelog?: boolean
+	samplePayload?: unknown
 }
 
 interface ApiSectionBaseProps {
@@ -77,6 +79,8 @@ function ApiCardItem({ endpoint }: { endpoint: ApiEndpoint }) {
 		}
 	}
 
+	const notes = '```json\n' + JSON.stringify(endpoint.samplePayload, null, 2) + '\n```'
+
 	return (
 		<li className={apiStyles.api_item}>
 			<a className={apiStyles.api_card} onClick={handleCopyPath} style={{ cursor: 'pointer' }}>
@@ -88,7 +92,6 @@ function ApiCardItem({ endpoint }: { endpoint: ApiEndpoint }) {
 								{copied ? 'Copied!' : endpoint.method}
 							</span>
 						</div>
-						<span className={styles.release_card_meta_item}>{endpoint.title}</span>
 					</div>
 
 					<span className={apiStyles.api_card_date}>
@@ -108,11 +111,17 @@ function ApiCardItem({ endpoint }: { endpoint: ApiEndpoint }) {
 				</div>
 			</a>
 
-			{endpoint.hasChangelog && (
-				<div className={styles.release_card_changelog}>
-					<p className={styles.release_footer_note}>Detailed docs for this endpoint coming soon.</p>
-				</div>
-			)}
+			<div className={apiStyles.release_card_changelog}>
+				<ChangelogClient
+					release={{
+						version: '',
+						date: '',
+						notes,
+						assets: [],
+						versionType: 'api',
+					}}
+				/>
+			</div>
 		</li>
 	)
 }

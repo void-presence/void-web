@@ -15,6 +15,7 @@ interface ReleaseInfo {
 	date: string
 	notes: string
 	assets: ReleaseAsset[]
+	versionType?: string
 }
 
 export default function ChangelogClient({ release }: { release: ReleaseInfo }) {
@@ -26,7 +27,9 @@ export default function ChangelogClient({ release }: { release: ReleaseInfo }) {
 		<div className={styles.changelog_box}>
 			<button type='button' className={styles.changelog_toggle} onClick={() => setOpen(v => !v)}>
 				<div className={styles.changelog_toggle_left}>
-					<span className={styles.changelog_title}>Changelog</span>
+					<span className={styles.changelog_title}>
+						{release.versionType === 'api' ? 'Payload' : 'Changelog'}
+					</span>
 					<span className={styles.changelog_version}>{release.version}</span>
 				</div>
 				<span>{open ? '−' : '+'}</span>
