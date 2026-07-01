@@ -105,7 +105,7 @@ export default async function NotFound() {
 	const isApiHost = host.startsWith('api.')
 
 	const left = isApiHost
-		? leftNotFound({ text: 'Go to API page', url: '/api' })
+		? leftNotFound({ text: 'Go to API page', url: '/' })
 		: leftNotFound({ text: 'Go to download page', url: '/download' })
 
 	return (
