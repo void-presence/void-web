@@ -52,10 +52,24 @@ function ApiCardItem({ endpoint }: { endpoint: ApiEndpoint }) {
 	const [copied, setCopied] = useState(false)
 	const dotClass = getDotClass(endpoint.method)
 
+	const API_ORIGIN_V0 = 'https://voidpresence.site'
+	const API_ORIGIN_VX = 'https://api.voidpresence.site'
+
+	function getApiOrigin(path: string) {
+		const match = path.match(/^\/v(\d+)\//)
+		if (match && match[1] && match[1] !== '0') {
+			return API_ORIGIN_VX
+		}
+		return API_ORIGIN_V0
+	}
+
 	const handleCopyPath = async (e: React.MouseEvent) => {
 		e.preventDefault()
+		const origin = getApiOrigin(endpoint.path)
+		const url = `${origin}${endpoint.path}`
+
 		try {
-			await navigator.clipboard.writeText(endpoint.path)
+			await navigator.clipboard.writeText(url)
 			setCopied(true)
 			setTimeout(() => setCopied(false), 2000)
 		} catch (err) {
